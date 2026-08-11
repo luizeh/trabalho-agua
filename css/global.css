@@ -1,0 +1,310 @@
+/* ============================================================
+   GLOBAL — tokens, reset, tipografia e layout base
+   ============================================================ */
+
+:root {
+  /* Superfícies */
+  --navy-950: #020711;
+  --navy-900: #04101f;
+  --navy-850: #061626;
+  --navy-800: #08203a;
+  --navy-700: #0d2c4d;
+
+  /* Azuis */
+  --blue-600: #1560cf;
+  --blue-500: #2b8fe0;
+  --cyan-400: #38d9ff;
+  --cyan-300: #7fe6ff;
+  --ice-200: #cfeeff;
+
+  /* Verdes (sustentabilidade) */
+  --green-600: #16a34a;
+  --green-500: #22c55e;
+  --green-400: #4ade80;
+  --mint-300: #7cf0c0;
+
+  /* Texto */
+  --text: #eaf4ff;
+  --text-soft: rgba(226, 241, 255, 0.74);
+  --text-mute: rgba(206, 228, 248, 0.55);
+
+  /* Linhas e vidros */
+  --line: rgba(120, 190, 255, 0.14);
+  --line-strong: rgba(140, 210, 255, 0.3);
+  --glass: rgba(10, 30, 54, 0.5);
+  --glass-2: rgba(8, 24, 44, 0.68);
+
+  /* Acentos por card */
+  --accent: var(--cyan-400);
+  --accent-soft: rgba(56, 217, 255, 0.16);
+
+  /* Efeitos */
+  --glow-blue: 0 0 60px rgba(45, 150, 255, 0.28);
+  --glow-cyan: 0 0 46px rgba(56, 217, 255, 0.3);
+  --glow-green: 0 0 46px rgba(74, 222, 128, 0.26);
+  --shadow-card: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+
+  /* Tipografia */
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* Métricas */
+  --header-h: 76px;
+  --container: 1240px;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --t-fast: 200ms;
+  --t-mid: 320ms;
+  --t-slow: 500ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Saturação global — controlada pelo "modo sem água" */
+  --world-saturation: 1;
+  --world-brightness: 1;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.98rem, 0.94rem + 0.2vw, 1.05rem);
+  line-height: 1.68;
+  color: var(--text);
+  background: var(--navy-950);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fundo global: gradientes de profundidade + textura de luz */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(1100px 700px at 78% -6%, rgba(29, 120, 220, 0.3), transparent 62%),
+    radial-gradient(900px 620px at 8% 22%, rgba(16, 78, 160, 0.24), transparent 60%),
+    radial-gradient(1200px 900px at 50% 108%, rgba(12, 62, 130, 0.28), transparent 65%),
+    linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 45%, #030c18 100%);
+  transition: filter var(--t-slow) var(--ease);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(160, 220, 255, 0.13) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 78%);
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.14;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.015em;
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--cyan-300); text-decoration: none; transition: color var(--t-fast) var(--ease); }
+a:hover { color: var(--ice-200); }
+
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.88em;
+  padding: 0.12em 0.42em;
+  border-radius: 6px;
+  background: rgba(56, 217, 255, 0.1);
+  border: 1px solid var(--line);
+  color: var(--cyan-300);
+  overflow-wrap: anywhere;   /* nomes de arquivo não quebram o layout no celular */
+}
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+/* ---------- Acessibilidade ---------- */
+:focus-visible {
+  outline: 2px solid var(--cyan-300);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: -80px;
+  transform: translateX(-50%);
+  z-index: 200;
+  padding: 12px 22px;
+  background: var(--blue-600);
+  color: #fff;
+  border-radius: 0 0 12px 12px;
+  font-weight: 600;
+  transition: top var(--t-fast) var(--ease);
+}
+.skip-link:focus { top: 0; color: #fff; }
+
+/* ---------- Layout ---------- */
+.container {
+  width: min(100% - 2.5rem, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  padding: clamp(72px, 9vw, 130px) 0;
+}
+
+.section-alt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 55% at 50% 0%, rgba(24, 110, 200, 0.13), transparent 70%),
+    linear-gradient(180deg, rgba(6, 20, 38, 0.55), transparent 30%, rgba(6, 20, 38, 0.55));
+}
+
+.section-green::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(75% 60% at 22% 30%, rgba(20, 140, 92, 0.2), transparent 66%),
+    radial-gradient(60% 50% at 84% 66%, rgba(34, 197, 94, 0.14), transparent 68%),
+    linear-gradient(180deg, rgba(4, 26, 24, 0.5), rgba(3, 16, 22, 0.2));
+}
+
+.section > .container { position: relative; z-index: 1; }
+
+/* ---------- Cabeçalho de seção ---------- */
+.section-head {
+  max-width: 760px;
+  margin: 0 auto clamp(38px, 5vw, 62px);
+  text-align: center;
+}
+
+.section-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 0 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cyan-300);
+}
+.section-kicker.green { color: var(--green-400); }
+.section-kicker .rule {
+  width: clamp(28px, 8vw, 70px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+.section-kicker .rule:last-child { background: linear-gradient(90deg, currentColor, transparent); }
+
+.section-title {
+  font-size: clamp(2rem, 1.3rem + 2.9vw, 3.3rem);
+  font-weight: 800;
+  margin-bottom: 0.42em;
+}
+.section-title.left { text-align: left; }
+
+.section-lead {
+  color: var(--text-soft);
+  font-size: clamp(1rem, 0.96rem + 0.25vw, 1.12rem);
+  max-width: 62ch;
+  margin-inline: auto;
+}
+.section-lead.left { margin-inline: 0; }
+
+/* ---------- Texto com gradiente ---------- */
+.grad-text {
+  background: linear-gradient(100deg, var(--cyan-300) 0%, var(--cyan-400) 40%, var(--blue-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-green {
+  background: linear-gradient(100deg, var(--mint-300) 0%, var(--green-400) 45%, var(--green-600) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Grids ---------- */
+.grid { display: grid; gap: clamp(16px, 1.8vw, 24px); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* ---------- Vidro ---------- */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- Nota / aviso de fonte ---------- */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--line-strong);
+  background: rgba(9, 28, 50, 0.44);
+  color: var(--text-mute);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.note.small { font-size: 0.82rem; padding: 12px 14px; }
+.note-icon { width: 18px; height: 18px; flex: none; margin-top: 3px; fill: none; stroke: var(--cyan-400); stroke-width: 1.6; }
+/* o texto precisa ser um único item de flex — senão <strong> e <code> viram itens soltos */
+.note-text { min-width: 0; }
+
+.data-slot {
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 0.78rem;
+  color: var(--text-mute);
+  border-top: 1px dashed var(--line);
+}
+.data-slot em { color: rgba(206, 228, 248, 0.42); font-style: normal; }
+.data-slot [data-value] { color: var(--cyan-300); font-weight: 600; }
+.data-slot.is-filled { border-top-color: var(--line-strong); }

@@ -1,0 +1,259 @@
+/* ============================================================
+   RESPONSIVE — notebook, tablet e celular
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   NOTEBOOK / TELAS MÉDIAS  (≤ 1180px)
+   ------------------------------------------------------------ */
+@media (max-width: 1180px) {
+  .nav-link { padding: 9px 9px; font-size: 0.85rem; }
+
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .timeline-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 34px; }
+  .timeline-track { display: none; }
+
+  .footer-grid { grid-template-columns: 1.3fr 1fr 1.2fr; }
+  .footer-seal { grid-column: 1 / -1; }
+}
+
+/* ------------------------------------------------------------
+   TABLET  (≤ 980px)
+   ------------------------------------------------------------ */
+@media (max-width: 980px) {
+  :root { --header-h: 68px; }
+
+  /* --- Menu mobile --- */
+  .nav-toggle { display: grid; }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto;
+    max-height: calc(100svh - var(--header-h));
+    overflow-y: auto;
+    padding: 10px 20px 26px;
+    background: rgba(4, 14, 28, 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-14px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--t-mid) var(--ease), transform var(--t-mid) var(--ease),
+                visibility var(--t-mid) var(--ease);
+  }
+  .nav.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+  .nav-list { flex-direction: column; align-items: stretch; gap: 2px; }
+  .nav-link {
+    display: block;
+    padding: 14px 16px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid transparent;
+  }
+  .nav-link.is-active {
+    background: rgba(56, 217, 255, 0.1);
+    border-color: var(--line);
+  }
+  .nav-link::after { display: none; }
+
+  /* --- Hero --- */
+  .hero { padding-top: calc(var(--header-h) + 26px); text-align: center; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy { order: 2; }
+  .hero-visual { order: 1; }
+  .drop-stage { width: min(74%, 340px); }
+  .hero-lead { margin-inline: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-rings { right: 50%; transform: translate(50%, -50%); }
+  .hero-rings span:nth-child(3) { display: none; }
+
+  /* --- Seções em duas colunas viram uma --- */
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .waste-top { grid-template-columns: minmax(0, 1fr); }
+  .waste-visual { position: static; max-width: 260px; margin: 0 auto 10px; }
+  .section-title.left, .section-lead.left { text-align: center; margin-inline: auto; }
+
+  .faucet-lab { grid-template-columns: minmax(0, 1fr); }
+  .faucet-stage svg { width: min(70%, 260px); }
+
+  /* o painel da casa deixa de flutuar e vira um bloco abaixo da ilustração */
+  .house-pop {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 18px;
+    transform: none !important;
+  }
+
+  .sim { grid-template-columns: minmax(0, 1fr); }
+  .sim-visual { order: -1; }
+  .tank-glass { height: 220px; }
+
+  .reuse { grid-template-columns: minmax(0, 1fr); }
+
+  /* --- Disponibilidade: empilhada --- */
+  .availability-inner { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .availability-sticky { height: auto; min-height: 100svh; padding: 90px 0 50px; }
+  .availability-visual { order: -1; }
+  .sphere-wrap { width: min(58%, 240px); }
+  .availability-steps li { padding: 11px 14px 11px 50px; }
+  .availability-steps h3 { font-size: 0.98rem; }
+  .availability-scroll { height: 200vh; }
+
+  /* --- Timeline vertical --- */
+  .timeline { padding-top: 6px; }
+  .timeline-steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    position: relative;
+    padding-left: 12px;
+  }
+  .timeline-steps::before {
+    content: "";
+    position: absolute;
+    left: 40px; top: 12px; bottom: 12px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--line-strong), transparent);
+  }
+  .tl-step {
+    display: block;
+    position: relative;
+    text-align: left;
+    padding: 12px 0;
+  }
+  .tl-btn {
+    position: relative;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    column-gap: 18px;
+    text-align: left;
+  }
+  .tl-icon { position: relative; z-index: 1; }
+  .tl-num {
+    position: absolute;
+    left: 38px; top: -2px;
+    margin: 0;
+    z-index: 2;
+    width: 20px; height: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--navy-900);
+    border: 1px solid var(--line-strong);
+    font-size: 0.66rem;
+  }
+  .tl-title { margin: 0; }
+  .tl-desc { max-width: 46ch; margin: 4px 0 0 74px; }
+  /* no empilhado vertical o detalhe volta ao fluxo normal */
+  .tl-more {
+    position: static;
+    transform: none;
+    width: auto;
+    max-width: 52ch;
+    margin: 10px 0 0 74px;
+  }
+  .tl-more::before { display: none; }
+
+  /* --- Footer --- */
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* --- Final --- */
+  .final-drop { width: min(150px, 22vw); top: 8%; }
+}
+
+/* ------------------------------------------------------------
+   CELULAR  (≤ 640px)
+   ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .container { width: min(100% - 2rem, var(--container)); }
+
+  .section { padding: 66px 0; }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 { grid-template-columns: minmax(0, 1fr); }
+
+  .brand-text strong { font-size: 1.02rem; }
+  .brand-text small { font-size: 0.55rem; }
+
+  .hero { min-height: auto; padding-bottom: 120px; }
+  .hero-title { letter-spacing: 0.01em; }
+  .hero-actions .btn { width: 100%; }
+  .drop-stage { width: min(82%, 290px); }
+
+  .section-kicker { font-size: 0.7rem; letter-spacing: 0.16em; }
+  .section-kicker .rule { width: 24px; }
+
+  .type-body { margin-top: -22px; }
+  .tab-buttons { flex-direction: column; }
+
+  .faucet-actions { flex-direction: column; align-items: stretch; }
+  .faucet-actions .btn { width: 100%; }
+
+  .house-stage { border-radius: var(--radius-sm); }
+  .hotspot { width: 40px; height: 40px; }   /* área de toque adequada */
+  .hotspot em { font-size: 0.7rem; }
+
+  .sim-bar { grid-template-columns: 74px minmax(0, 1fr); }
+  .tank { width: min(100%, 180px); }
+  .tank-glass { height: 190px; }
+
+  .reuse-flow li:not(:last-child)::after { margin-left: 8px; }
+
+  .footer-grid { grid-template-columns: minmax(0, 1fr); }
+  .footer-bottom { justify-content: center; text-align: center; }
+  .footer-bottom .btn { width: 100%; }
+
+  .final-drop { display: none; }
+  .final-earth { bottom: -28%; }
+
+  .to-top { right: 14px; bottom: 14px; width: 46px; height: 46px; }
+
+  .nowater-list li { font-size: 0.78rem; padding: 6px 12px; }
+}
+
+/* ------------------------------------------------------------
+   CELULAR PEQUENO  (≤ 400px)
+   ------------------------------------------------------------ */
+@media (max-width: 400px) {
+  .hero-title { font-size: 3.6rem; }
+  .counter-value { font-size: 2.4rem; }
+  .tl-step { grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; }
+  .tl-icon { width: 48px; height: 48px; }
+  .tl-icon svg { width: 22px; height: 22px; }
+  .timeline-steps::before { left: 35px; }
+  .tl-num { left: 34px; }
+}
+
+/* ------------------------------------------------------------
+   TELAS MUITO LARGAS
+   ------------------------------------------------------------ */
+@media (min-width: 1600px) {
+  :root { --container: 1360px; }
+  .hero-glow { width: 860px; }
+}
+
+/* ------------------------------------------------------------
+   MODO PAISAGEM EM CELULAR (evita hero cortada)
+   ------------------------------------------------------------ */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { min-height: auto; padding: calc(var(--header-h) + 30px) 0 80px; }
+  .availability-sticky { position: static; height: auto; padding: 60px 0; }
+  .availability-scroll { display: none; }
+}
+
+/* ------------------------------------------------------------
+   IMPRESSÃO (apresentação do trabalho)
+   ------------------------------------------------------------ */
+@media print {
+  .site-header, .to-top, .scroll-cue, .particles,
+  .nowater-overlay, .hero-waves { display: none !important; }
+  body { background: #fff; color: #111; }
+  body::before, body::after { display: none; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .section { padding: 24px 0; break-inside: avoid; }
+  .card, .type-card, .action { border-color: #ccd; box-shadow: none; }
+}
