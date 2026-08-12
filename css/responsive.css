@@ -72,6 +72,61 @@
   /* --- Seções em duas colunas viram uma --- */
   .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+  /* --- "A água está em tudo": pilha vertical (gota → vida → indústria → cotidiano) --- */
+  .section-eco { min-height: 0; }
+
+  .eco-stage {
+    --drop-w: clamp(150px, 30vw, 200px);   /* a linha vertical começa a partir daqui */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: 46px;
+  }
+  .eco-stage .eco-card[data-theme="vida"],
+  .eco-stage .eco-card[data-theme="industria"],
+  .eco-stage .eco-card[data-theme="cotidiano"] {
+    grid-area: auto;
+    width: 100%;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* a gota sai do posicionamento absoluto e abre a pilha */
+  .eco-stage .eco-core {
+    position: relative;
+    left: auto; top: auto;
+    order: -1;
+    width: var(--drop-w);
+    margin: 0 auto;
+    transform: scale(0.88);
+  }
+  .eco-stage.is-live .eco-core { transform: scale(1); }
+
+  /* as três curvas viram uma única linha vertical atrás dos cards.
+     a gota tem proporção 200:250, então o bojo termina em 1.06 × largura:
+     a linha nasce logo abaixo dele, em vez de atravessar a gota. */
+  .eco-links { display: none; }
+  .eco-stage::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: calc(var(--drop-w) * 1.08); bottom: 80px;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(56, 217, 255, 0.55),
+                rgba(56, 217, 255, 0.26) 45%, rgba(124, 240, 192, 0.42));
+    opacity: 0;
+    transition: opacity 700ms var(--ease) 400ms;
+  }
+  .eco-stage.is-live::before { opacity: 1; }
+
+  /* o card do cotidiano deixa de ser horizontal */
+  .eco-card[data-theme="cotidiano"] {
+    display: flex;
+    grid-template-columns: none;
+    grid-template-areas: none;
+  }
+  .eco-card[data-theme="cotidiano"] .eco-art { align-self: stretch; margin-top: 4px; }
+  .eco-card[data-theme="cotidiano"] .type-toggle { margin-top: 18px; }
+
   .waste-top { grid-template-columns: minmax(0, 1fr); }
   .waste-visual { position: static; max-width: 260px; margin: 0 auto 10px; }
   .section-title.left, .section-lead.left { text-align: center; margin-inline: auto; }
@@ -190,6 +245,11 @@
   .type-body { margin-top: -22px; }
   .tab-buttons { flex-direction: column; }
 
+  /* na casa do cotidiano os rótulos ficariam ilegíveis nesse tamanho */
+  .eco-labels { display: none; }
+  .eco-stage { row-gap: 38px; }
+  .eco-stage::before { bottom: 64px; }
+
   .faucet-actions { flex-direction: column; align-items: stretch; }
   .faucet-actions .btn { width: 100%; }
 
@@ -250,10 +310,18 @@
    ------------------------------------------------------------ */
 @media print {
   .site-header, .to-top, .scroll-cue, .particles,
-  .nowater-overlay, .hero-waves { display: none !important; }
+  .nowater-overlay, .hero-waves, .eco-bg { display: none !important; }
   body { background: #fff; color: #111; }
   body::before, body::after { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
+
+  /* a seção "está em tudo" entra por scroll: no papel precisa vir pronta */
+  .section-eco { min-height: 0; }
+  .eco-core { opacity: 1 !important; }
+  .eco-card { opacity: 1 !important; translate: none !important; }
+  .eco-trace { stroke-dashoffset: 0 !important; }
+  .eco-node { opacity: .75 !important; }
+  .eco-flow { display: none; }
   .section { padding: 24px 0; break-inside: avoid; }
   .card, .type-card, .action { border-color: #ccd; box-shadow: none; }
 }

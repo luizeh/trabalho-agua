@@ -73,6 +73,19 @@
     <path class="ico-fade" d="M12 6.4a5.6 5.6 0 0 1 7.8 4" stroke-opacity=".5"/>
   </symbol>
 
+  <!-- VIDA (seção "a água está em tudo"): coração com uma folha brotando -->
+  <symbol id="i-life" viewBox="0 0 24 24">
+    <g class="ico-grow" style="transform-origin:12px 14px">
+      <path d="M12 21.2S4.3 16.3 4.3 11.2A3.85 3.85 0 0 1 12 9a3.85 3.85 0 0 1 7.7 2.2c0 5.1-7.7 10-7.7 10Z"/>
+      <path class="ico-loop ico-pulse" d="M6.3 13.4h2.5l1.2-2.5 1.8 4.9 1.4-2.4h3.1" stroke-opacity=".9"/>
+    </g>
+    <g class="ico-tilt" style="transform-origin:12px 8.6px">
+      <path d="M12 9.1V5"/>
+      <path d="M11.9 6.6C9.4 6.7 8 5.5 7.8 3.4c2.4-.3 4 .9 4.1 3.2Z" stroke-opacity=".9"/>
+      <path class="ico-fade" d="M12.1 5.3c2.1.1 3.5-.9 3.7-2.8-2-.2-3.5.7-3.7 2.8Z" stroke-opacity=".9"/>
+    </g>
+  </symbol>
+
   <!-- AGRICULTURA: folha com nervuras que inclina no hover -->
   <symbol id="i-leaf" viewBox="0 0 24 24">
     <g class="ico-tilt" style="transform-origin:5px 20px">
@@ -489,37 +502,455 @@
 <!-- ============================================================
      A ÁGUA ESTÁ EM TUDO
      ============================================================ -->
-<section class="section" id="importancia">
+<section class="section section-eco" id="importancia">
+
+  <div class="eco-bg" aria-hidden="true">
+    <span class="eco-blob a"></span>
+    <span class="eco-blob b"></span>
+
+    <!-- poucas partículas (12), movimento lento e opacidade baixa -->
+    <div class="eco-dust">
+      <span style="--x:7%;--y:64%;--s:3px;--t:17s;--d:0s"></span>
+      <span style="--x:14%;--y:38%;--s:2px;--t:21s;--d:3s"></span>
+      <span style="--x:22%;--y:78%;--s:4px;--t:19s;--d:6s"></span>
+      <span style="--x:31%;--y:26%;--s:2px;--t:23s;--d:1.5s"></span>
+      <span style="--x:39%;--y:70%;--s:3px;--t:18s;--d:8s"></span>
+      <span style="--x:48%;--y:88%;--s:2px;--t:22s;--d:4s"></span>
+      <span style="--x:57%;--y:34%;--s:3px;--t:20s;--d:10s"></span>
+      <span style="--x:66%;--y:74%;--s:2px;--t:24s;--d:2s"></span>
+      <span style="--x:74%;--y:46%;--s:4px;--t:19s;--d:7s"></span>
+      <span style="--x:82%;--y:82%;--s:2px;--t:21s;--d:12s"></span>
+      <span style="--x:90%;--y:30%;--s:3px;--t:23s;--d:5s"></span>
+      <span style="--x:95%;--y:60%;--s:2px;--t:18s;--d:9s"></span>
+    </div>
+
+    <!-- textura de água quase invisível no rodapé da seção -->
+    <svg class="eco-deep" viewBox="0 0 1440 180" preserveAspectRatio="none">
+      <path class="eco-deep-1" d="M0 92c190-34 330 28 520 14s340-56 560-30 360 40 360 40v64H0Z"/>
+      <path class="eco-deep-2" d="M0 126c200-26 340 26 560 10s380-44 520-24 360 32 360 32v36H0Z"/>
+    </svg>
+  </div>
+
   <div class="container">
     <header class="section-head reveal">
       <p class="section-kicker"><span class="rule"></span>Importância<span class="rule"></span></p>
-      <h2 class="section-title">A <span class="grad-text">água</span> está em tudo</h2>
-      <p class="section-lead">Essencial para a vida, a água percorre praticamente todas as áreas da nossa rotina e sustenta tudo o que nos cerca.</p>
+      <h2 class="section-title">A água<br><span class="grad-flow">está em tudo</span></h2>
+      <p class="section-lead">A água conecta a vida, impulsiona a indústria e faz parte de cada momento do nosso cotidiano.</p>
     </header>
 
-    <div class="grid grid-4">
-      <article class="card card-glow reveal" data-accent="cyan" tabindex="0">
-        <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg></span>
-        <h3>Vida</h3>
-        <p>Todos os seres vivos dependem da água para existir. Ela participa da maior parte dos processos biológicos do corpo. Sem água, não há vida.</p>
+    <!-- A gota fica em (50%, 34%) do palco e o SVG das conexões usa
+         preserveAspectRatio="none": os dois vivem na mesma escala relativa,
+         então as linhas nascem exatamente na gota em qualquer largura.
+         As pontas terminam sob os cards — o vidro é translúcido, então a
+         água parece correr por trás deles. -->
+    <div class="eco-stage">
+
+      <svg class="eco-links" viewBox="0 0 1000 620" preserveAspectRatio="none"
+           aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="ecoLinkVida" x1="1" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#7fe6ff" stop-opacity=".9"/>
+            <stop offset="55%" stop-color="#4ade80" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="ecoLinkInd" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7fe6ff" stop-opacity=".9"/>
+            <stop offset="55%" stop-color="#2b8fe0" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#2b8fe0" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="ecoLinkCoti" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7fe6ff" stop-opacity=".9"/>
+            <stop offset="55%" stop-color="#38d9ff" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#7cf0c0" stop-opacity="0"/>
+          </linearGradient>
+
+        </defs>
+
+        <!-- Cada traçado começa por dentro da gota (que fica na frente, cobrindo
+             a emenda) e termina por baixo do card. O círculo luminoso fica na
+             junção das duas curvas, então está sempre exatamente sobre a linha.
+             .eco-halo é a mesma curva bem mais grossa: é o brilho do destaque
+             (um filtro SVG aqui apagaria o miolo da linha por causa do
+             vector-effect="non-scaling-stroke"). -->
+        <g class="eco-line" data-link="vida" style="--glow:74,222,128">
+          <path class="eco-halo"  d="M462 220C418 214 386 190 348 166 312 144 268 130 226 122" stroke="url(#ecoLinkVida)"/>
+          <path class="eco-trace" d="M462 220C418 214 386 190 348 166 312 144 268 130 226 122" stroke="url(#ecoLinkVida)"/>
+          <path class="eco-flow"  d="M462 220C418 214 386 190 348 166 312 144 268 130 226 122"/>
+          <circle class="eco-node" cx="348" cy="166" r="4"/>
+        </g>
+
+        <g class="eco-line" data-link="industria" style="--glow:56,217,255">
+          <path class="eco-halo"  d="M538 220C584 214 616 192 654 176 692 157 736 152 776 150" stroke="url(#ecoLinkInd)"/>
+          <path class="eco-trace" d="M538 220C584 214 616 192 654 176 692 157 736 152 776 150" stroke="url(#ecoLinkInd)"/>
+          <path class="eco-flow"  d="M538 220C584 214 616 192 654 176 692 157 736 152 776 150"/>
+          <circle class="eco-node" cx="654" cy="176" r="4"/>
+        </g>
+
+        <g class="eco-line" data-link="cotidiano" style="--glow:124,240,192">
+          <path class="eco-halo"  d="M500 276C500 312 480 348 480 372 480 400 500 420 500 452" stroke="url(#ecoLinkCoti)"/>
+          <path class="eco-trace" d="M500 276C500 312 480 348 480 372 480 400 500 420 500 452" stroke="url(#ecoLinkCoti)"/>
+          <path class="eco-flow"  d="M500 276C500 312 480 348 480 372 480 400 500 420 500 452"/>
+          <circle class="eco-node" cx="480" cy="372" r="4"/>
+        </g>
+      </svg>
+
+      <!-- GOTA CENTRAL — a fonte comum dos três ambientes -->
+      <div class="eco-core" data-lights="all">
+        <div class="eco-core-float">
+          <svg class="eco-drop" viewBox="0 0 200 250" role="img"
+               aria-label="Uma gota de água com uma folha dentro: é dela que partem as três ligações">
+            <defs>
+              <linearGradient id="ecoDropBody" x1=".2" y1="0" x2=".8" y2="1">
+                <stop offset="0%" stop-color="#bdefff" stop-opacity=".5"/>
+                <stop offset="45%" stop-color="#37b6f5" stop-opacity=".3"/>
+                <stop offset="100%" stop-color="#0a2f63" stop-opacity=".62"/>
+              </linearGradient>
+              <linearGradient id="ecoDropRim" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#dff6ff"/>
+                <stop offset="45%" stop-color="#38d9ff"/>
+                <stop offset="100%" stop-color="#1560cf"/>
+              </linearGradient>
+              <radialGradient id="ecoDropCore" cx="50%" cy="62%" r="48%">
+                <stop offset="0%" stop-color="#7cf0c0" stop-opacity=".3"/>
+                <stop offset="55%" stop-color="#38d9ff" stop-opacity=".12"/>
+                <stop offset="100%" stop-color="#38d9ff" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="ecoLeafFill" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#16a34a"/>
+                <stop offset="55%" stop-color="#4ade80"/>
+                <stop offset="100%" stop-color="#7cf0c0"/>
+              </linearGradient>
+            </defs>
+
+            <!-- núcleo luminoso -->
+            <ellipse class="eco-core-light" cx="100" cy="150" rx="80" ry="82" fill="url(#ecoDropCore)"/>
+
+            <!-- corpo da gota + reflexos -->
+            <path class="eco-drop-body" d="M100 18s62 84 62 132a62 62 0 1 1-124 0C38 102 100 18 100 18Z"
+                  fill="url(#ecoDropBody)" stroke="url(#ecoDropRim)" stroke-width="2.4"/>
+            <path d="M70 132c-6 13-8 27-6 39" stroke="#ffffff" stroke-opacity=".38"
+                  stroke-width="4.5" stroke-linecap="round" fill="none"/>
+            <path d="M84 108c-4 6-7 12-9 19" stroke="#ffffff" stroke-opacity=".22"
+                  stroke-width="3" stroke-linecap="round" fill="none"/>
+
+            <!-- folha estilizada -->
+            <g class="eco-leaf">
+              <path d="M100 180v-34" stroke="url(#ecoLeafFill)" stroke-width="3.4"
+                    stroke-linecap="round" fill="none"/>
+              <path d="M99 158c-14 0-26-10-28-27 17-2 29 8 28 27Z" fill="url(#ecoLeafFill)" opacity=".95"/>
+              <path d="M101 152c14 0 27-10 29-27-17-2-30 8-29 27Z" fill="url(#ecoLeafFill)" opacity=".8"/>
+              <path d="M95 155c-5-8-11-13-18-16M105 149c5-7 11-12 18-15"
+                    stroke="#052b1e" stroke-opacity=".35" stroke-width="1.6"
+                    stroke-linecap="round" fill="none"/>
+            </g>
+
+            <!-- bolhas internas (3 apenas) -->
+            <g class="eco-bubbles" fill="#cdf2ff">
+              <circle cx="76" cy="196" r="2.6" opacity=".7"/>
+              <circle cx="124" cy="188" r="2" opacity=".6"/>
+              <circle cx="104" cy="204" r="3" opacity=".5"/>
+            </g>
+
+            <circle class="eco-drop-ring" cx="100" cy="150" r="73" fill="none"
+                    stroke="#38d9ff" stroke-opacity=".16" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ================= VIDA ================= -->
+      <article class="card card-glow eco-card" data-theme="vida" data-lights="vida" tabindex="0">
+        <div class="eco-head">
+          <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-life"/></svg></span>
+          <h3>Vida</h3>
+        </div>
+        <p>Essencial para todos os seres vivos, a água sustenta ecossistemas, organismos e o equilíbrio da natureza.</p>
+
+        <div class="eco-art">
+          <svg class="eco-scene" viewBox="0 0 380 150" role="img"
+               aria-label="Vegetação e uma árvore junto a um pequeno lago, com a silhueta de uma pessoa">
+            <defs>
+              <linearGradient id="ecoVidaCeu" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#07283a"/><stop offset="100%" stop-color="#04141f"/>
+              </linearGradient>
+              <linearGradient id="ecoVidaAgua" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7fe6ff"/><stop offset="100%" stop-color="#1560cf"/>
+              </linearGradient>
+              <linearGradient id="ecoVidaMata" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#116b45"/>
+              </linearGradient>
+            </defs>
+
+            <rect width="380" height="150" fill="url(#ecoVidaCeu)"/>
+
+            <g class="art-layer" data-depth="1">
+              <circle cx="308" cy="34" r="28" fill="#7cf0c0" opacity=".1"/>
+              <g fill="#cfeeff" opacity=".45">
+                <circle cx="46" cy="26" r="1.4"/><circle cx="128" cy="16" r="1.1"/>
+                <circle cx="232" cy="30" r="1.3"/><circle cx="352" cy="54" r="1.1"/>
+              </g>
+            </g>
+
+            <g class="art-layer" data-depth="2">
+              <path d="M0 104c44-16 76-6 110-20 34-14 62 4 96-6 34-10 66 10 174-2v74H0Z" fill="#0a2c3f"/>
+              <path d="M0 116c56-10 92 6 140-2 48-8 88 8 240-4v40H0Z" fill="#0d3a3a" opacity=".9"/>
+            </g>
+
+            <g class="art-layer" data-depth="4">
+              <path d="M306 112V86" stroke="#6b4a2a" stroke-width="6" stroke-linecap="round"/>
+              <g class="eco-sway">
+                <circle cx="306" cy="74" r="20" fill="url(#ecoVidaMata)" opacity=".9"/>
+                <circle cx="288" cy="87" r="14" fill="url(#ecoVidaMata)" opacity=".8"/>
+                <circle cx="324" cy="85" r="13" fill="url(#ecoVidaMata)" opacity=".75"/>
+                <circle cx="299" cy="68" r="6" fill="#7cf0c0" opacity=".3"/>
+              </g>
+              <path d="M40 116c0-11 6-19 14-21-1 14-6 20-14 21ZM58 116c0-9 5-15 11-17-1 11-5 16-11 17Z"
+                    fill="url(#ecoVidaMata)" opacity=".7"/>
+              <path d="M352 118c0-10-5-17-12-19 1 13 5 18 12 19Z" fill="url(#ecoVidaMata)" opacity=".55"/>
+            </g>
+
+            <g class="art-layer" data-depth="3">
+              <ellipse cx="188" cy="128" rx="118" ry="17" fill="url(#ecoVidaAgua)" opacity=".75"/>
+              <ellipse cx="188" cy="125" rx="74" ry="9" fill="#a5e8ff" opacity=".16"/>
+              <ellipse class="eco-ripple" cx="150" cy="130" rx="26" ry="6" fill="none"
+                       stroke="#d6f3ff" stroke-opacity=".55" stroke-width="1.3"/>
+              <g stroke="#d6f3ff" stroke-opacity=".45" stroke-width="1.3" fill="none">
+                <path d="M212 128c12 4 26 4 38 0M96 132c12 4 26 4 38 0"/>
+              </g>
+            </g>
+
+            <g class="art-layer" data-depth="5">
+              <ellipse cx="150" cy="94" rx="15" ry="24" fill="#38d9ff" opacity=".09"/>
+              <g stroke="#9fe4ff" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".85">
+                <circle cx="150" cy="77" r="4.4"/>
+                <path d="M150 83v14"/>
+                <path d="M150 87l-7 9M150 87l7 9"/>
+                <path d="M150 97l-5 13M150 97l5 13"/>
+              </g>
+              <circle class="eco-pulse" cx="150" cy="89" r="2.6" fill="#7cf0c0"/>
+            </g>
+          </svg>
+        </div>
+
+        <button class="type-toggle" aria-expanded="false" aria-controls="eco-mais-vida">
+          <span>Ver mais</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="type-flow" id="eco-mais-vida" hidden>
+          <p>Boa parte do corpo humano é feita de água: ela transporta nutrientes, ajuda a
+             regular a temperatura e participa de quase todos os processos do organismo.
+             Nas plantas e nos rios, é o que mantém o ciclo funcionando.</p>
+        </div>
       </article>
 
-      <article class="card card-glow reveal" data-accent="green" data-delay="1" tabindex="0">
-        <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-leaf"/></svg></span>
-        <h3>Agricultura</h3>
-        <p>É responsável por grande parte da produção de alimentos: da germinação da semente até a colheita, a água está presente em cada etapa.</p>
+      <!-- ================= INDÚSTRIA ================= -->
+      <article class="card card-glow eco-card" data-theme="industria" data-lights="industria" tabindex="0">
+        <div class="eco-head">
+          <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-factory"/></svg></span>
+          <h3>Indústria</h3>
+        </div>
+        <p>Presente em processos de produção, resfriamento, geração de energia e diversas atividades industriais.</p>
+
+        <div class="eco-art">
+          <svg class="eco-scene" viewBox="0 0 380 150" role="img"
+               aria-label="Instalação industrial com chaminés, torre de resfriamento, tanques e tubulações junto à água">
+            <defs>
+              <linearGradient id="ecoIndCeu" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#062033"/><stop offset="100%" stop-color="#04121e"/>
+              </linearGradient>
+              <linearGradient id="ecoIndMetal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#1b4d84"/><stop offset="100%" stop-color="#0b2a4d"/>
+              </linearGradient>
+              <linearGradient id="ecoIndAgua" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4fc3ff"/><stop offset="100%" stop-color="#0f3a70"/>
+              </linearGradient>
+            </defs>
+
+            <rect width="380" height="150" fill="url(#ecoIndCeu)"/>
+
+            <g class="art-layer" data-depth="1">
+              <circle cx="74" cy="30" r="26" fill="#38d9ff" opacity=".1"/>
+              <g fill="#cfeeff" opacity=".4">
+                <circle cx="164" cy="20" r="1.2"/><circle cx="300" cy="24" r="1.2"/>
+                <circle cx="352" cy="44" r="1"/>
+              </g>
+            </g>
+
+            <!-- o vapor tem transform próprio, então fica dentro da camada de parallax -->
+            <g class="art-layer" data-depth="2">
+              <g class="eco-steam">
+                <ellipse cx="286" cy="36" rx="17" ry="9" fill="#9fe4ff" opacity=".3"/>
+                <ellipse cx="300" cy="22" rx="11" ry="6" fill="#9fe4ff" opacity=".22"/>
+              </g>
+            </g>
+
+            <g class="art-layer" data-depth="3">
+              <path d="M264 112c-4-24 4-34 2-52h44c-2 18 6 28 2 52Z" fill="url(#ecoIndMetal)"/>
+              <path d="M266 62h42" stroke="#7fc9ff" stroke-opacity=".3" stroke-width="1.4"/>
+              <rect x="330" y="82" width="26" height="30" rx="3" fill="#0b2a4d" opacity=".85"/>
+            </g>
+
+            <g class="art-layer" data-depth="4">
+              <rect x="38" y="76" width="112" height="36" rx="3" fill="url(#ecoIndMetal)"/>
+              <rect x="150" y="86" width="68" height="26" rx="3" fill="url(#ecoIndMetal)" opacity=".9"/>
+              <rect x="56" y="52" width="12" height="24" rx="3" fill="#0b2a4d"/>
+              <rect x="92" y="44" width="12" height="32" rx="3" fill="#0b2a4d"/>
+              <rect x="128" y="58" width="12" height="18" rx="3" fill="#0b2a4d"/>
+              <path d="M38 76h112M150 86h68" stroke="#7fc9ff" stroke-opacity=".28" stroke-width="1.2"/>
+              <!-- janelas: acendem no hover -->
+              <g class="eco-lit" fill="#7cf0c0">
+                <rect x="48" y="88" width="8" height="8" rx="1.6"/>
+                <rect x="66" y="88" width="8" height="8" rx="1.6"/>
+                <rect x="84" y="88" width="8" height="8" rx="1.6"/>
+                <rect x="102" y="88" width="8" height="8" rx="1.6"/>
+                <rect x="162" y="94" width="7" height="7" rx="1.6"/>
+                <rect x="178" y="94" width="7" height="7" rx="1.6"/>
+              </g>
+            </g>
+
+            <g class="art-layer" data-depth="5">
+              <rect x="228" y="90" width="26" height="22" rx="5" fill="#0d3559"
+                    stroke="#4fc3ff" stroke-opacity=".35" stroke-width="1.2"/>
+              <rect x="229" y="101" width="24" height="10" rx="4" fill="#2b8fe0" opacity=".5"/>
+              <path class="eco-pipe" d="M218 98h10M254 98h10" stroke="#7fe6ff" stroke-opacity=".5"
+                    stroke-width="2" stroke-linecap="round" fill="none"/>
+            </g>
+
+            <g class="art-layer" data-depth="2">
+              <rect y="118" width="380" height="32" fill="url(#ecoIndAgua)" opacity=".32"/>
+              <g stroke="#bfeaff" stroke-opacity=".3" stroke-width="1.2" fill="none">
+                <path d="M46 128c14 5 30 5 44 0M126 138c16 4 34 4 50 0M256 130c14 4 30 4 44 0"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <button class="type-toggle" aria-expanded="false" aria-controls="eco-mais-industria">
+          <span>Ver mais</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="type-flow" id="eco-mais-industria" hidden>
+          <p>Quase tudo o que usamos passou por etapas que dependem de água: alimentos,
+             roupas, papel, eletrônicos e a própria geração de energia. Por isso a
+             reutilização dentro das fábricas faz tanta diferença.</p>
+        </div>
       </article>
 
-      <article class="card card-glow reveal" data-accent="blue" data-delay="2" tabindex="0">
-        <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-factory"/></svg></span>
-        <h3>Indústria</h3>
-        <p>Utilizada em processos de produção, resfriamento de máquinas, limpeza e geração de energia. Quase tudo o que consumimos passou pela água.</p>
-      </article>
+      <!-- ================= COTIDIANO ================= -->
+      <article class="card card-glow eco-card" data-theme="cotidiano" data-lights="cotidiano" tabindex="0">
+        <div class="eco-head">
+          <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg></span>
+          <h3>Cotidiano</h3>
+        </div>
+        <p>Do banho à cozinha, a água está presente na higiene, alimentação, limpeza e em diversos momentos do nosso dia.</p>
 
-      <article class="card card-glow reveal" data-accent="ice" data-delay="3" tabindex="0">
-        <span class="card-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg></span>
-        <h3>Cotidiano</h3>
-        <p>Banho, alimentação, higiene e limpeza. Está nas atividades mais simples do dia a dia — justamente onde nossas escolhas fazem diferença.</p>
+        <div class="eco-art">
+          <svg class="eco-scene" viewBox="0 0 520 220" role="img"
+               aria-label="Corte de uma casa dividido em banheiro, cozinha e lavanderia">
+            <defs>
+              <linearGradient id="ecoCasaFundo" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#072235"/><stop offset="100%" stop-color="#04121d"/>
+              </linearGradient>
+              <linearGradient id="ecoCasaParede" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0f3358"/><stop offset="100%" stop-color="#081f38"/>
+              </linearGradient>
+              <linearGradient id="ecoCasaAgua" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7fe6ff"/><stop offset="100%" stop-color="#1560cf"/>
+              </linearGradient>
+            </defs>
+
+            <rect width="520" height="220" fill="url(#ecoCasaFundo)"/>
+
+            <g class="art-layer" data-depth="1">
+              <circle cx="446" cy="40" r="34" fill="#38d9ff" opacity=".09"/>
+              <g fill="#cfeeff" opacity=".4">
+                <circle cx="60" cy="28" r="1.4"/><circle cx="210" cy="18" r="1.2"/>
+                <circle cx="350" cy="30" r="1.3"/>
+              </g>
+            </g>
+
+            <!-- casa em corte: três ambientes lado a lado -->
+            <g class="art-layer" data-depth="3">
+              <path d="M22 80 260 26l238 54" fill="none" stroke="#4fc3ff" stroke-opacity=".5"
+                    stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M22 80 260 26l238 54Z" fill="#0c2c4c" opacity=".5"/>
+              <rect x="22" y="80" width="476" height="122" rx="9" fill="url(#ecoCasaParede)"
+                    stroke="#4fc3ff" stroke-opacity=".28" stroke-width="1.5"/>
+              <path d="M181 80v122M339 80v122" stroke="#4fc3ff" stroke-opacity=".2" stroke-width="1.4"/>
+              <path d="M22 190h476" stroke="#4fc3ff" stroke-opacity=".2" stroke-width="1.4"/>
+
+              <!-- BANHEIRO: chuveiro e banheira -->
+              <g>
+                <path d="M100 92v12" stroke="#9fe4ff" stroke-opacity=".7" stroke-width="2.6" stroke-linecap="round"/>
+                <path d="M84 106h32l-5 8H89Z" fill="#9fe4ff" opacity=".5"/>
+                <g class="eco-jet" stroke="url(#ecoCasaAgua)" stroke-width="2.2" stroke-linecap="round" fill="none">
+                  <path d="M92 120v22M100 120v28M108 120v20"/>
+                </g>
+                <path d="M56 156h88a8 8 0 0 1-8 26H64a8 8 0 0 1-8-26Z" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".35" stroke-width="1.3"/>
+                <path d="M64 166h72" stroke="url(#ecoCasaAgua)" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+              </g>
+
+              <!-- COZINHA: bancada, torneira e pia -->
+              <g>
+                <rect x="196" y="150" width="128" height="9" rx="3.5" fill="#123c66"
+                      stroke="#4fc3ff" stroke-opacity=".3" stroke-width="1"/>
+                <rect x="202" y="159" width="116" height="31" rx="3" fill="#0c2b4a" opacity=".9"/>
+                <path d="M244 150v-24c0-9 8-14 16-14s15 6 15 14" fill="none" stroke="#9fe4ff"
+                      stroke-opacity=".65" stroke-width="2.6" stroke-linecap="round"/>
+                <rect x="240" y="142" width="38" height="9" rx="3" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".35" stroke-width="1"/>
+                <path class="eco-jet" d="M275 132v11" stroke="url(#ecoCasaAgua)" stroke-width="2.2"
+                      stroke-linecap="round" fill="none"/>
+                <circle class="eco-fall" cx="275" cy="147" r="3" fill="#bfeaff"/>
+                <path d="M292 142c0-11 6-17 14-19-1 14-6 19-14 19Z" fill="#4ade80" opacity=".6"/>
+                <rect x="300" y="142" width="14" height="9" rx="3" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".3" stroke-width="1"/>
+              </g>
+
+              <!-- LAVANDERIA: máquina de lavar e prateleira -->
+              <g>
+                <rect x="374" y="120" width="98" height="70" rx="7" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".35" stroke-width="1.4"/>
+                <rect x="382" y="127" width="38" height="8" rx="4" fill="#123c66"/>
+                <circle cx="423" cy="159" r="24" fill="#082742" stroke="#4fc3ff"
+                        stroke-opacity=".4" stroke-width="1.4"/>
+                <circle cx="423" cy="159" r="15" fill="url(#ecoCasaAgua)" opacity=".32"/>
+                <g class="eco-drum">
+                  <path d="M423 144v8M423 166v8M408 159h8M430 159h8" stroke="#bfeaff"
+                        stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                </g>
+                <rect x="374" y="104" width="98" height="6" rx="3" fill="#123c66" opacity=".9"/>
+                <rect x="386" y="90" width="9" height="14" rx="2.5" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".3" stroke-width="1"/>
+                <rect x="401" y="95" width="8" height="9" rx="2.5" fill="#0d3559"
+                      stroke="#4fc3ff" stroke-opacity=".3" stroke-width="1"/>
+              </g>
+
+              <!-- luzes dos três ambientes: acendem no hover -->
+              <g class="eco-lit">
+                <circle cx="152" cy="96" r="5.5" fill="#7cf0c0"/>
+                <circle cx="314" cy="100" r="5.5" fill="#7cf0c0"/>
+                <circle cx="484" cy="104" r="5.5" fill="#7cf0c0"/>
+              </g>
+            </g>
+
+            <g class="art-layer eco-labels" data-depth="2" fill="#9fe4ff" opacity=".45">
+              <text x="102" y="214" text-anchor="middle">BANHEIRO</text>
+              <text x="260" y="214" text-anchor="middle">COZINHA</text>
+              <text x="418" y="214" text-anchor="middle">LAVANDERIA</text>
+            </g>
+          </svg>
+        </div>
+
+        <button class="type-toggle" aria-expanded="false" aria-controls="eco-mais-cotidiano">
+          <span>Ver mais</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="type-flow" id="eco-mais-cotidiano" hidden>
+          <p>É no dia a dia que as escolhas pesam mais: fechar a torneira ao escovar os
+             dentes, reduzir o tempo do banho, consertar vazamentos e reaproveitar a água
+             de chuva já mudam o consumo de uma casa inteira.</p>
+        </div>
       </article>
     </div>
   </div>
@@ -1776,6 +2207,7 @@
 <script src="js/navigation.js"></script>
 <script src="js/animations.js"></script>
 <script src="js/svg-interactions.js"></script>
+<script src="js/water-link.js"></script>
 <script src="js/timeline.js"></script>
 <script src="js/water-cards.js"></script>
 <script src="js/faucet.js"></script>

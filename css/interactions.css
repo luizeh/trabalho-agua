@@ -143,6 +143,116 @@
 .card::after { transition: opacity var(--t-mid) var(--ease); }
 
 /* ------------------------------------------------------------
+   A ÁGUA ESTÁ EM TUDO
+   Uma ligação em destaque por vez: o card (ou a gota) avisa o palco,
+   o JS marca a linha correspondente com .is-lit e as outras recuam.
+   ------------------------------------------------------------ */
+.eco-card:hover,
+.eco-card:focus-visible,
+.eco-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(var(--accent-rgb), .48);
+  box-shadow: 0 32px 66px -34px rgba(0, 0, 0, .95),
+              0 0 46px -16px rgba(var(--accent-rgb), .5);
+}
+.eco-card:hover .eco-art,
+.eco-card:focus-within .eco-art { border-color: rgba(var(--accent-rgb), .34); }
+
+/* --- gota central: acende as três ligações de uma vez --- */
+.eco-core::before { transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); }
+.eco-drop { transition: transform var(--t-slow) var(--ease), filter var(--t-slow) var(--ease); }
+.eco-leaf {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: transform var(--t-slow) var(--ease);
+}
+.eco-core:hover .eco-drop,
+.eco-core:focus-visible .eco-drop {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 26px rgba(56, 217, 255, .6));
+}
+.eco-core:hover::before { transform: scale(1.14); }
+.eco-core:hover .eco-leaf { transform: rotate(-6deg) scale(1.04); }
+.eco-stage[data-lit] .eco-core::before { opacity: 1; }
+
+/* --- destaque das ligações --- */
+.eco-stage[data-lit] .eco-line { opacity: .26; }
+/* precisa ser mais específico que a regra de recuo acima, senão a linha
+   em destaque também seria apagada */
+.eco-stage[data-lit] .eco-line.is-lit { opacity: 1; }
+/* o halo é a curva inteira (sem dash): só aparece depois do desenho */
+.eco-stage.is-live .eco-line.is-lit .eco-halo { opacity: .2; }
+.eco-line.is-lit .eco-trace { stroke-width: 2.8; }
+.eco-line.is-lit .eco-node { opacity: 1; transform: scale(1.55); }
+
+/* hover na gota → os três cards recebem um brilho discreto */
+.eco-stage[data-lit="all"] .eco-card {
+  border-color: rgba(var(--accent-rgb), .38);
+  box-shadow: 0 26px 60px -34px rgba(0, 0, 0, .95),
+              0 0 40px -20px rgba(var(--accent-rgb), .55);
+}
+
+/* --- ilustrações internas reagem ao card --- */
+.eco-lit  { opacity: .16; transition: opacity var(--t-slow) var(--ease); }
+.eco-jet  { opacity: 0;   transition: opacity var(--t-mid) var(--ease); }
+.eco-steam { opacity: .45; transition: opacity var(--t-slow) var(--ease); }
+
+.eco-sway   { transform-box: fill-box; transform-origin: 50% 100%; }
+.eco-pulse  { transform-box: fill-box; transform-origin: center; opacity: .7; }
+.eco-ripple { transform-box: fill-box; transform-origin: center; opacity: 0; }
+.eco-drum   { transform-box: fill-box; transform-origin: center; }
+.eco-fall   { opacity: 0; }
+.eco-pipe   { stroke-dasharray: 4 4; }
+
+.eco-card:hover .eco-lit,
+.eco-card:focus-within .eco-lit,
+.eco-card:hover .eco-jet,
+.eco-card:focus-within .eco-jet,
+.eco-card:hover .eco-steam,
+.eco-card:focus-within .eco-steam { opacity: 1; }
+
+/* vegetação balança (mesma curva dos tipos de água) */
+.eco-card:hover .eco-sway,
+.eco-card:focus-within .eco-sway { animation: canopySway 4.5s ease-in-out infinite; }
+
+/* a luz no peito da silhueta pulsa como um coração */
+@keyframes ecoHeart {
+  0%, 100% { transform: scale(1);   opacity: .65 }
+  50%      { transform: scale(1.5); opacity: 1 }
+}
+.eco-card:hover .eco-pulse,
+.eco-card:focus-within .eco-pulse { animation: ecoHeart 1.8s ease-in-out infinite; }
+
+/* onda no lago */
+.eco-card:hover .eco-ripple,
+.eco-card:focus-within .eco-ripple { animation: ripple-out 3.2s ease-out infinite; }
+
+/* vapor da torre de resfriamento */
+@keyframes ecoSteam {
+  0%, 100% { transform: translateY(0);    opacity: .5 }
+  50%      { transform: translateY(-7px); opacity: 1 }
+}
+.eco-card:hover .eco-steam,
+.eco-card:focus-within .eco-steam { animation: ecoSteam 6s ease-in-out infinite; }
+
+/* água percorrendo a tubulação */
+.eco-card:hover .eco-pipe,
+.eco-card:focus-within .eco-pipe { animation: pipe-flow 1.4s linear infinite; }
+
+/* tambor da máquina de lavar */
+.eco-card:hover .eco-drum,
+.eco-card:focus-within .eco-drum { animation: drumSpin 3.4s linear infinite; }
+
+/* gota caindo na pia */
+@keyframes ecoFall {
+  0%   { opacity: 0;  transform: translateY(0) }
+  22%  { opacity: .9 }
+  100% { opacity: 0;  transform: translateY(17px) }
+}
+.eco-card:hover .eco-fall,
+.eco-card:focus-within .eco-fall { animation: ecoFall 1.7s ease-in infinite; }
+
+/* ------------------------------------------------------------
    TIPOS DE ÁGUA — parallax local, brilho e expansão
    ------------------------------------------------------------ */
 .type-art { perspective: 600px; }
@@ -651,6 +761,21 @@
 
   .waste-visual.is-touched .tap-wheel { transform: rotate(120deg); }
 
+  /* "a água está em tudo": tocar o card faz o mesmo que o hover */
+  .eco-card.is-touched {
+    transform: translateY(-6px);
+    border-color: rgba(var(--accent-rgb), .48);
+  }
+  .eco-card.is-touched .eco-lit,
+  .eco-card.is-touched .eco-jet,
+  .eco-card.is-touched .eco-steam { opacity: 1; }
+  .eco-card.is-touched .eco-sway   { animation: canopySway 4.5s ease-in-out infinite; }
+  .eco-card.is-touched .eco-pulse  { animation: ecoHeart 1.8s ease-in-out infinite; }
+  .eco-card.is-touched .eco-ripple { animation: ripple-out 3.2s ease-out infinite; }
+  .eco-card.is-touched .eco-pipe   { animation: pipe-flow 1.4s linear infinite; }
+  .eco-card.is-touched .eco-drum   { animation: drumSpin 3.4s linear infinite; }
+  .eco-card.is-touched .eco-fall   { animation: ecoFall 1.7s ease-in infinite; }
+
   /* alvos de toque confortáveis */
   .tl-btn { padding: 6px 0; }
   .type-toggle { min-height: 48px; }
@@ -665,6 +790,13 @@
   .art-canopy,
   .art-pipe-flow,
   .art-drum-mark,
+  .eco-sway,
+  .eco-pulse,
+  .eco-ripple,
+  .eco-steam,
+  .eco-pipe,
+  .eco-drum,
+  .eco-fall,
   .room-drip circle,
   .room-spin,
   .room-sway,

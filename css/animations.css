@@ -94,6 +94,77 @@
 .scroll-cue-line { animation: cue-line 2.4s ease-in-out infinite; }
 
 /* ------------------------------------------------------------
+   A ÁGUA ESTÁ EM TUDO
+   Entrada encadeada: título (.reveal) → gota → conexões → cards.
+   O JS marca o palco com .is-live (dispara a entrada, uma vez só) e
+   .is-onscreen (as animações contínuas só rodam com a seção na tela).
+   ------------------------------------------------------------ */
+.eco-stage.is-live .eco-core  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.eco-stage.is-live .eco-node  { opacity: .75; }
+.eco-stage.is-live .eco-card  { opacity: 1; translate: 0 0; }
+
+/* o traçado é desenhado aqui — a transição entra junto com o estado final */
+.eco-stage.is-live .eco-trace {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.15s var(--ease) 400ms,
+              stroke-width var(--t-mid) var(--ease);
+}
+
+.eco-card[data-theme="vida"]      { --in: 580ms; }
+.eco-card[data-theme="industria"] { --in: 700ms; }
+.eco-card[data-theme="cotidiano"] { --in: 860ms; }
+
+/* luz percorrendo cada conexão (o JS mede o traçado e define --flow-end) */
+@keyframes eco-flow {
+  0%   { stroke-dashoffset: 0; opacity: 0 }
+  14%  { opacity: .9 }
+  78%  { opacity: .7 }
+  100% { stroke-dashoffset: var(--flow-end, -500); opacity: 0 }
+}
+.eco-stage.is-live.is-onscreen .eco-flow {
+  animation: eco-flow 5.5s linear var(--flow-delay, 1.6s) infinite;
+}
+.eco-line[data-link="industria"] { --flow-delay: 3.4s; }
+.eco-line[data-link="cotidiano"] { --flow-delay: 5.2s; }
+
+/* gota: flutuação bem lenta e núcleo que respira */
+@keyframes eco-float {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-11px) }
+}
+@keyframes eco-core-light {
+  0%, 100% { opacity: .75; transform: scale(1) }
+  50%      { opacity: 1;   transform: scale(1.05) }
+}
+@keyframes eco-bubble {
+  0%   { opacity: 0;  transform: translateY(0) }
+  25%  { opacity: .7 }
+  100% { opacity: 0;  transform: translateY(-28px) }
+}
+.eco-stage.is-onscreen .eco-core-float { animation: eco-float 9s ease-in-out infinite; }
+.eco-stage.is-onscreen .eco-core-light {
+  animation: eco-core-light 6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.eco-stage.is-onscreen .eco-bubbles circle { animation: eco-bubble 7s ease-in infinite; }
+.eco-bubbles circle:nth-child(2) { animation-delay: 2.4s; }
+.eco-bubbles circle:nth-child(3) { animation-delay: 4.6s; }
+
+/* poucas partículas, subindo devagar */
+@keyframes eco-dust {
+  0%   { opacity: 0;   transform: translateY(16px) }
+  18%  { opacity: .55 }
+  82%  { opacity: .35 }
+  100% { opacity: 0;   transform: translateY(-92px) }
+}
+.section-eco .eco-dust span { animation: eco-dust var(--t, 18s) linear var(--d, 0s) infinite; }
+
+/* água ao fundo da seção */
+.eco-deep-1 { animation: wave-shift 18s ease-in-out infinite alternate; }
+.eco-deep-2 { animation: wave-shift 24s ease-in-out infinite alternate-reverse; }
+
+/* ------------------------------------------------------------
    Chuva das ilustrações (tipos de água / reutilização)
    ------------------------------------------------------------ */
 @keyframes rain-fall {
@@ -242,7 +313,14 @@ body.no-water .flow-pipe,
 body.no-water .tank-wave,
 body.no-water .tank-level,
 body.no-water .lab-drops circle,
-body.no-water .hotspot span {
+body.no-water .hotspot span,
+body.no-water .eco-core-float,
+body.no-water .eco-core-light,
+body.no-water .eco-bubbles circle,
+body.no-water .eco-flow,
+body.no-water .eco-dust span,
+body.no-water .eco-deep-1,
+body.no-water .eco-deep-2 {
   animation: none !important;
 }
 
@@ -252,7 +330,16 @@ body.no-water .rain-drops,
 body.no-water .reuse-rain,
 body.no-water .soil-drops,
 body.no-water .bubbles,
-body.no-water .ripples { opacity: 0; transition: opacity 1.2s var(--ease); }
+body.no-water .ripples,
+body.no-water .eco-dust,
+body.no-water .eco-bubbles,
+body.no-water .eco-flow { opacity: 0; transition: opacity 1.2s var(--ease); }
+
+/* sem água a seção perde o brilho: as ligações quase desaparecem */
+body.no-water .eco-line { opacity: .3; }
+body.no-water .eco-core::before,
+body.no-water .eco-blob { opacity: .2; transition: opacity 1.2s var(--ease); }
+body.no-water .eco-drop { filter: none; }
 
 /* vegetação seca */
 body.no-water .type-card[data-accent="green"] .type-art,
@@ -290,7 +377,20 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
   .scroll-cue svg,
   .scroll-cue-line,
   .wave-1,
-  .wave-2 { animation: none !important; }
+  .wave-2,
+  .eco-core-float,
+  .eco-core-light,
+  .eco-bubbles circle,
+  .eco-flow,
+  .eco-deep-1,
+  .eco-deep-2 { animation: none !important; }
 
-  .particles { display: none; }
+  .particles,
+  .eco-dust { display: none; }
+
+  /* a seção aparece pronta: gota, conexões e cards no lugar */
+  .eco-stage .eco-core { opacity: 1; transform: translate(-50%, -50%); }
+  .eco-stage .eco-card { opacity: 1; translate: 0 0; }
+  .eco-stage .eco-trace { stroke-dashoffset: 0 !important; }
+  .eco-stage .eco-node { opacity: .75; }
 }

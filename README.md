@@ -32,8 +32,9 @@ trabalho-agua/
    ├─ navigation.js        header, menu mobile, seção ativa, scroll suave
    ├─ animations.js        reveal por scroll, parallax, partículas, abas
    ├─ svg-interactions.js  parallax local, ripple, toque, draw-svg
+   ├─ water-link.js        gota central e ligações de "a água está em tudo"
    ├─ timeline.js          gota no scroll + etapas clicáveis
-   ├─ water-cards.js       expansão dos cards de tipos de água
+   ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
    ├─ faucet.js            torneira interativa
    ├─ waste-house.js       casa do desperdício
    ├─ simulator.js         simulador de consumo
@@ -144,8 +145,11 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Menu com seção ativa | topo | destaca automaticamente a seção visível |
 | Logo | header | reflexo percorre a gota no hover |
 | Cards | várias seções | sobem no hover e o **ícone reage** (coração pulsa, folha inclina, fábrica acende, luz da casa acende) |
+| Gota central | *A água está em tudo* | três linhas saem da gota até Vida, Indústria e Cotidiano; passar o mouse na gota acende as três, passar em um card acende só a ligação dele e recua as outras |
+| Ambientes | *A água está em tudo* | cada card traz uma cena própria que reage ao hover: a árvore balança e a luz do peito pulsa, as janelas da fábrica acendem e o vapor sobe, a casa acende e o tambor da máquina gira |
 | Tipos de água | *Tipos de Água* | camadas seguem o mouse (parallax até 5px), brilho atravessa a água, copa balança, fluxo percorre os canos |
 | Expansão dos tipos | *Tipos de Água* | botão revela a cadeia do percurso; na Água Cinza o fluxo acompanha a aba escolhida |
+| "Ver mais" | *A água está em tudo* | abre um parágrafo extra dentro do próprio card, sem modal |
 | Timeline do ciclo | *O caminho de uma gota* | gota percorre as 9 etapas no scroll; clicar destaca a etapa e revela um detalhe |
 | Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
 | Casa do desperdício | *A casa do desperdício* | passar o mouse acende o cômodo (chuveiro pinga, máquina gira, planta balança); clicar abre um painel junto ao ponto |

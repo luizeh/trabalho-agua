@@ -391,6 +391,224 @@
 .card-green:hover { border-color: rgba(74, 222, 128, 0.5); }
 
 /* ============================================================
+   A ÁGUA ESTÁ EM TUDO — a gota conecta os três ambientes
+
+   Alinhamento das conexões: a gota fica em (50%, 34%) do palco e o
+   SVG das linhas ocupa o palco inteiro com preserveAspectRatio="none".
+   Os dois usam a MESMA escala relativa, então as linhas nascem exatamente
+   no centro da gota em qualquer largura. As pontas terminam por baixo dos
+   cards — como o vidro é translúcido, a água parece correr atrás deles.
+   ============================================================ */
+.section-eco { min-height: 850px; overflow: hidden; isolation: isolate; }
+
+/* ---------- Fundo: gradiente, duas manchas de luz e água ao fundo ---------- */
+.eco-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+.eco-blob { position: absolute; border-radius: 50%; }
+.eco-blob.a {
+  width: 620px; height: 620px; left: -10%; top: -16%;
+  background: radial-gradient(circle, rgba(30, 120, 220, 0.28), transparent 68%);
+}
+.eco-blob.b {
+  width: 540px; height: 540px; right: -8%; bottom: -12%;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.15), transparent 68%);
+}
+
+.eco-dust { position: absolute; inset: 0; }
+.eco-dust span {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  width: var(--s, 3px); height: var(--s, 3px);
+  border-radius: 50%;
+  background: rgba(150, 225, 255, 0.5);
+  box-shadow: 0 0 8px rgba(120, 215, 255, 0.45);
+  opacity: 0;
+}
+
+.eco-deep {
+  position: absolute;
+  left: -4%; bottom: 0;
+  width: 108%;                 /* sobra nas laterais: o vai e vem não mostra a borda */
+  max-width: none;
+  height: 180px;
+  opacity: 0.55;
+}
+.eco-deep-1 { fill: rgba(16, 66, 132, 0.26); }
+.eco-deep-2 { fill: rgba(8, 36, 78, 0.4); }
+
+/* ---------- Palco ---------- */
+.eco-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(200px, 20vw, 268px) minmax(0, 1fr);
+  grid-template-rows: minmax(430px, auto) auto;
+  column-gap: clamp(14px, 2.2vw, 32px);
+  row-gap: clamp(26px, 3.4vw, 46px);
+}
+
+.eco-card[data-theme="vida"]      { grid-area: 1 / 1 / 2 / 2; }
+.eco-card[data-theme="industria"] { grid-area: 1 / 3 / 2 / 4; margin-top: clamp(18px, 3.2vw, 52px); }
+.eco-card[data-theme="cotidiano"] {
+  grid-area: 2 / 1 / 3 / 4;
+  width: min(100%, 760px);
+  margin-inline: auto;
+}
+
+/* ---------- Conexões ---------- */
+.eco-links {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+}
+
+.eco-line { transition: opacity var(--t-mid) var(--ease); }
+
+.eco-trace {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: var(--len, 900);
+  stroke-dashoffset: var(--len, 900);
+  /* sem transição aqui de propósito: o JS mede o traçado e troca --len depois
+     do primeiro paint. Se stroke-dashoffset transicionasse nesse momento, o
+     dash sairia dessincronizado e a linha apareceria por um instante.
+     A transição do desenho é armada junto com .is-live (animations.css). */
+  transition: stroke-width var(--t-mid) var(--ease);
+}
+
+.eco-halo {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+
+.eco-flow {
+  fill: none;
+  stroke: #dff6ff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 16 9999;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+.eco-node {
+  fill: rgb(var(--glow, 56, 217, 255));
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 500ms var(--ease) 1.3s, transform var(--t-mid) var(--ease);
+}
+
+/* ---------- Gota central ---------- */
+.eco-core {
+  position: absolute;
+  left: 50%; top: 34%;
+  z-index: 2;
+  width: clamp(158px, 15.5vw, 212px);
+  transform: translate(-50%, -50%) scale(0.86);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 700ms var(--ease) 120ms, transform 700ms var(--ease) 120ms;
+}
+.eco-core::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 217, 255, 0.22), rgba(56, 217, 255, 0) 66%);
+}
+.eco-drop { position: relative; width: 100%; filter: drop-shadow(0 0 16px rgba(56, 217, 255, 0.35)); }
+
+/* ---------- Cards ---------- */
+.eco-card {
+  --accent-2: var(--cyan-400);
+  --accent-2-rgb: 56, 217, 255;
+  position: relative;
+  z-index: 1;
+  gap: 12px;
+  padding: clamp(20px, 1.9vw, 28px);
+  border-radius: 24px;
+  border-color: rgba(var(--accent-rgb), 0.2);
+  background:
+    linear-gradient(165deg, rgba(var(--accent-rgb), 0.08), transparent 58%),
+    rgba(5, 25, 45, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 26px 60px -34px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* entra por opacity/translate para deixar o transform livre para o hover */
+  opacity: 0;
+  translate: 0 26px;
+  transition: opacity 700ms var(--ease) var(--in, 0s),
+              translate 700ms var(--ease) var(--in, 0s),
+              transform var(--t-mid) var(--ease),
+              border-color var(--t-mid) var(--ease),
+              box-shadow var(--t-mid) var(--ease);
+}
+
+/* identidade de cada tema sem sair da paleta */
+.eco-card[data-theme="vida"] {
+  --accent: var(--green-400); --accent-rgb: 74, 222, 128;
+  --accent-2: var(--cyan-300); --accent-2-rgb: 127, 230, 255;
+}
+.eco-card[data-theme="industria"] {
+  --accent: var(--blue-500); --accent-rgb: 43, 143, 224;
+  --accent-2: var(--cyan-400); --accent-2-rgb: 56, 217, 255;
+}
+.eco-card[data-theme="cotidiano"] {
+  --accent: var(--cyan-400); --accent-rgb: 56, 217, 255;
+  --accent-2: var(--mint-300); --accent-2-rgb: 124, 240, 192;
+}
+
+.eco-head { display: flex; align-items: center; gap: 14px; }
+.eco-head .card-icon { margin-bottom: 0; flex: none; }
+.eco-head h3 { margin: 0; font-size: clamp(1.24rem, 1.1rem + 0.4vw, 1.5rem); }
+
+.eco-art {
+  position: relative;
+  margin-top: 4px;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.16);
+  overflow: hidden;
+  perspective: 600px;
+}
+.eco-art::after {                     /* funde a ilustração no card */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 62%, rgba(5, 20, 38, 0.55));
+}
+.eco-scene { width: 100%; height: auto; display: block; }
+.eco-labels text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+/* o card do cotidiano é mais horizontal: texto à esquerda, casa à direita */
+.eco-card[data-theme="cotidiano"] {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.84fr) minmax(0, 1.16fr);
+  grid-template-areas: "head art" "text art" "btn art" "more art";
+  align-content: start;
+  column-gap: clamp(18px, 2.4vw, 34px);
+  row-gap: 12px;
+}
+.eco-card[data-theme="cotidiano"] .eco-head    { grid-area: head; }
+.eco-card[data-theme="cotidiano"] > p          { grid-area: text; }
+.eco-card[data-theme="cotidiano"] .eco-art     { grid-area: art; align-self: center; margin-top: 0; }
+.eco-card[data-theme="cotidiano"] .type-toggle { grid-area: btn; margin-top: 6px; align-self: start; }
+.eco-card[data-theme="cotidiano"] .type-flow   { grid-area: more; margin-top: 0; }
+
+/* ============================================================
    TIPOS DE ÁGUA
    ============================================================ */
 .type-card {

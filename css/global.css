@@ -262,6 +262,15 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   color: transparent;
 }
 
+/* azul → ciano → verde: o percurso da água até a sustentabilidade */
+.grad-flow {
+  background: linear-gradient(96deg, var(--blue-500) 0%, var(--cyan-400) 42%,
+                              var(--cyan-300) 62%, var(--green-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ---------- Grids ---------- */
 .grid { display: grid; gap: clamp(16px, 1.8vw, 24px); }
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
