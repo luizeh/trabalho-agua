@@ -103,7 +103,9 @@ window.AGUA_TIPOS = (function () {
      ------------------------------------------------------------ */
   function ligarPercurso() {
     document.querySelectorAll('[data-wt-play]').forEach(function (botao) {
-      var fluxo = botao.closest('.wt-flow');
+      // o botão fica na coluna do texto, mas comanda o caminho no rodapé do bloco
+      var bloco = botao.closest('.wt-block');
+      var fluxo = bloco && bloco.querySelector('.wt-flow');
       if (!fluxo) return;
 
       var etapas = Array.prototype.slice.call(fluxo.querySelectorAll('.wt-step'));

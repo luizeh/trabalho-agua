@@ -13,11 +13,14 @@
   .timeline-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 34px; }
   .timeline-track { display: none; }
 
-  /* tipos de água: a imagem cede espaço para o texto */
-  .wt-block,
-  .wt-block[data-media="right"] { min-height: 0; }
-  .wt-block { grid-template-columns: minmax(0, 40fr) minmax(0, 60fr); }
-  .wt-block[data-media="right"] { grid-template-columns: minmax(0, 60fr) minmax(0, 40fr); }
+  /* tipos de água: a imagem cede espaço para o texto.
+     os seletores repetem [data-wt] porque a grade de cada bloco é definida
+     por [data-wt="..."] — sem isso a regra do desktop venceria por
+     especificidade e a moldura viraria uma tira estreita. */
+  .wt-block[data-wt] { min-height: 0; }
+  .wt-block[data-wt="azul"] { grid-template-columns: minmax(0, 38fr) minmax(0, 62fr); }
+  .wt-block[data-wt="verde"],
+  .wt-block[data-wt="cinza"] { grid-template-columns: minmax(0, 44fr) minmax(0, 56fr); }
   .wt-step-name { font-size: 0.74rem; }
 
   .footer-grid { grid-template-columns: 1.3fr 1fr 1.2fr; }
@@ -136,8 +139,8 @@
 
   /* --- Tipos de água: empilha na ordem título → texto → imagem → info → fluxo --- */
   .wt-list { width: min(100% - 2.5rem, var(--container)); gap: clamp(48px, 8vw, 76px); }
-  .wt-block,
-  .wt-block[data-media="right"] {
+  /* [data-wt] para vencer a grade específica de cada bloco */
+  .wt-block[data-wt] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "head" "media" "info" "flow";
     grid-template-rows: auto;

@@ -644,11 +644,6 @@
   --accent-rgb: 56, 217, 255;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
-  grid-template-areas:
-    "media head"
-    "media info"
-    "media flow";
   grid-template-rows: auto 1fr auto;
   align-content: start;
   gap: clamp(20px, 2.2vw, 34px) clamp(28px, 3.4vw, 56px);
@@ -666,16 +661,31 @@
               box-shadow var(--t-mid) var(--ease);
 }
 
-/* a imagem troca de lado a cada bloco */
-.wt-block[data-media="right"] {
-  grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
+/* Cada bloco é montado de um jeito diferente — e é a própria grade que
+   define o formato da imagem:
+
+   AZUL   imagem à esquerda ocupando as três linhas → moldura em retrato
+   VERDE  imagem à direita só nas duas primeiras linhas → moldura deitada,
+          encostada no topo, e o caminho da água atravessa o card inteiro
+   CINZA  igual à verde, mas o conteúdo de largura cheia traz as quatro
+          informações da aba escolhida antes do caminho */
+.wt-block[data-wt="azul"] {
+  --accent: var(--cyan-400); --accent-rgb: 56, 217, 255;
+  grid-template-columns: minmax(0, 33fr) minmax(0, 67fr);
+  grid-template-areas:
+    "media head"
+    "media info"
+    "media flow";
+}
+
+.wt-block[data-wt="verde"],
+.wt-block[data-wt="cinza"] {
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
   grid-template-areas:
     "head media"
     "info media"
-    "flow media";
+    "flow flow";
 }
-
-.wt-block[data-wt="azul"]  { --accent: var(--cyan-400); --accent-rgb: 56, 217, 255; }
 .wt-block[data-wt="verde"] { --accent: var(--green-400); --accent-rgb: 74, 222, 128; }
 .wt-block[data-wt="cinza"] { --accent: var(--ice-200); --accent-rgb: 207, 238, 255; }
 
@@ -741,10 +751,22 @@
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: var(--foco, center);
   opacity: 0;                          /* só aparece quando carrega de fato */
   transition: opacity var(--t-slow) var(--ease), transform 600ms var(--ease);
 }
 .wt-media.has-img .wt-img { opacity: 1; }
+
+/* Qual parte de cada foto fica visível depois do recorte. As três são 16:9,
+   então a moldura sempre corta algo — estes valores foram medidos em cima
+   das fotos que estão em assets/images/:
+   azul   moldura em retrato → mostra o terço esquerdo: a cachoeira e o rio
+   verde  moldura deitada → mantém o alto (a copa) e a árvore inteira, com
+          o peso para a esquerda (só "left" cortaria a copa à direita)
+   cinza  moldura deitada → o corte da casa, deixando a cidade de fora */
+.wt-block[data-wt="azul"]  .wt-img { --foco: left center; }
+.wt-block[data-wt="verde"] .wt-img { --foco: 40% top; }
+.wt-block[data-wt="cinza"] .wt-img { --foco: left top; }
 
 /* aviso enquanto a imagem não foi adicionada — some sozinho depois */
 .wt-media-empty {
@@ -780,13 +802,25 @@
 /* ---------- Informações ---------- */
 .wt-info { grid-area: info; align-self: start; }
 
-.wt-facts { display: grid; gap: clamp(14px, 1.6vw, 22px); }
+.wt-facts { display: grid; gap: clamp(10px, 1.1vw, 14px); }
 .wt-facts li {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
   align-items: start;
   gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  background: linear-gradient(150deg, rgba(var(--accent-rgb), 0.09), rgba(5, 20, 38, 0.3));
 }
+
+/* variante lado a lado: usada na água azul (3) e na água cinza (4) */
+.wt-facts-row { grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); }
+.wt-facts-row li { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 14px; }
+.wt-facts-row .wt-fact-ico { width: 38px; height: 38px; border-radius: 11px; }
+.wt-facts-row .wt-fact-ico svg { width: 19px; height: 19px; }
+.wt-facts-row strong { font-size: 0.92rem; }
+.wt-facts-row span { font-size: 0.82rem; }
 .wt-fact-ico {
   display: grid;
   place-items: center;
@@ -822,8 +856,13 @@
   font-size: 0.88rem;
 }
 
-/* "Onde ela está?" — reaproveita .type-toggle/.type-flow */
-.wt-info .type-toggle { margin-top: clamp(18px, 2vw, 26px); }
+/* "Onde ela está?" — reaproveita .type-toggle/.type-flow.
+   No bloco grande o botão não ocupa a linha inteira: fica do tamanho do texto. */
+.wt-info .type-toggle {
+  width: fit-content;
+  min-width: min(240px, 100%);
+  margin-top: clamp(18px, 2vw, 26px);
+}
 
 .wt-where { display: grid; gap: 12px; margin-top: 4px; }
 .wt-where > div {
@@ -864,6 +903,9 @@
 .wt-flow-top .wt-flow-title { margin-bottom: 0; }
 .wt-flow-top + .wt-steps { margin-top: clamp(14px, 1.6vw, 22px); }
 
+/* na água cinza as informações da aba vêm antes do caminho, no mesmo bloco */
+.wt-flow .wt-facts + .wt-flow-title { margin-top: clamp(26px, 3vw, 42px); }
+
 .wt-play {
   display: inline-flex;
   align-items: center;
@@ -879,6 +921,7 @@
   cursor: pointer;
   transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
+.wt-info .wt-play { margin-top: clamp(18px, 2vw, 26px); }
 .wt-play svg {
   width: 16px; height: 16px;
   fill: none;

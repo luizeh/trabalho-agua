@@ -21,8 +21,7 @@ extensão *Live Server* do VS Code → botão direito em `index.html` → *Open 
 ```
 trabalho-agua/
 ├─ index.html              página completa (HTML semântico + ícones SVG)
-├─ assets/
-│  └─ images/water-types/  ★ COLOQUE AQUI as 3 imagens dos tipos de água
+├─ assets/images/          fotos dos tipos de água (azul, verde, cinza)
 ├─ css/
 │  ├─ global.css           cores, tipografia, layout base
 │  ├─ components.css       header, hero, cards, timeline, simulador...
@@ -80,23 +79,35 @@ Logo abaixo, na coluna **Fontes**. Coloque apenas fontes realmente consultadas:
 <li><a href="https://..." target="_blank" rel="noopener">ANA — título do material</a></li>
 ```
 
-### 3. Imagens dos tipos de água → `assets/images/water-types/`
+### 3. Imagens dos tipos de água → `assets/images/`
 
-A seção **Tipos de Água** tem três blocos grandes com um espaço reservado
-para uma imagem em cada um. Basta colocar os arquivos na pasta com estes
-nomes — o site passa a exibi-los sozinho, sem mexer no código:
+A seção **Tipos de Água** usa três fotos, uma por bloco:
 
 ```
-assets/images/water-types/
-├─ blue-water.webp    01 Água Azul    (rios, lagos, reservatórios)
-├─ green-water.webp   02 Água Verde   (chuva, árvore, raízes, solo)
-└─ grey-water.webp    03 Água Cinza   (casa, tubulações, lançamento)
+assets/images/
+├─ azul.png     01 Água Azul    (cachoeira, rio e lago)
+├─ verde.png    02 Água Verde   (árvore em campo úmido)
+└─ cinza.png    03 Água Cinza   (casa com tubulações de reúso)
 ```
 
-Enquanto o arquivo não existir, aparece um espaço reservado com o nome
-esperado — nada fica quebrado. Para usar `.jpg` ou `.png`, troque a
-extensão no `src` dentro de `index.html` (procure por `water-types`).
-Detalhes de formato e proporção em `assets/images/water-types/LEIA-ME.txt`.
+Para trocar uma delas, substitua o arquivo mantendo o mesmo nome — o site
+usa a nova imagem sem precisar de nenhuma alteração no código.
+
+Cada moldura tem um formato diferente, então cada foto é recortada de um
+jeito. Isso é controlado por `--foco` em `css/components.css`:
+
+| Bloco | Moldura | O que aparece | `--foco` |
+|---|---|---|---|
+| Azul | retrato, à esquerda, altura toda | terço esquerdo: a cachoeira e o rio | `left center` |
+| Verde | deitada, à direita, no topo | a copa e a árvore inteira | `40% top` |
+| Cinza | deitada, à direita, no topo | o corte da casa, sem a cidade | `left top` |
+
+Se a foto nova tiver outro enquadramento, ajuste o `--foco` correspondente
+(mesmos valores de `object-position`: horizontal e depois vertical).
+Mais detalhes em `assets/images/LEIA-ME.txt`.
+
+Se um arquivo faltar, o bloco mostra um espaço reservado com o nome
+esperado em vez de uma imagem quebrada.
 
 ### 4. Dados numéricos → `js/config.js`
 

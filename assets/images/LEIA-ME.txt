@@ -1,0 +1,50 @@
+IMAGENS DA SEÇÃO "TIPOS DE ÁGUA"
+================================
+
+Arquivos usados pela seção:
+
+  azul.png    →  01 Água Azul    (cachoeira, rio e lago entre montanhas)
+  verde.png   →  02 Água Verde   (árvore em campo úmido depois da chuva)
+  cinza.png   →  03 Água Cinza   (corte de casa com as tubulações de reúso)
+
+Para trocar uma imagem, basta substituir o arquivo mantendo o mesmo nome —
+não precisa mexer no código. Se quiser usar outro nome ou outra extensão
+(.webp, .jpg), troque o `src` no index.html: procure por "assets/images/".
+
+Como cada uma é recortada
+-------------------------
+As três molduras têm formatos diferentes, então cada foto é recortada de um
+jeito (em css/components.css, procure por "--foco"):
+
+  azul    moldura em retrato, à esquerda do card, ocupando toda a altura.
+          Mostra o terço ESQUERDO da foto: a cachoeira e o rio.
+          --foco: left center
+
+  verde   moldura deitada, à direita, encostada no topo.
+          Mantém o alto da foto (a copa) e a árvore inteira, puxando o
+          recorte para a esquerda.
+          --foco: 40% top
+
+  cinza   moldura deitada, à direita, encostada no topo.
+          Mostra o corte da casa e deixa a cidade de fora.
+          --foco: left top
+
+Se você trocar uma foto por outra com enquadramento diferente, talvez
+precise ajustar o `--foco` correspondente. Os valores são os mesmos de
+`object-position`: o primeiro número é horizontal (0% = esquerda,
+100% = direita) e o segundo é vertical (0% = topo).
+
+Formato
+-------
+- As três atuais são 1672×941 (16:9). Qualquer proporção funciona, mas
+  quanto mais parecida entre elas, mais previsível fica o recorte.
+- Largura útil máxima: ~700px no desktop. Não precisa de arquivo enorme;
+  1400px de largura já cobre telas de alta densidade.
+- As imagens têm loading="lazy": só baixam quando você chega na seção.
+
+Direitos de uso
+---------------
+Use apenas imagens que você tem permissão para usar: fotos próprias,
+bancos gratuitos (Unsplash, Pexels, Pixabay) ou imagens geradas por você.
+Se a fonte exigir crédito, coloque o crédito no rodapé do site, junto das
+outras fontes da pesquisa.
