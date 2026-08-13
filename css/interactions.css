@@ -388,9 +388,9 @@
 }
 
 /* ------------------------------------------------------------
-   TIMELINE — etapas clicáveis
+   CICLO DA ÁGUA — etapas, painel e faixa de dados
    ------------------------------------------------------------ */
-.tl-btn {
+.ct-btn {
   display: grid;
   justify-items: center;
   gap: 0;
@@ -403,73 +403,109 @@
   cursor: pointer;
 }
 
-.tl-icon { transition: transform var(--t-mid) var(--ease), box-shadow var(--t-mid) var(--ease),
-           border-color var(--t-mid) var(--ease); }
-
-.tl-btn:hover .tl-icon {
-  transform: scale(1.1);
+/* hover: o círculo sobe e o brilho aumenta */
+.ct-btn:hover .ct-ico,
+.ct-btn:focus-visible .ct-ico {
+  transform: translateY(-3px) scale(1.04);
   border-color: rgba(56, 217, 255, .7);
-  box-shadow: 0 0 0 6px rgba(4, 16, 30, .9), 0 0 30px -4px rgba(56, 217, 255, .8);
+  box-shadow: 0 0 0 7px rgba(3, 11, 22, .85), 0 0 28px -4px rgba(56, 217, 255, .8);
 }
-.tl-btn:hover .tl-icon,
-.tl-step.is-reached .tl-icon,
-.tl-step.is-selected .tl-icon { --ico-play: running; }
+.ct-btn:hover .ct-nome,
+.ct-btn:focus-visible .ct-nome { color: var(--cyan-300); }
 
-.tl-title {
-  display: block;
-  margin: 14px 0 4px;
-  font-family: var(--font-display);
-  font-size: .95rem;
-  font-weight: 700;
-  transition: color var(--t-fast) var(--ease);
+/* etapa já alcançada pelo scroll */
+.ct-step.is-reached .ct-ico {
+  border-color: rgba(56, 217, 255, .55);
+  box-shadow: 0 0 0 7px rgba(3, 11, 22, .85), 0 0 26px -8px rgba(56, 217, 255, .7);
 }
-.tl-btn:hover .tl-title { color: var(--cyan-300); }
+.ct-step.is-reached .ct-ico svg { stroke: #dff6ff; }
 
-/* seleção: a etapa cresce e as outras recuam */
-.tl-step { transition: opacity var(--t-mid) var(--ease); }
-.timeline-steps.has-selection .tl-step { opacity: .42; }
-.timeline-steps.has-selection .tl-step.is-selected { opacity: 1; }
-
-.tl-step.is-selected .tl-icon {
-  transform: scale(1.18);
+/* etapa selecionada: cresce ~5%, ganha ciano e brilho */
+.ct-step.is-active .ct-ico {
+  transform: scale(1.05);
   border-color: var(--cyan-400);
-  box-shadow: 0 0 0 6px rgba(4, 16, 30, .9), 0 0 40px -2px rgba(56, 217, 255, .95);
+  box-shadow: 0 0 0 7px rgba(3, 11, 22, .85), 0 0 34px -4px rgba(56, 217, 255, .95);
 }
-.tl-step.is-selected .tl-title { color: var(--cyan-300); }
+.ct-step.is-active .ct-ico svg { stroke: #eafaff; }
+.ct-step.is-active .ct-nome { color: var(--cyan-300); }
+.ct-step.is-active .ct-curta { color: var(--text-soft); }
 
-/* no desktop o detalhe flutua sobre a linha, para não reordenar as 9 colunas */
-.tl-more {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  width: 230px;
-  margin: 0;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--line-strong);
-  background: rgba(8, 26, 48, .96);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 22px 50px -24px #000;
-  font-size: .78rem;
-  line-height: 1.55;
+/* os ícones do sprite reagem por custom properties (--ico-*).
+   cada etapa aciona só o movimento que faz sentido para ela. */
+.ct-btn:hover .ct-ico,
+.ct-btn:focus-visible .ct-ico,
+.ct-step.is-active .ct-ico { --ico-play: running; --ico-glow: 1; }
+
+.ct-step[data-ico="nuvem"] .ct-btn:hover .ct-ico,
+.ct-step[data-ico="nuvem"].is-active .ct-ico { --ico-x: 2px; }
+
+.ct-step[data-ico="captacao"] .ct-btn:hover .ct-ico,
+.ct-step[data-ico="captacao"].is-active .ct-ico { --ico-y: 2px; }
+
+.ct-step[data-ico="retorno"] .ct-btn:hover .ct-ico,
+.ct-step[data-ico="retorno"].is-active .ct-ico { --ico-rot: -8deg; }
+
+/* ---------- painel ---------- */
+.cycle-panel:hover .ct-foto.is-on { transform: scale(1.02); }
+
+.ct-nav svg { transition: transform var(--t-fast) var(--ease); }
+.ct-nav:first-child svg { transform: rotate(90deg); }    /* chevron -> seta esquerda */
+.ct-nav:nth-child(2) svg { transform: rotate(-90deg); }  /* chevron -> seta direita */
+.ct-nav:first-child:hover:not(:disabled) svg { transform: rotate(90deg) translateY(3px); }
+.ct-nav:nth-child(2):hover:not(:disabled) svg { transform: rotate(-90deg) translateY(3px); }
+.ct-nav:disabled { opacity: .4; cursor: not-allowed; }
+
+.ct-play.is-playing {
+  border-color: rgba(56, 217, 255, .6);
+  color: var(--cyan-300);
+}
+.ct-play.is-playing svg { --ico-glow: 1; animation: ctPulse 1.6s ease-in-out infinite; }
+
+/* ---------- percurso ---------- */
+.ct-dot:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 217, 255, .6);
+  color: var(--ice-200);
+}
+.ct-dot.is-active {
+  border-color: var(--cyan-400);
+  background: radial-gradient(circle at 50% 32%, rgba(45, 160, 240, .85), rgba(6, 30, 58, .95));
+  color: #eafaff;
+  box-shadow: 0 0 20px -4px rgba(56, 217, 255, .9);
+}
+
+/* ---------- faixa de dados: a fonte aparece no hover e no foco ---------- */
+.cf-detalhe {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease),
+              visibility var(--t-fast);
+}
+.cf-fonte:hover .cf-detalhe,
+.cf-fonte:focus-within .cf-detalhe {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.cf-info:hover,
+.cf-fonte:focus-within .cf-info { border-color: var(--line-strong); color: var(--cyan-300); }
+
+.cycle-essential:hover .ce-figure img { transform: scale(1.04); }
+
+/* lista de apoio quando o JavaScript está desligado */
+.cycle-noscript {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--line-strong);
+  background: rgba(9, 28, 50, .5);
+  font-size: .88rem;
   color: var(--text-soft);
-  animation: flowOpen 360ms var(--ease);
-  text-align: left;
 }
-/* seta apontando para a etapa */
-.tl-more::before {
-  content: "";
-  position: absolute;
-  top: -6px; left: 50%;
-  width: 10px; height: 10px;
-  margin-left: -5px;
-  transform: rotate(45deg);
-  border-left: 1px solid var(--line-strong);
-  border-top: 1px solid var(--line-strong);
-  background: rgba(8, 26, 48, .96);
-}
+.cycle-noscript strong { color: var(--cyan-300); }
 
 /* ------------------------------------------------------------
    TORNEIRA
@@ -766,8 +802,12 @@
   .eco-card.is-touched .eco-fall   { animation: ecoFall 1.7s ease-in infinite; }
 
   /* alvos de toque confortáveis */
-  .tl-btn { padding: 6px 0; }
+  .ct-btn { padding: 6px 0; }
+  .ct-dot { width: 44px; height: 44px; }
   .type-toggle { min-height: 48px; }
+
+  /* sem hover, a fonte do dado abre no toque (o botão recebe foco) */
+  .cf-fonte:focus-within .cf-detalhe { opacity: 1; visibility: visible; transform: none; }
 }
 
 /* ------------------------------------------------------------

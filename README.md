@@ -21,7 +21,7 @@ extensão *Live Server* do VS Code → botão direito em `index.html` → *Open 
 ```
 trabalho-agua/
 ├─ index.html              página completa (HTML semântico + ícones SVG)
-├─ assets/images/          fotos dos tipos de água (azul, verde, cinza)
+├─ assets/images/          fotos dos tipos de água e do ciclo da água
 ├─ css/
 │  ├─ global.css           cores, tipografia, layout base
 │  ├─ components.css       header, hero, cards, timeline, simulador...
@@ -35,7 +35,7 @@ trabalho-agua/
    ├─ svg-interactions.js  parallax local, ripple, toque, draw-svg
    ├─ water-link.js        gota central e ligações de "a água está em tudo"
    ├─ water-types.js       blocos, imagens e caminhos de "tipos de água"
-   ├─ timeline.js          gota no scroll + etapas clicáveis
+   ├─ water-cycle.js       ciclo da água: etapas, painel, percurso e reprodução
    ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
    ├─ faucet.js            torneira interativa
    ├─ waste-house.js       casa do desperdício
@@ -109,11 +109,61 @@ Mais detalhes em `assets/images/LEIA-ME.txt`.
 Se um arquivo faltar, o bloco mostra um espaço reservado com o nome
 esperado em vez de uma imagem quebrada.
 
+### 3b. Imagens do ciclo da água → `assets/images/water-cycle/`
+
+**Estas já estão prontas — você não precisa mexer.** Ficam assim:
+
+```
+assets/images/water-cycle/
+├─ cycle-landscape.webp     paisagem ao fundo da seção (2000×1120)
+├─ cycle-river.webp         cartão "Um ciclo essencial" (1000×700)
+└─ stages/                  uma foto por etapa (1280×800)
+   ├─ cloud.webp  rain.webp  river.webp  capture.webp
+   ├─ water-treatment.webp  home.webp  sewage.webp
+   └─ sewage-treatment.webp  return.webp
+```
+
+Todas são fotografias reais, de bancos com **licença livre** (Wikimedia Commons
+e Flickr, em CC BY, CC BY-SA ou CC0), recortadas e convertidas para WebP.
+Nenhuma tem marca d'água, texto ou logotipo.
+
+> **Os créditos são obrigatórios.** As licenças CC BY e CC BY-SA exigem citar o
+> autor. A lista completa já está no rodapé do site, em *Créditos das
+> fotografias*. Se trocar alguma foto, atualize o crédito correspondente.
+
+Para trocar uma foto, substitua o arquivo mantendo o mesmo nome e a mesma
+proporção (16:10 nas etapas). Os caminhos ficam em `js/water-cycle.js`, na
+lista `ETAPAS`.
+
+### 3c. Textos e etapas do ciclo → `js/water-cycle.js`
+
+As nove etapas **não estão repetidas no HTML**: a timeline, os números do
+percurso e o painel são gerados a partir da lista `ETAPAS`, no começo do
+arquivo. Cada etapa tem:
+
+```js
+{
+  n: 4, titulo: 'Captação', icone: 'i-intake', ico: 'captacao',
+  imagem: IMG + 'capture.webp',
+  alt: '...',            // descrição da foto para leitores de tela
+  curta: '...',          // frase curta embaixo do círculo
+  texto: '...',          // parágrafo do painel
+  fatos: [ ['Rótulo', 'valor'], ... ]
+}
+```
+
+Para corrigir um texto, edite ali — a interface toda acompanha.
+
 ### 4. Dados numéricos → `js/config.js`
 
 > **Nenhum número foi inventado neste projeto.** Enquanto os campos estiverem
 > `null`, o site funciona em modo demonstrativo: mostra proporções, animações e
 > comparações, mas **não exibe litros nem porcentagens**.
+
+> **Exceção já resolvida:** os três dados da faixa final do *ciclo da água*
+> (2,5% · 2,1 bilhões · 44,8%) foram pesquisados e estão no HTML, cada um com
+> instituição, publicação, ano e link no botão **fonte**. Eles não dependem de
+> `js/config.js`.
 
 Assim que a equipe pesquisar os dados, preencha em `js/config.js` — o site passa
 a exibir os valores automaticamente, **sempre junto da fonte**.
@@ -184,7 +234,8 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Onde ela está? | *Tipos de Água* | na Água Azul, abre a explicação de rios, lagos, reservatórios e aquíferos |
 | Duas definições | *Tipos de Água* | na Água Cinza, as abas trocam o texto, as informações **e** o caminho da água |
 | "Ver mais" | *A água está em tudo* | abre um parágrafo extra dentro do próprio card, sem modal |
-| Timeline do ciclo | *O caminho de uma gota* | gota percorre as 9 etapas no scroll; clicar destaca a etapa e revela um detalhe |
+| Ciclo da água | *O caminho de uma gota* | paisagem real ao fundo, gota central flutuando e uma linha que avança com o scroll; clicar (ou usar as setas) escolhe a etapa e troca a foto e o texto do painel |
+| Percurso da gota | *O caminho de uma gota* | os números 01–09, os botões anterior/próximo e **Reproduzir percurso** navegam pelas nove etapas |
 | Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
 | Casa do desperdício | *A casa do desperdício* | passar o mouse acende o cômodo (chuveiro pinga, máquina gira, planta balança); clicar abre um painel junto ao ponto |
 | Simulador | *Como nossos hábitos...* | 3 sliders; a caixa d'água esvazia, muda de cor e as bolhas somem |
@@ -210,7 +261,8 @@ Não há quiz, pontuação, ranking, login nem cadastro.
 ## Performance
 
 - Sem bibliotecas externas — apenas HTML, CSS e JavaScript
-- Ícones e ilustrações em SVG inline; as únicas imagens são as três dos
-  tipos de água, com `loading="lazy"` (carregam só quando você chega nelas)
+- Ícones e ilustrações em SVG inline; as fotos (três dos tipos de água e onze
+  do ciclo) usam WebP com `loading="lazy"` — 46 KB a 397 KB cada
+- A seção do ciclo pré-carrega a imagem da etapa seguinte, para a troca não piscar
 - Partículas em canvas com densidade limitada, pausadas fora da tela e com a aba oculta
 - Scroll usando `requestAnimationFrame` e `IntersectionObserver`

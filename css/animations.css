@@ -335,9 +335,15 @@ body.no-water .eco-bubbles circle,
 body.no-water .eco-flow,
 body.no-water .dust span,
 body.no-water .eco-deep-1,
-body.no-water .eco-deep-2 {
+body.no-water .eco-deep-2,
+body.no-water .cycle-drop svg,
+body.no-water .cd-shadow {
   animation: none !important;
 }
+
+/* sem água o ciclo perde o brilho: a linha e a gota do percurso apagam */
+body.no-water .ct-fill,
+body.no-water .ct-travel { box-shadow: none; transition: box-shadow 1.2s var(--ease); }
 
 body.no-water .particles { opacity: 0; transition: opacity 1.2s var(--ease); }
 body.no-water .reuse-rain,
@@ -366,6 +372,44 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
 .wt-media,
 .reuse-art,
 .final-earth { transition: opacity 1.2s var(--ease), filter 1.4s var(--ease); }
+
+/* ============================================================
+   CICLO DA ÁGUA — flutuação da gota e entrada da cena
+   ============================================================ */
+
+/* a gota central respira devagar; sem quique e sem rotação */
+.cycle-drop svg { animation: ctFlutua 5.5s ease-in-out infinite; }
+@keyframes ctFlutua {
+  0%, 100% { transform: translateY(-5px); filter: drop-shadow(0 18px 34px rgba(2, 12, 26, .75)); }
+  50%      { transform: translateY(5px);  filter: drop-shadow(0 12px 30px rgba(2, 12, 26, .68))
+                                                  drop-shadow(0 0 22px rgba(70, 190, 255, .28)); }
+}
+.cd-shadow { fill: rgba(4, 18, 36, .5); animation: ctSombra 5.5s ease-in-out infinite; }
+@keyframes ctSombra {
+  0%, 100% { opacity: .5; transform: scaleX(.94); transform-origin: 60px 146px; }
+  50%      { opacity: .8; transform: scaleX(1.06); transform-origin: 60px 146px; }
+}
+
+.ct-play.is-playing svg { animation: ctPulse 1.6s ease-in-out infinite; }
+@keyframes ctPulse { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.16); } }
+
+/* Entrada em cascata: paisagem, gota, linha e etapas.
+   O estado inicial fica em :not(.is-in) para que estas regras não
+   disputem especificidade com .is-reached / .is-active nem com o
+   parallax — o repouso continua sendo o das outras folhas. */
+.cycle-media,
+.cycle-drop,
+.ct-track { transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+
+.cycle-scene:not(.is-in) .cycle-media { opacity: 0; }
+.cycle-scene:not(.is-in) .cycle-drop { opacity: 0; --ct-in: 18px; }
+.cycle-scene:not(.is-in) .ct-track { opacity: 0; }
+.cycle-scene:not(.is-in) .ct-step { opacity: 0; transform: translateY(14px); }
+
+.cycle-drop { transition-delay: 420ms; }
+.ct-track { transition-delay: 620ms; }
+/* --i vem do JS: cada etapa entra logo depois da anterior */
+.ct-step { transition-delay: calc(760ms + var(--i, 0) * 55ms); }
 
 /* ============================================================
    PREFERS-REDUCED-MOTION
@@ -412,4 +456,21 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
   .wt-block .wt-info,
   .wt-block .wt-flow { opacity: 1; translate: 0 0; }
   .wt-step.is-lit .wt-step-ico { animation: none !important; }
+
+  /* ciclo da água: sem flutuação, sem parallax e sem entrada em cascata.
+     A troca de etapa continua funcionando — muda o estado, não o movimento. */
+  .cycle-drop svg,
+  .cd-shadow,
+  .ct-play.is-playing svg { animation: none !important; }
+
+  .cycle-photo { transform: none !important; filter: brightness(.86) saturate(.82) contrast(1.05) !important; }
+  .cycle-drop { transform: none !important; }
+
+  .cycle-scene:not(.is-in) .cycle-media,
+  .cycle-scene:not(.is-in) .cycle-drop,
+  .cycle-scene:not(.is-in) .ct-track { opacity: 1; }
+  .cycle-scene:not(.is-in) .ct-step { opacity: .55; transform: none; }
+
+  .cycle-media, .cycle-drop, .ct-track, .ct-step { transition-delay: 0ms !important; }
+  .ct-foto { transition-duration: 0.001ms !important; }
 }

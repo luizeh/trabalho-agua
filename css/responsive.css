@@ -10,8 +10,12 @@
 
   .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  .timeline-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 34px; }
-  .timeline-track { display: none; }
+  /* ciclo: cabem cinco colunas; sem o trilho, que só faz sentido em linha única */
+  .ct-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 34px; }
+  .ct-track { display: none; }
+  .cycle-lower { grid-template-columns: minmax(0, 1fr); }
+  .cycle-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cf-lead { grid-column: 1 / -1; }
 
   /* tipos de água: a imagem cede espaço para o texto.
      os seletores repetem [data-wt] porque a grade de cada bloco é definida
@@ -207,60 +211,66 @@
   .availability-steps h3 { font-size: 0.98rem; }
   .availability-scroll { height: 200vh; }
 
-  /* --- Timeline vertical --- */
-  .timeline { padding-top: 6px; }
-  .timeline-steps {
+  /* --- Ciclo da água: timeline vertical --- */
+  .cycle-timeline { padding-top: 6px; }
+  .ct-steps {
+    position: relative;
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
-    position: relative;
     padding-left: 12px;
   }
-  .timeline-steps::before {
+  /* a linha do percurso passa a ser vertical, ligando os círculos */
+  .ct-steps::before {
     content: "";
     position: absolute;
-    left: 40px; top: 12px; bottom: 12px;
+    left: 41px; top: 14px; bottom: 14px;
     width: 2px;
     background: linear-gradient(180deg, transparent, var(--line-strong), transparent);
   }
-  .tl-step {
+  .ct-step {
     display: block;
     position: relative;
     text-align: left;
     padding: 12px 0;
+    /* o Chrome aplica justify-items também em layout de bloco: sem este reset,
+       o "center" do desktop continua encolhendo e centralizando a descrição */
+    justify-items: normal;
   }
-  .tl-btn {
+  .ct-btn {
     position: relative;
-    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-columns: 58px minmax(0, 1fr);
     align-items: center;
     justify-items: start;
     column-gap: 18px;
     text-align: left;
   }
-  .tl-icon { position: relative; z-index: 1; }
-  .tl-num {
+  .ct-ico { position: relative; z-index: 1; }
+  .ct-num {
     position: absolute;
-    left: 38px; top: -2px;
-    margin: 0;
+    left: 40px; top: -2px;
     z-index: 2;
-    width: 20px; height: 20px;
     display: grid;
     place-items: center;
+    width: 21px; height: 21px;
+    margin: 0;
     border-radius: 50%;
-    background: var(--navy-900);
     border: 1px solid var(--line-strong);
+    background: var(--navy-900);
     font-size: 0.66rem;
   }
-  .tl-title { margin: 0; }
-  .tl-desc { max-width: 46ch; margin: 4px 0 0 74px; }
-  /* no empilhado vertical o detalhe volta ao fluxo normal */
-  .tl-more {
-    position: static;
-    transform: none;
-    width: auto;
-    max-width: 52ch;
-    margin: 10px 0 0 74px;
+  .ct-nome { margin: 0; }
+  .ct-curta { max-width: 46ch; margin: 4px 0 0 76px; }
+
+  /* --- Ciclo da água: painel empilhado, com a foto entre o título e o texto --- */
+  .cycle-panel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "cabeca" "figura" "corpo";
+    gap: 16px;
   }
-  .tl-more::before { display: none; }
+  .ct-figure { align-self: stretch; }
+  .ct-controles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ct-play { grid-column: 1 / -1; justify-content: center; }
 
   /* --- Footer --- */
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -274,6 +284,13 @@
    ------------------------------------------------------------ */
 @media (max-width: 640px) {
   .container { width: min(100% - 2rem, var(--container)); }
+
+  /* ciclo: no celular o card do rio empilha e os dados viram uma coluna */
+  .cycle-essential { grid-template-columns: minmax(0, 1fr); }
+  .ce-figure { min-height: 170px; }
+  .ce-corpo { padding: clamp(16px, 4vw, 22px); }
+  .cycle-facts { grid-template-columns: minmax(0, 1fr); }
+  .cf-detalhe { left: auto; right: 0; }
 
   .section { padding: 66px 0; }
 
@@ -340,11 +357,13 @@
 @media (max-width: 400px) {
   .hero-title { font-size: 3.6rem; }
   .counter-value { font-size: 2.4rem; }
-  .tl-step { grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; }
-  .tl-icon { width: 48px; height: 48px; }
-  .tl-icon svg { width: 22px; height: 22px; }
-  .timeline-steps::before { left: 35px; }
-  .tl-num { left: 34px; }
+  .ct-btn { grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; }
+  .ct-ico { width: 48px; height: 48px; }
+  .ct-ico svg { width: 22px; height: 22px; }
+  .ct-steps::before { left: 36px; }
+  .ct-num { left: 35px; }
+  .ct-curta { margin-left: 62px; }
+  .ct-controles { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ------------------------------------------------------------

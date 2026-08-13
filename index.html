@@ -1322,108 +1322,197 @@
 </section>
 
 <!-- ============================================================
-     O CAMINHO DE UMA GOTA (TIMELINE)
+     O CAMINHO DE UMA GOTA (CICLO DA ÁGUA)
+     A timeline, o percurso e o painel são gerados por js/water-cycle.js
+     a partir da lista ETAPAS — não há HTML repetido nove vezes.
      ============================================================ -->
-<section class="section" id="ciclo">
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="section-kicker"><span class="rule"></span>Percurso<span class="rule"></span></p>
-      <h2 class="section-title">O caminho de uma <span class="grad-text">gota</span></h2>
-      <p class="section-lead">Da nuvem até a sua casa e de volta à natureza — um ciclo que só continua funcionando se for cuidado.</p>
-    </header>
+<section class="section cycle" id="ciclo">
+  <div class="cycle-scene" data-cycle-scene>
+    <div class="cycle-media" aria-hidden="true">
+      <img class="cycle-photo" data-cycle-photo
+           src="assets/images/water-cycle/cycle-landscape.webp"
+           alt="" width="2000" height="1120" loading="lazy" decoding="async">
+      <span class="cycle-veil"></span>
+    </div>
 
-    <div class="timeline reveal" id="timeline">
-      <div class="timeline-track" aria-hidden="true">
-        <div class="timeline-fill" id="timelineFill"></div>
-        <span class="timeline-drop" id="timelineDrop">
-          <svg viewBox="0 0 24 24"><use href="#i-drop"/></svg>
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="section-kicker"><span class="rule"></span>O ciclo da água<span class="rule"></span></p>
+        <h2 class="section-title">O caminho de uma <span class="grad-text">gota</span></h2>
+        <p class="section-lead">Da nuvem até a sua casa e de volta à natureza — um ciclo que só continua
+          funcionando se for cuidado.</p>
+      </header>
+
+      <!-- gota central: vidro translúcido sobre a paisagem -->
+      <div class="cycle-drop" data-cycle-drop aria-hidden="true">
+        <svg viewBox="0 0 120 154" role="presentation">
+          <defs>
+            <linearGradient id="cyDropFill" x1="0.28" y1="0" x2="0.72" y2="1">
+              <stop offset="0%"   stop-color="#d6f2ff" stop-opacity=".82"/>
+              <stop offset="44%"  stop-color="#3fa9f0" stop-opacity=".5"/>
+              <stop offset="100%" stop-color="#0a2c5e" stop-opacity=".82"/>
+            </linearGradient>
+            <radialGradient id="cyDropCore" cx="46%" cy="70%" r="46%">
+              <stop offset="0%"   stop-color="#ffffff" stop-opacity=".9"/>
+              <stop offset="55%"  stop-color="#8fe4ff" stop-opacity=".2"/>
+              <stop offset="100%" stop-color="#8fe4ff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="cyDropRim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#eaf9ff"/>
+              <stop offset="52%"  stop-color="#5cc8ff"/>
+              <stop offset="100%" stop-color="#1a5fbf"/>
+            </linearGradient>
+          </defs>
+          <ellipse class="cd-shadow" cx="60" cy="146" rx="33" ry="6"/>
+          <path class="cd-body" d="M60 6s44 57 44 88a44 44 0 0 1-88 0C16 63 60 6 60 6Z"
+                fill="url(#cyDropFill)" stroke="url(#cyDropRim)" stroke-width="1.5"/>
+          <ellipse cx="60" cy="102" rx="40" ry="40" fill="url(#cyDropCore)"/>
+          <path class="cd-shine" d="M39 82c-5 11-6 22-3 32" stroke="#ffffff" stroke-opacity=".55"
+                stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M80 72c4 6 6 12 6 19" stroke="#dff6ff" stroke-opacity=".3"
+                stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="cycle-timeline">
+        <div class="ct-track" data-cycle-track aria-hidden="true">
+          <span class="ct-fill"></span>
+          <span class="ct-travel" data-cycle-travel><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg></span>
+        </div>
+        <ol class="ct-steps" data-cycle-steps role="tablist"
+            aria-label="Etapas do caminho da água"></ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- painel da etapa selecionada -->
+    <article class="cycle-panel glass reveal" id="ciclo-painel" role="tabpanel" tabindex="0">
+      <!-- três blocos: no celular a imagem entra entre o título e o texto -->
+      <div class="ct-head">
+        <p class="ct-etapa" data-cycle-step>Etapa 01</p>
+        <h3 class="ct-titulo" data-cycle-title>Nuvem</h3>
+      </div>
+
+      <div class="ct-figure" data-cycle-figure></div>
+
+      <div class="ct-corpo">
+        <p class="ct-texto" data-cycle-text></p>
+        <ul class="ct-fatos" data-cycle-facts></ul>
+
+        <div class="ct-controles">
+          <button type="button" class="btn btn-ghost btn-sm click-feedback ct-nav" data-cycle-prev>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+            <span>Etapa anterior</span>
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm click-feedback ct-nav" data-cycle-next>
+            <span>Próxima etapa</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm ripple-host click-feedback ct-play"
+                  data-cycle-play aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-drop"/></svg>
+            <span data-cycle-play-label>Reproduzir percurso</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <div class="cycle-lower">
+      <article class="cycle-essential glass reveal">
+        <figure class="ce-figure">
+          <img src="assets/images/water-cycle/cycle-river.webp"
+               alt="Córrego de água corrente entre pedras cobertas de musgo em uma mata fechada."
+               width="1000" height="700" loading="lazy" decoding="async">
+        </figure>
+        <div class="ce-corpo">
+          <p class="ct-etapa">Um ciclo essencial</p>
+          <h3>Cada etapa sustenta a seguinte</h3>
+          <p>Cada etapa desse caminho é fundamental para que a água continue disponível hoje e para
+            as próximas gerações.</p>
+        </div>
+      </article>
+
+      <article class="cycle-percurso glass reveal">
+        <h3>Acompanhe o percurso da gota</h3>
+        <p>Escolha uma etapa para ver a foto e a explicação dela no painel acima.</p>
+        <div class="ct-dots" data-cycle-dots></div>
+      </article>
+    </div>
+
+    <!-- faixa final: mensagem + três dados pesquisados, cada um com a fonte -->
+    <div class="cycle-facts glass reveal">
+      <div class="cf-lead">
+        <span class="cf-mark interactive-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg></span>
+        <p>
+          <strong>Cuidar da água é cuidar do futuro.</strong>
+          <span>Pequenas atitudes ajudam a preservar um recurso essencial.</span>
+        </p>
+      </div>
+
+      <div class="cf-item">
+        <span class="cf-valor">2,5%</span>
+        <span class="cf-desc">da água do planeta é doce — todo o ciclo recircula essa fatia</span>
+        <span class="cf-fonte">
+          <button type="button" class="cf-info" aria-label="Fonte do dado sobre a água doce do planeta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+            fonte
+          </button>
+          <span class="cf-detalhe" role="note">
+            <strong>USGS</strong> — Water Science School, <em>How Much Water is There on Earth?</em> (2019).
+            Os oceanos concentram 96,5% da água do planeta.
+            <a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">usgs.gov</a>
+          </span>
         </span>
       </div>
 
-      <ol class="timeline-steps" id="timelineSteps">
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-1">
-            <span class="tl-num">1</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cloud"/></svg></span>
-            <span class="tl-title">Nuvem</span>
+      <div class="cf-item">
+        <span class="cf-valor">2,1 bilhões</span>
+        <span class="cf-desc">de pessoas ainda não têm água potável gerida de forma segura</span>
+        <span class="cf-fonte">
+          <button type="button" class="cf-info" aria-label="Fonte do dado sobre acesso à água potável">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+            fonte
           </button>
-          <p class="tl-desc">A água evapora, condensa e forma as nuvens.</p>
-          <p class="tl-more" id="tl-more-1" hidden>O calor do sol evapora a água de oceanos, rios e solo. Ao subir, o vapor esfria e se condensa em gotículas.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-2">
-            <span class="tl-num">2</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rain"/></svg></span>
-            <span class="tl-title">Chuva</span>
+          <span class="cf-detalhe" role="note">
+            <strong>OMS e UNICEF (JMP)</strong> — <em>Progress on Household Drinking Water and
+            Sanitation 2000–2024</em> (2025). Dados de 2024: 1 em cada 4 pessoas no mundo.
+            <a href="https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef" target="_blank" rel="noopener">who.int</a>
+          </span>
+        </span>
+      </div>
+
+      <div class="cf-item">
+        <span class="cf-valor">44,8%</span>
+        <span class="cf-desc">dos brasileiros não têm coleta de esgoto — a etapa 07 do caminho</span>
+        <span class="cf-fonte">
+          <button type="button" class="cf-info" aria-label="Fonte do dado sobre coleta de esgoto no Brasil">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+            fonte
           </button>
-          <p class="tl-desc">Retorna à superfície em forma de precipitação.</p>
-          <p class="tl-more" id="tl-more-2" hidden>Quando as gotículas ficam pesadas demais para se manter suspensas, caem. É aqui que a água doce se renova.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-3">
-            <span class="tl-num">3</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-river"/></svg></span>
-            <span class="tl-title">Rio</span>
-          </button>
-          <p class="tl-desc">Escoa pelo terreno, infiltra no solo e abastece rios e lagos.</p>
-          <p class="tl-more" id="tl-more-3" hidden>Parte escoa pela superfície e parte infiltra, recarregando os aquíferos. Solo impermeabilizado reduz essa recarga.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-4">
-            <span class="tl-num">4</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-intake"/></svg></span>
-            <span class="tl-title">Captação</span>
-          </button>
-          <p class="tl-desc">É retirada do manancial e conduzida por adutoras.</p>
-          <p class="tl-more" id="tl-more-4" hidden>A qualidade do manancial define o custo do tratamento: quanto mais poluído, mais complexo e caro o processo.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-5">
-            <span class="tl-num">5</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-treatment"/></svg></span>
-            <span class="tl-title">Tratamento</span>
-          </button>
-          <p class="tl-desc">Passa pela estação de tratamento até ficar potável.</p>
-          <p class="tl-more" id="tl-more-5" hidden>Passa por etapas de coagulação, decantação, filtragem e desinfecção até atingir o padrão de potabilidade.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-6">
-            <span class="tl-num">6</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg></span>
-            <span class="tl-title">Casa</span>
-          </button>
-          <p class="tl-desc">Chega às torneiras e é usada no dia a dia.</p>
-          <p class="tl-more" id="tl-more-6" hidden>Toda essa água chega tratada — inclusive a que usamos para lavar calçada ou dar descarga. É aqui que a escolha pesa.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-7">
-            <span class="tl-num">7</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sewer"/></svg></span>
-            <span class="tl-title">Esgoto</span>
-          </button>
-          <p class="tl-desc">Depois do uso, é coletada pela rede coletora.</p>
-          <p class="tl-more" id="tl-more-7" hidden>Sem rede coletora, o esgoto vai direto para rios e córregos — é o principal caminho da poluição urbana da água.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-8">
-            <span class="tl-num">8</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-treatment"/></svg></span>
-            <span class="tl-title">Tratamento</span>
-          </button>
-          <p class="tl-desc">Passa pela estação de tratamento de esgoto.</p>
-          <p class="tl-more" id="tl-more-8" hidden>A estação remove matéria orgânica e sólidos antes de devolver a água ao ambiente, reduzindo o impacto no corpo receptor.</p>
-        </li>
-        <li class="tl-step">
-          <button class="tl-btn" aria-expanded="false" aria-controls="tl-more-9">
-            <span class="tl-num">9</span>
-            <span class="tl-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-recycle"/></svg></span>
-            <span class="tl-title">Retorno</span>
-          </button>
-          <p class="tl-desc">Volta ao ambiente e o ciclo recomeça.</p>
-          <p class="tl-more" id="tl-more-9" hidden>A água devolvida evapora novamente e reinicia o ciclo. Ele só continua funcionando se cada etapa for respeitada.</p>
-        </li>
-      </ol>
+          <span class="cf-detalhe" role="note">
+            <strong>Instituto Trata Brasil e GO Associados</strong> — <em>Ranking do Saneamento 2025</em>,
+            com dados do SINISA, ano-base 2023.
+            <a href="https://tratabrasil.org.br/ranking-do-saneamento-2025/" target="_blank" rel="noopener">tratabrasil.org.br</a>
+          </span>
+        </span>
+      </div>
     </div>
+
+    <!-- sem JavaScript a seção continua legível -->
+    <noscript>
+      <ol class="cycle-noscript">
+        <li><strong>01 Nuvem</strong> — a água evapora, condensa e forma as nuvens.</li>
+        <li><strong>02 Chuva</strong> — retorna à superfície em forma de precipitação.</li>
+        <li><strong>03 Rio</strong> — escoa pelo terreno, infiltra no solo e alimenta os rios.</li>
+        <li><strong>04 Captação</strong> — é retirada de mananciais e levada ao tratamento.</li>
+        <li><strong>05 Tratamento</strong> — fica potável na estação de tratamento de água.</li>
+        <li><strong>06 Casa</strong> — chega às torneiras e é usada no dia a dia.</li>
+        <li><strong>07 Esgoto</strong> — depois do uso, segue pela rede coletora.</li>
+        <li><strong>08 Tratamento</strong> — passa pela estação de tratamento de esgoto.</li>
+        <li><strong>09 Retorno</strong> — volta ao ambiente e o ciclo recomeça.</li>
+      </ol>
+    </noscript>
   </div>
 </section>
 
@@ -2230,9 +2319,10 @@
     <div class="footer-col">
       <h2>Fontes</h2>
       <ul class="footer-list footer-sources">
-        <li>Fonte 1 — instituição e título (a preencher)</li>
-        <li>Fonte 2 — instituição e título (a preencher)</li>
-        <li>Fonte 3 — instituição e título (a preencher)</li>
+        <!-- usadas na seção "O caminho de uma gota" -->
+        <li><a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></li>
+        <li><a href="https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef" target="_blank" rel="noopener">OMS/UNICEF — Progress on Household Drinking Water and Sanitation 2000–2024 (2025)</a></li>
+        <li><a href="https://tratabrasil.org.br/ranking-do-saneamento-2025/" target="_blank" rel="noopener">Instituto Trata Brasil — Ranking do Saneamento 2025 (dados SINISA 2023)</a></li>
         <li>Fonte 4 — instituição e título (a preencher)</li>
         <li>Fonte 5 — instituição e título (a preencher)</li>
       </ul>
@@ -2242,6 +2332,28 @@
       <span class="seal-mark interactive-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg></span>
       <p><strong>Água é vida.</strong><br>Preserve hoje.<br>Garanta o amanhã.</p>
     </div>
+  </div>
+
+  <!-- As fotos do ciclo têm licença livre, mas quase todas exigem crédito. -->
+  <div class="container footer-credits">
+    <details class="credits">
+      <summary>Créditos das fotografias (licenças Creative Commons)</summary>
+      <ul class="credits-list">
+        <li>Paisagem da seção — <a href="https://commons.wikimedia.org/wiki/File:Pahalgam_Valley.jpg" target="_blank" rel="noopener">Pahalgam Valley</a>, por KennyOMG (CC BY-SA 3.0)</li>
+        <li>Cartão “Um ciclo essencial” — <a href="https://commons.wikimedia.org/wiki/File:Simonswald,_Teichschlucht_--_2025_--_7655.jpg" target="_blank" rel="noopener">Simonswald, Teichschlucht</a>, por Dietmar Rabich (CC BY-SA 4.0)</li>
+        <li>01 Nuvem — <a href="https://commons.wikimedia.org/wiki/File:White_Cumulus_Clouds_against_Blue_Sky.jpg" target="_blank" rel="noopener">White Cumulus Clouds against Blue Sky</a>, por Lance Vanlewen (CC BY-SA 4.0)</li>
+        <li>02 Chuva — <a href="https://commons.wikimedia.org/wiki/File:Almost_Raining_(227489163).jpeg" target="_blank" rel="noopener">Almost Raining</a>, por Julien Seguinot (CC BY-SA 3.0)</li>
+        <li>03 Rio — <a href="https://commons.wikimedia.org/wiki/File:Karpacz_Poland_088_a.jpg" target="_blank" rel="noopener">Karpacz Poland 088 a</a>, por Krzysztof Popławski (CC BY-SA 4.0)</li>
+        <li>04 Captação — <a href="https://commons.wikimedia.org/wiki/File:Dam_Reservoir_(Unsplash).jpg" target="_blank" rel="noopener">Dam Reservoir</a>, por Ana Filipa Neves (CC0)</li>
+        <li>05 Tratamento — <a href="https://commons.wikimedia.org/wiki/File:Tallulah_Water_Plant_clarifier_01.jpg" target="_blank" rel="noopener">Tallulah Water Plant clarifier 01</a>, por Ktkvtsh (CC BY 4.0)</li>
+        <li>06 Casa — <a href="https://www.flickr.com/photos/141436406@N04/49232016186" target="_blank" rel="noopener">Water flows from the tap to sink</a>, por homegets.com (CC BY 2.0)</li>
+        <li>07 Esgoto — <a href="https://commons.wikimedia.org/wiki/File:Schleusenweg_Kanalisation_im_Bau.jpg" target="_blank" rel="noopener">Schleusenweg Kanalisation im Bau</a>, por Andreas Lippold (CC BY-SA 4.0)</li>
+        <li>08 Tratamento do esgoto — <a href="https://commons.wikimedia.org/wiki/File:Doddabommasandra_Lake_STP_Bengaluru_sewage_treatment_plant_aerial_view_India.jpg" target="_blank" rel="noopener">Doddabommasandra Lake STP Bengaluru</a>, por Vraj Acharya, WELL Labs (CC BY-SA 4.0)</li>
+        <li>09 Retorno — <a href="https://commons.wikimedia.org/wiki/File:Waterfall_In_The_Woods_(176697003).jpeg" target="_blank" rel="noopener">Waterfall In The Woods</a>, por Jochen Wolf (CC BY-SA 3.0)</li>
+      </ul>
+      <p>As fotos foram recortadas e convertidas para WebP. As três imagens de
+        <em>Tipos de Água</em> não constam desta lista — confira a origem delas antes de apresentar.</p>
+    </details>
   </div>
 
   <div class="container footer-bottom">
@@ -2279,7 +2391,7 @@
 <script src="js/svg-interactions.js"></script>
 <script src="js/water-link.js"></script>
 <script src="js/water-types.js"></script>
-<script src="js/timeline.js"></script>
+<script src="js/water-cycle.js"></script>
 <script src="js/water-cards.js"></script>
 <script src="js/faucet.js"></script>
 <script src="js/waste-house.js"></script>

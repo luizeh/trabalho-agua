@@ -1034,94 +1034,385 @@
 .tab-panel p { font-size: 0.9rem; }
 
 /* ============================================================
-   TIMELINE — O CAMINHO DE UMA GOTA
+   CICLO DA ÁGUA — O CAMINHO DE UMA GOTA
+   A seção tem quatro áreas: cena (paisagem + gota + timeline),
+   painel da etapa, cartão do ciclo e faixa de dados.
    ============================================================ */
-.timeline { position: relative; padding-top: 30px; }
+.cycle { overflow: hidden; }
 
-/* alinhada ao centro dos círculos: 30px de padding + 27px do número + metade do ícone */
-.timeline-track {
+/* profundidade própria, somada ao fundo global do body */
+.cycle::before {
+  content: "";
   position: absolute;
-  top: 85px;
-  left: 5%; right: 5%;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(76% 44% at 50% 0%, rgba(22, 104, 190, 0.16), transparent 68%),
+    radial-gradient(52% 40% at 88% 82%, rgba(12, 70, 140, 0.13), transparent 70%),
+    linear-gradient(180deg, rgba(2, 9, 19, 0.7), transparent 26%, rgba(2, 9, 19, 0.86));
+}
+
+/* ---------- Cena: a paisagem atrás do cabeçalho e da timeline ---------- */
+.cycle-scene { position: relative; }
+.cycle-scene > .container { position: relative; z-index: 2; }
+
+.cycle-media {
+  position: absolute;
+  inset: -3% -6% -1%;      /* sangra para fora: a máscara precisa de folga */
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cycle-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+  transform: translate3d(0, var(--ct-shift, 0px), 0) scale(var(--ct-zoom, 1.04));
+  /* a foto entra escura e ganha luz conforme a seção é percorrida */
+  filter: brightness(var(--ct-luz, 0.84)) saturate(0.82) contrast(1.05);
+  /* dissolve nas bordas em vez de terminar em um retângulo */
+  -webkit-mask-image:
+    linear-gradient(180deg, transparent 0%, #000 17%, #000 58%, transparent 99%),
+    linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  mask-image:
+    linear-gradient(180deg, transparent 0%, #000 17%, #000 58%, transparent 99%),
+    linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.cycle-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 14, 30, 0.36) 0%, rgba(2, 14, 30, 0.56) 46%,
+                    rgba(2, 14, 30, 0.95) 100%),
+    radial-gradient(56% 40% at 50% 46%, rgba(14, 74, 142, 0.26), transparent 72%);
+}
+
+/* ---------- Gota central ---------- */
+.cycle-drop {
+  position: relative;
+  z-index: 2;
+  width: clamp(84px, 9vw, 126px);
+  margin: clamp(18px, 3vw, 40px) auto clamp(22px, 2.8vw, 38px);
+  /* --ct-shift é o parallax (JS) e --ct-in é o deslocamento de entrada (animations.css) */
+  transform: translate3d(0, calc(var(--ct-shift, 0px) + var(--ct-in, 0px)), 0);
+}
+.cycle-drop svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 18px 34px rgba(2, 12, 26, 0.75));
+}
+
+/* ---------- Timeline ---------- */
+.cycle-timeline { position: relative; z-index: 2; padding-top: 24px; }
+
+/* trilho na altura do centro dos círculos: 24px + 26px do número + 29px (metade do ícone) */
+.ct-track {
+  --ct-p: 0;
+  position: absolute;
+  top: 79px;
+  /* começa e termina no centro da primeira e da última das nove colunas */
+  left: 5.5556%;
+  right: 5.5556%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
   border-radius: 2px;
+  background: rgba(116, 182, 245, 0.16);
 }
-.timeline-fill {
+.ct-fill {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 0%;
-  background: linear-gradient(90deg, var(--blue-500), var(--cyan-400));
-  box-shadow: 0 0 16px rgba(56, 217, 255, 0.7);
-  border-radius: 2px;
-  transition: width 140ms linear;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-500) 46%, var(--cyan-400));
+  box-shadow: 0 0 13px rgba(56, 217, 255, 0.5);
+  transform: scaleX(var(--ct-p));
+  transform-origin: left center;
+  transition: transform 240ms var(--ease);
 }
-.timeline-drop {
+.ct-travel {
   position: absolute;
   top: 50%;
-  left: 0%;
-  transform: translate(-50%, -50%);
+  left: 0;
   display: grid;
   place-items: center;
-  width: 34px; height: 34px;
+  width: 26px; height: 26px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #cdf3ff, #2b8fe0);
-  box-shadow: 0 0 24px rgba(90, 210, 255, 0.9);
-  transition: left 140ms linear;
+  background: radial-gradient(circle at 38% 32%, #eafcff, #3fb9f2 60%, #1560cf);
+  box-shadow: 0 0 16px rgba(90, 210, 255, 0.8);
+  /* --ct-w é a largura do trilho em px, medida no JS a cada resize */
+  transform: translate(calc(var(--ct-p) * var(--ct-w, 0px) - 50%), -50%);
+  transition: transform 280ms var(--ease);
 }
-.timeline-drop svg { width: 18px; height: 18px; fill: none; stroke: #06243f; stroke-width: 1.8; }
+.ct-travel svg { width: 13px; height: 13px; fill: none; stroke: #06243f; stroke-width: 2; }
 
-.timeline-steps {
+.ct-steps {
   position: relative;
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
-.tl-step {
-  position: relative;
+.ct-step {
   display: grid;
-  align-content: start;   /* abrir o detalhe não pode deslocar as outras etapas */
+  align-content: start;
   justify-items: center;
   text-align: center;
-  padding-top: 0;
+  opacity: 0.55;                    /* as etapas ainda não alcançadas recuam */
+  transition: opacity var(--t-mid) var(--ease);
 }
-.tl-num {
+.ct-step.is-reached,
+.ct-step.is-active { opacity: 1; }
+
+.ct-num {
   display: block;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--cyan-300);
   margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cyan-300);
 }
-.tl-icon {
+.ct-ico {
   display: grid;
   place-items: center;
-  width: 56px; height: 56px;
+  width: 58px; height: 58px;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
-  background: radial-gradient(circle at 50% 30%, rgba(43, 143, 224, 0.4), rgba(5, 18, 34, 0.92));
-  box-shadow: 0 0 0 6px rgba(4, 16, 30, 0.9), 0 0 26px -6px rgba(45, 160, 255, 0.5);
+  background: radial-gradient(circle at 50% 28%, rgba(20, 78, 142, 0.78), rgba(3, 12, 24, 0.96));
+  /* o anel escuro esconde o trilho que passa por trás do círculo */
+  box-shadow: 0 0 0 7px rgba(3, 11, 22, 0.85), 0 10px 24px -12px rgba(0, 0, 0, 0.9);
   transition: transform var(--t-mid) var(--ease), box-shadow var(--t-mid) var(--ease),
               border-color var(--t-mid) var(--ease);
 }
-.tl-icon svg { width: 26px; height: 26px; fill: none; stroke: var(--cyan-300); stroke-width: 1.5;
-               stroke-linecap: round; stroke-linejoin: round; }
-
-.tl-step.is-reached .tl-icon {
-  border-color: rgba(56, 217, 255, 0.7);
-  box-shadow: 0 0 0 6px rgba(4, 16, 30, 0.9), 0 0 34px -4px rgba(56, 217, 255, 0.85);
-  transform: scale(1.06);
+.ct-ico svg {
+  width: 26px; height: 26px;
+  fill: none;
+  stroke: var(--cyan-300);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke var(--t-mid) var(--ease);
 }
-.tl-step.is-reached .tl-icon svg { stroke: #dff6ff; }
-
-.tl-desc {
+.ct-nome {
+  display: block;
+  margin: 13px 0 5px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: color var(--t-fast) var(--ease);
+}
+.ct-curta {
   margin: 0;
-  font-size: 0.78rem;
-  color: var(--text-mute);
+  max-width: 17ch;
+  font-size: 0.76rem;
   line-height: 1.5;
-  max-width: 18ch;
+  color: var(--text-mute);
 }
+
+/* ---------- Painel da etapa selecionada ---------- */
+.cycle-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    "figura cabeca"
+    "figura corpo";
+  gap: 0 clamp(20px, 2.6vw, 40px);
+  align-content: center;
+  margin-top: clamp(30px, 4.2vw, 58px);
+  padding: clamp(15px, 1.7vw, 22px);
+}
+.ct-head { grid-area: cabeca; }
+.ct-figure { grid-area: figura; align-self: center; }
+.ct-corpo { grid-area: corpo; }
+
+.ct-figure {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(4, 16, 30, 0.85);
+  /* enquanto a próxima foto carrega, a atual continua visível */
+}
+.ct-figure.is-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(120, 200, 255, 0.07), transparent);
+  animation: ctCarrega 1.1s linear infinite;
+}
+@keyframes ctCarrega { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.ct-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 520ms var(--ease), transform 640ms var(--ease);
+}
+.ct-foto.is-on { opacity: 1; transform: scale(1); }
+
+.ct-corpo { min-width: 0; }
+.ct-etapa {
+  margin: 0 0 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan-300);
+}
+.ct-titulo { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); margin-bottom: 0.4em; }
+.ct-texto { color: var(--text-soft); font-size: 0.96rem; }
+
+.ct-fatos { display: grid; gap: 8px; margin: 18px 0 0; }
+.ct-fatos li {
+  display: grid;
+  grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(7, 22, 40, 0.5);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+.ct-fatos strong { color: var(--cyan-300); font-weight: 600; }
+.ct-fatos span { color: var(--text-mute); }
+
+.ct-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ---------- Cartão do ciclo + percurso ---------- */
+.cycle-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 26px);
+  margin-top: clamp(16px, 2vw, 26px);
+}
+
+.cycle-essential {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: clamp(16px, 1.8vw, 24px);
+  align-items: stretch;      /* a foto acompanha a altura do card */
+  overflow: hidden;
+  padding: 0;
+}
+/* margin: 0 anula a margem padrão de <figure>, que impedia a foto de preencher */
+.ce-figure { position: relative; margin: 0; min-height: 190px; overflow: hidden; }
+.ce-figure img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 700ms var(--ease);
+}
+.ce-corpo { padding: clamp(16px, 1.8vw, 24px) clamp(16px, 1.8vw, 24px) clamp(16px, 1.8vw, 24px) 0; }
+.ce-corpo h3 { font-size: 1.05rem; margin-bottom: 0.5em; }
+.ce-corpo p { font-size: 0.87rem; color: var(--text-mute); }
+
+.cycle-percurso { padding: clamp(16px, 1.8vw, 24px); }
+.cycle-percurso h3 { font-size: 1.05rem; margin-bottom: 0.35em; }
+.cycle-percurso > p { font-size: 0.85rem; color: var(--text-mute); margin-bottom: 16px; }
+
+.ct-dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ct-dot {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 18, 34, 0.9);
+  color: var(--text-mute);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease),
+              color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+
+/* ---------- Faixa final com os dados ---------- */
+.cycle-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 30px);
+  align-items: center;
+  margin-top: clamp(16px, 2vw, 26px);
+  padding: clamp(18px, 2.2vw, 28px);
+}
+.cf-lead { display: flex; align-items: center; gap: 14px; }
+.cf-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 217, 255, 0.35);
+  background: radial-gradient(circle at 50% 32%, rgba(28, 110, 190, 0.6), rgba(4, 15, 28, 0.95));
+  box-shadow: 0 0 24px -6px rgba(56, 217, 255, 0.55);
+}
+.cf-mark svg { width: 24px; height: 24px; fill: none; stroke: var(--cyan-300); stroke-width: 1.5; }
+.cf-lead p { margin: 0; font-size: 0.88rem; line-height: 1.55; }
+.cf-lead strong { display: block; font-family: var(--font-display); font-size: 0.98rem; }
+.cf-lead span { color: var(--text-mute); font-size: 0.82rem; }
+
+.cf-item { min-width: 0; }
+.cf-valor {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--cyan-300);
+}
+.cf-desc { display: block; margin-top: 4px; font-size: 0.79rem; line-height: 1.45; color: var(--text-mute); }
+
+/* botão ⓘ com a fonte completa */
+.cf-fonte { position: relative; display: inline-block; margin-top: 6px; }
+.cf-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(6, 20, 38, 0.7);
+  color: var(--text-mute);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.cf-info svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.cf-detalhe {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 8;
+  width: max(220px, 100%);
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: rgba(4, 16, 30, 0.97);
+  box-shadow: var(--shadow-card);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--text-mute);
+}
+.cf-detalhe strong { color: var(--text-soft); font-weight: 600; }
+.cf-detalhe a { overflow-wrap: anywhere; }
 
 /* ============================================================
    DESPERDÍCIO
@@ -1749,6 +2040,32 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   border-top: 1px solid var(--line);
 }
 .footer-bottom p { font-size: 0.8rem; color: var(--text-mute); margin: 0; }
+
+/* ---------- Créditos das fotografias ---------- */
+.footer-credits { margin-top: clamp(24px, 3vw, 38px); }
+.credits {
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(7, 22, 40, 0.4);
+}
+.credits summary {
+  padding: 12px 0;
+  font-size: 0.82rem;
+  color: var(--text-mute);
+  cursor: pointer;
+}
+.credits summary:hover { color: var(--cyan-300); }
+.credits[open] summary { border-bottom: 1px solid var(--line); }
+.credits-list {
+  display: grid;
+  gap: 6px;
+  padding: 14px 0 4px;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: var(--text-mute);
+}
+.credits > p { padding: 0 0 14px; font-size: 0.74rem; color: var(--text-mute); }
 
 /* ============================================================
    VOLTAR AO TOPO

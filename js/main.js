@@ -11,7 +11,7 @@
     'AGUA_SVG',
     'AGUA_LINK',
     'AGUA_TIPOS',
-    'AGUA_TIMELINE',
+    'AGUA_CICLO',
     'AGUA_CARDS',
     'AGUA_FAUCET',
     'AGUA_HOUSE',
