@@ -257,19 +257,6 @@
 .tank-wave.b { animation: tank-wave-move 7s linear infinite alternate-reverse; }
 
 /* ------------------------------------------------------------
-   Hotspots da casa
-   ------------------------------------------------------------ */
-@keyframes hotspot-pulse {
-  0%, 100% { box-shadow: 0 0 0 5px rgba(56, 217, 255, .12), 0 0 18px rgba(56, 217, 255, .7) }
-  50%      { box-shadow: 0 0 0 12px rgba(56, 217, 255, 0), 0 0 26px rgba(56, 217, 255, .95) }
-}
-.hotspot span { animation: hotspot-pulse 2.6s ease-in-out infinite; }
-.hotspot:nth-child(2) span { animation-delay: .5s; }
-.hotspot:nth-child(3) span { animation-delay: 1s; }
-.hotspot:nth-child(4) span { animation-delay: 1.5s; }
-.hotspot:nth-child(5) span { animation-delay: 2s; }
-
-/* ------------------------------------------------------------
    Selo do rodapé
    ------------------------------------------------------------ */
 @keyframes seal-glow {
@@ -328,7 +315,7 @@ body.no-water .flow-pipe,
 body.no-water .tank-wave,
 body.no-water .tank-level,
 body.no-water .lab-drops circle,
-body.no-water .hotspot span,
+body.no-water .wh-spot-dot::after,
 body.no-water .eco-core-float,
 body.no-water .eco-core-light,
 body.no-water .eco-bubbles circle,

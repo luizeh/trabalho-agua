@@ -1517,121 +1517,59 @@
 </section>
 
 <!-- ============================================================
-     DESPERDÍCIO
+     DESPERDÍCIO DE ÁGUA — a casa e os hábitos
+     Os hotspots e os cards são gerados por js/waste.js a partir de
+     PONTOS e CARDS. Todos os números têm fonte citada no próprio card.
      ============================================================ -->
-<section class="section section-alt" id="desperdicio">
-  <div class="container">
-    <div class="waste-top">
-      <div class="waste-visual reveal" aria-hidden="true">
-        <svg viewBox="0 0 320 380" class="faucet-art" data-parallax="0.07">
-          <defs>
-            <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stop-color="#2a3644"/>
-              <stop offset="18%"  stop-color="#7c92a7"/>
-              <stop offset="38%"  stop-color="#f4faff"/>
-              <stop offset="56%"  stop-color="#a9bccd"/>
-              <stop offset="76%"  stop-color="#5c7085"/>
-              <stop offset="100%" stop-color="#2a3644"/>
-            </linearGradient>
-            <linearGradient id="metalV" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%"   stop-color="#2a3644"/>
-              <stop offset="34%"  stop-color="#eef6ff"/>
-              <stop offset="62%"  stop-color="#8ea3b8"/>
-              <stop offset="100%" stop-color="#2e3b49"/>
-            </linearGradient>
-            <linearGradient id="streamGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stop-color="#ddf5ff" stop-opacity=".92"/>
-              <stop offset="40%"  stop-color="#8fdcff" stop-opacity=".72"/>
-              <stop offset="100%" stop-color="#2b8fe0" stop-opacity=".18"/>
-            </linearGradient>
-          </defs>
+<section class="section section-alt waste" id="desperdicio">
+  <div class="container waste-grid">
 
-          <!-- flange na parede -->
-          <rect x="10" y="92" width="30" height="52" rx="8" fill="url(#metal)"/>
-          <rect x="34" y="102" width="18" height="32" rx="6" fill="url(#metalV)"/>
-          <!-- corpo horizontal -->
-          <rect x="48" y="104" width="128" height="30" rx="15" fill="url(#metal)"/>
-          <path d="M56 112h112" stroke="#ffffff" stroke-opacity=".5" stroke-width="4"
-                stroke-linecap="round"/>
-          <!-- curva e bico -->
-          <path d="M172 119h30a30 30 0 0 1 30 30v40"
-                stroke="url(#metal)" stroke-width="32" fill="none" stroke-linecap="round"/>
-          <path d="M172 110h28a38 38 0 0 1 24 20" stroke="#ffffff" stroke-opacity=".42"
-                stroke-width="5" fill="none" stroke-linecap="round"/>
-          <!-- aerador -->
-          <rect x="214" y="186" width="36" height="20" rx="7" fill="url(#metalV)"/>
-          <ellipse cx="232" cy="206" rx="18" ry="5" fill="#8ba3ba"/>
-          <!-- registro tipo cruzeta -->
-          <g class="tap-wheel">
-            <circle cx="118" cy="70" r="27" fill="none" stroke="url(#metalV)" stroke-width="9"/>
-            <path d="M118 43v54M91 70h54" stroke="url(#metalV)" stroke-width="9" stroke-linecap="round"/>
-            <circle cx="118" cy="70" r="9" fill="url(#metal)"/>
-          </g>
-          <rect x="110" y="82" width="16" height="26" rx="6" fill="url(#metalV)"/>
+    <!-- ESQUERDA: a casa com os pontos de desperdício -->
+    <figure class="waste-house glass reveal">
+      <figcaption class="wh-frase">
+        <strong>Cada gota conta.</strong>
+        <span>Cada escolha também.</span>
+      </figcaption>
 
-          <!-- jato com variação de largura -->
-          <g class="faucet-stream">
-            <path d="M222 208c-3 44 4 92-2 148h24c-6-56 1-104-2-148Z" fill="url(#streamGrad)"/>
-            <path d="M232 214c-2 46 2 96-1 142" stroke="#ffffff" stroke-opacity=".45"
-                  stroke-width="2.5" fill="none"/>
-            <circle cx="234" cy="272" r="4" fill="#cdefff" opacity=".8"/>
-            <circle cx="228" cy="318" r="3" fill="#cdefff" opacity=".6"/>
-          </g>
-          <g class="faucet-splash" fill="none" stroke="#7fd4ff" stroke-width="2.5" opacity=".55">
-            <path d="M198 358c14-18 54-18 68 0"/>
-            <path d="M182 368c22-26 78-26 100 0"/>
-          </g>
-        </svg>
+      <div class="wh-media">
+        <img src="assets/images/waste/waste-house.webp"
+             alt="Fachada de uma casa moderna de tijolos, com janelas nos dois andares, garagem à direita e gramado na frente."
+             width="1600" height="1000" loading="lazy" decoding="async">
+        <span class="wh-veil" aria-hidden="true"></span>
+        <div class="wh-spots" data-waste-spots></div>
       </div>
 
-      <div class="waste-copy reveal" data-delay="1">
+      <p class="wh-legenda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg>
+        <span data-waste-legend>Toque nos pontos para ver onde a água escapa.</span>
+      </p>
+    </figure>
+
+    <!-- DIREITA: título e os seis hábitos -->
+    <div class="waste-lado">
+      <header class="waste-head reveal">
         <p class="section-kicker"><span class="rule"></span>Atenção<span class="rule"></span></p>
         <h2 class="section-title left">Desperdício de <span class="grad-text">Água</span></h2>
-        <p class="section-lead left">Pequenas atitudes repetidas todos os dias podem resultar em um grande desperdício. Evite. Economize. Preserve.</p>
+        <p class="section-lead left">Pequenas atitudes repetidas todos os dias podem virar um grande
+          desperdício. Escolha um ponto da casa ou um hábito para ver o volume e a fonte.</p>
+      </header>
 
-        <div class="grid grid-3 waste-cards">
-          <article class="card card-sm reveal" data-accent="cyan" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shower"/></svg></span>
-            <h3>Banho demorado</h3>
-            <p>Cada minuto a mais no chuveiro representa um volume considerável de água tratada.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-          <article class="card card-sm reveal" data-accent="blue" data-delay="1" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-faucet"/></svg></span>
-            <h3>Torneira aberta</h3>
-            <p>Escovar os dentes ou ensaboar a louça com a torneira aberta desperdiça água continuamente.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-          <article class="card card-sm reveal" data-accent="ice" data-delay="2" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-leak"/></svg></span>
-            <h3>Vazamentos</h3>
-            <p>Um gotejamento silencioso funciona 24 horas por dia, todos os dias do mês.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-          <article class="card card-sm reveal" data-accent="green" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-hose"/></svg></span>
-            <h3>Mangueira</h3>
-            <p>Lavar calçadas e veículos com mangueira consome muito mais do que balde e pano.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-          <article class="card card-sm reveal" data-accent="cyan" data-delay="1" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-kitchen"/></svg></span>
-            <h3>Na cozinha</h3>
-            <p>Descongelar alimentos em água corrente e enxaguar louça sem retirar os resíduos antes.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-          <article class="card card-sm reveal" data-accent="blue" data-delay="2" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-garden"/></svg></span>
-            <h3>Áreas externas</h3>
-            <p>Regar nos horários mais quentes aumenta a evaporação e reduz o aproveitamento pelas plantas.</p>
-            <p class="data-slot" data-source-slot>Valor em litros: <span data-value>a inserir</span> <em>(fonte a citar)</em></p>
-          </article>
-        </div>
-        <p class="note reveal">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="note-icon"><use href="#i-drop"/></svg>
-          <span class="note-text">Os valores em litros devem ser preenchidos com dados de fontes confiáveis. Edite o arquivo <code>js/config.js</code> para inseri-los junto com a respectiva referência.</span>
-        </p>
+      <div class="waste-cards reveal" data-waste-cards></div>
+    </div>
+  </div>
+
+  <!-- FAIXA FINAL -->
+  <div class="container">
+    <div class="waste-faixa glass reveal">
+      <span class="wf-mark interactive-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
+      </span>
+      <div class="wf-texto">
+        <strong>Consciência que transforma.</strong>
+        <span>Atitudes simples, repetidas todos os dias, reduzem o desperdício sem abrir mão do conforto.</span>
       </div>
+      <p class="wf-nota">Os volumes vêm de companhias de saneamento e de organizações de defesa do
+        consumidor — cada card mostra a fonte e a condição do cálculo.</p>
     </div>
   </div>
 </section>
@@ -1793,172 +1731,6 @@
         </p>
         <p class="faucet-liters" id="faucetLiters" hidden></p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     CASA DO DESPERDÍCIO
-     ============================================================ -->
-<section class="section section-alt" id="casa">
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="section-kicker"><span class="rule"></span>Explore<span class="rule"></span></p>
-      <h2 class="section-title">A casa do <span class="grad-text">desperdício</span></h2>
-      <p class="section-lead">Clique nos pontos luminosos e descubra onde a água costuma ser desperdiçada dentro de casa.</p>
-    </header>
-
-    <div class="house reveal">
-      <div class="house-stage">
-        <svg viewBox="0 0 640 420" class="house-art" role="img" aria-label="Corte de uma casa mostrando banheiro, cozinha, lavanderia, jardim e garagem">
-          <defs>
-            <linearGradient id="houseWall" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#123056"/><stop offset="100%" stop-color="#07182b"/>
-            </linearGradient>
-            <linearGradient id="houseRoof" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#1d4c7f"/><stop offset="100%" stop-color="#0a1f38"/>
-            </linearGradient>
-            <linearGradient id="houseSky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#0a1f3a"/><stop offset="100%" stop-color="#040e1c"/>
-            </linearGradient>
-            <radialGradient id="roomGlow" cx="50%" cy="50%" r="60%">
-              <stop offset="0%" stop-color="#4fc3ff" stop-opacity=".12"/>
-              <stop offset="100%" stop-color="#4fc3ff" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-
-          <rect width="640" height="420" fill="url(#houseSky)"/>
-          <g fill="#bfeaff" opacity=".45">
-            <circle cx="60" cy="40" r="1.6"/><circle cx="180" cy="26" r="1.2"/>
-            <circle cx="420" cy="34" r="1.5"/><circle cx="560" cy="56" r="1.2"/>
-            <circle cx="300" cy="60" r="1"/>
-          </g>
-
-          <!-- telhado -->
-          <path d="M60 92 290 4l230 88Z" fill="url(#houseRoof)" stroke="#4a9bd8" stroke-width="2" stroke-linejoin="round"/>
-          <path d="M290 4 520 92h-40L290 26Z" fill="#0a2440" opacity=".65"/>
-
-          <!-- corpo da casa -->
-          <rect x="90" y="92" width="400" height="268" fill="url(#houseWall)" stroke="#4a9bd8" stroke-width="2"/>
-          <ellipse cx="200" cy="160" rx="110" ry="80" fill="url(#roomGlow)"/>
-          <ellipse cx="390" cy="160" rx="100" ry="76" fill="url(#roomGlow)"/>
-          <ellipse cx="200" cy="300" rx="110" ry="72" fill="url(#roomGlow)"/>
-          <path d="M90 226h400M290 92v268" stroke="#4a9bd8" stroke-width="2" opacity=".55"/>
-
-          <!-- chão e jardim -->
-          <path d="M0 360h640v60H0z" fill="#06182a"/>
-          <path d="M0 360h640" stroke="#2fbf6d" stroke-opacity=".3" stroke-width="2"/>
-          <!-- jardim, à esquerda da casa (área livre) -->
-          <g fill="#2fbf6d" opacity=".6">
-            <path d="M18 360c0-20 11-33 24-37-2 24-11 35-24 37ZM50 360c0-16 9-27 21-31-2 20-9 29-21 31Z"/>
-            <path d="M78 360c0-14 8-23 17-26-2 18-8 24-17 26Z"/>
-            <circle cx="34" cy="392" r="4"/><circle cx="70" cy="400" r="3"/><circle cx="52" cy="382" r="2.5"/>
-          </g>
-          <g stroke="#2fbf6d" stroke-opacity=".45" fill="none" stroke-width="2">
-            <path d="M14 380h74M20 396h58"/>
-          </g>
-
-          <!-- garagem -->
-          <rect x="490" y="228" width="118" height="132" fill="#0a1e34" stroke="#4a9bd8" stroke-width="2"/>
-          <path d="M496 234h106v46H496z" fill="#0d2a47" opacity=".8"/>
-          <path d="M504 320h90l14 26H490Z" fill="#143a5e" opacity=".85"/>
-          <circle cx="518" cy="342" r="7" fill="#0a1e34" stroke="#4a9bd8" stroke-width="2"/>
-          <circle cx="582" cy="342" r="7" fill="#0a1e34" stroke="#4a9bd8" stroke-width="2"/>
-
-          <!-- BANHEIRO -->
-          <g class="room" data-room="banheiro">
-            <rect class="room-glow" x="92" y="92" width="198" height="134"/>
-            <g stroke="#8fd0ff" stroke-opacity=".75" fill="none" stroke-width="2" stroke-linejoin="round">
-              <path d="M142 178h44v16a11 11 0 0 1-11 11h-22a11 11 0 0 1-11-11v-16Z"/>
-              <path d="M164 178v-18a9 9 0 0 1 18 0"/>
-              <path d="M216 150h34a17 17 0 0 0-34 0Z"/>
-              <path d="M233 150v-22h16"/>
-              <path d="M223 162v9M233 162v13M243 162v9"/>
-            </g>
-            <g class="room-drip" fill="#8fd0ff">
-              <circle cx="233" cy="168" r="3"/><circle cx="173" cy="186" r="2.6"/>
-            </g>
-          </g>
-
-          <!-- LAVANDERIA -->
-          <g class="room" data-room="lavanderia">
-            <rect class="room-glow" x="290" y="92" width="200" height="134"/>
-            <g stroke="#8fd0ff" stroke-opacity=".75" fill="none" stroke-width="2">
-              <rect x="330" y="132" width="58" height="72" rx="7"/>
-              <path d="M340 146h6M372 146h6"/>
-              <path d="M416 168h44v20a10 10 0 0 1-10 10h-24a10 10 0 0 1-10-10v-20Z"/>
-              <path d="M438 168v-16a8 8 0 0 1 16 0"/>
-            </g>
-            <g class="room-spin" style="transform-origin:359px 172px">
-              <circle cx="359" cy="172" r="17" stroke="#8fd0ff" stroke-opacity=".75"
-                      stroke-width="2" fill="none"/>
-              <path d="M359 158v8M359 178v8" stroke="#8fd0ff" stroke-opacity=".5" stroke-width="2"/>
-            </g>
-          </g>
-
-          <!-- COZINHA -->
-          <g class="room" data-room="cozinha">
-            <rect class="room-glow" x="92" y="226" width="198" height="134"/>
-            <g stroke="#8fd0ff" stroke-opacity=".75" fill="none" stroke-width="2">
-              <path d="M132 272h120v66H132z"/>
-              <path d="M132 292h120"/>
-              <path d="M158 300h40v16a9 9 0 0 1-9 9h-22a9 9 0 0 1-9-9v-16Z"/>
-              <path d="M178 300v-14a8 8 0 0 1 16 0"/>
-              <path d="M216 310h20M216 322h20"/>
-            </g>
-            <g class="room-drip" fill="#8fd0ff"><circle cx="178" cy="306" r="2.8"/></g>
-          </g>
-
-          <!-- sala / área comum (sem hotspot) -->
-          <g stroke="#8fd0ff" stroke-opacity=".45" fill="none" stroke-width="2">
-            <path d="M322 286h64v52h-64zM386 300h56v38h-56z"/>
-            <path d="M338 286v-14h32v14"/>
-          </g>
-
-          <!-- GARAGEM -->
-          <g class="room" data-room="garagem">
-            <rect class="room-glow" x="488" y="226" width="122" height="136"/>
-            <g class="room-drip" fill="#8fd0ff"><circle cx="550" cy="330" r="2.8"/></g>
-          </g>
-
-          <!-- JARDIM -->
-          <g class="room" data-room="jardim">
-            <rect class="room-glow" x="0" y="330" width="120" height="86"/>
-            <g class="room-sway" style="transform-origin:50px 360px">
-              <path d="M96 348c0-11 6-19 13-21-1 13-6 19-13 21Z" fill="#4ade80" opacity=".7"/>
-            </g>
-            <g class="room-drip" fill="#7cf0c0"><circle cx="52" cy="372" r="2.6"/></g>
-          </g>
-        </svg>
-
-        <!-- hotspots posicionados sobre o SVG -->
-        <!-- posições em % correspondem às coordenadas do SVG (640 × 420) -->
-        <div class="hotspot-layer">
-          <button class="hotspot" style="left:26%;top:45%" data-room="banheiro" aria-label="Banheiro"><span aria-hidden="true"></span><em>Banheiro</em></button>
-          <button class="hotspot" style="left:56%;top:41%" data-room="lavanderia" aria-label="Lavanderia"><span aria-hidden="true"></span><em>Lavanderia</em></button>
-          <button class="hotspot" style="left:28%;top:74%" data-room="cozinha" aria-label="Cozinha"><span aria-hidden="true"></span><em>Cozinha</em></button>
-          <button class="hotspot" style="left:86%;top:81%" data-room="garagem" aria-label="Garagem"><span aria-hidden="true"></span><em>Garagem</em></button>
-          <button class="hotspot" style="left:8%;top:91%" data-room="jardim" aria-label="Jardim"><span aria-hidden="true"></span><em>Jardim</em></button>
-        </div>
-
-        <!-- painel compacto que abre junto ao ponto clicado -->
-        <div class="house-pop glass" id="housePop" role="dialog" aria-live="polite"
-             aria-labelledby="houseTitle" hidden>
-          <button class="house-pop-close" id="housePopClose" aria-label="Fechar informação">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg>
-          </button>
-          <span class="house-pop-icon interactive-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg></span>
-          <h3 id="houseTitle">Cômodo</h3>
-          <p id="houseText"></p>
-          <ul id="houseList" class="house-list"></ul>
-          <p class="house-fix" id="houseFix"></p>
-        </div>
-      </div>
-
-      <p class="house-hint" id="houseHint">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-drop"/></svg>
-        Toque nos pontos luminosos para ver onde a água escapa em cada cômodo.
-      </p>
     </div>
   </div>
 </section>
@@ -2323,8 +2095,9 @@
         <li><a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></li>
         <li><a href="https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef" target="_blank" rel="noopener">OMS/UNICEF — Progress on Household Drinking Water and Sanitation 2000–2024 (2025)</a></li>
         <li><a href="https://tratabrasil.org.br/ranking-do-saneamento-2025/" target="_blank" rel="noopener">Instituto Trata Brasil — Ranking do Saneamento 2025 (dados SINISA 2023)</a></li>
-        <li>Fonte 4 — instituição e título (a preencher)</li>
-        <li>Fonte 5 — instituição e título (a preencher)</li>
+        <!-- usadas na seção "Desperdício de Água" -->
+        <li><a href="https://www.caesb.df.gov.br/dicas-de-economia-de-agua/" target="_blank" rel="noopener">Caesb — Dicas de economia de água</a></li>
+        <li><a href="https://www.wwf.org.br/?4080/" target="_blank" rel="noopener">WWF-Brasil (com base no Idec) — Economize água na sua casa</a></li>
       </ul>
     </div>
 
@@ -2350,6 +2123,7 @@
         <li>07 Esgoto — <a href="https://commons.wikimedia.org/wiki/File:Schleusenweg_Kanalisation_im_Bau.jpg" target="_blank" rel="noopener">Schleusenweg Kanalisation im Bau</a>, por Andreas Lippold (CC BY-SA 4.0)</li>
         <li>08 Tratamento do esgoto — <a href="https://commons.wikimedia.org/wiki/File:Doddabommasandra_Lake_STP_Bengaluru_sewage_treatment_plant_aerial_view_India.jpg" target="_blank" rel="noopener">Doddabommasandra Lake STP Bengaluru</a>, por Vraj Acharya, WELL Labs (CC BY-SA 4.0)</li>
         <li>09 Retorno — <a href="https://commons.wikimedia.org/wiki/File:Waterfall_In_The_Woods_(176697003).jpeg" target="_blank" rel="noopener">Waterfall In The Woods</a>, por Jochen Wolf (CC BY-SA 3.0)</li>
+        <li>Casa do desperdício — <a href="https://commons.wikimedia.org/wiki/File:CharlesandIngridKoebelHouseGrossePointeMI.jpg" target="_blank" rel="noopener">Charles and Ingrid Koebel House, Grosse Pointe MI</a>, por Andrew Jameson (CC BY-SA 3.0)</li>
       </ul>
       <p>As fotos foram recortadas e convertidas para WebP. As três imagens de
         <em>Tipos de Água</em> não constam desta lista — confira a origem delas antes de apresentar.</p>
@@ -2393,8 +2167,8 @@
 <script src="js/water-types.js"></script>
 <script src="js/water-cycle.js"></script>
 <script src="js/water-cards.js"></script>
+<script src="js/waste.js"></script>
 <script src="js/faucet.js"></script>
-<script src="js/waste-house.js"></script>
 <script src="js/simulator.js"></script>
 <script src="js/availability.js"></script>
 <script src="js/water-mode.js"></script>

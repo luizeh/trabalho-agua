@@ -14,7 +14,7 @@
     'AGUA_CICLO',
     'AGUA_CARDS',
     'AGUA_FAUCET',
-    'AGUA_HOUSE',
+    'AGUA_WASTE',
     'AGUA_SIM',
     'AGUA_AVAIL',
     'AGUA_MODE'
@@ -32,36 +32,7 @@
       }
     });
 
-    preencherDadosPesquisados();
     document.body.classList.add('is-ready');
-  }
-
-  /* ------------------------------------------------------------
-     Preenche os cards de desperdício com os dados de config.js.
-     Enquanto não houver dado, o card mantém o aviso "a inserir".
-     ------------------------------------------------------------ */
-  function preencherDadosPesquisados() {
-    var dados = (window.AGUA && window.AGUA.desperdicio) || [];
-    var slots = document.querySelectorAll('#desperdicio [data-source-slot]');
-
-    slots.forEach(function (slot, i) {
-      var item = dados[i];
-      if (!item || !item.texto) return;
-
-      slot.classList.add('is-filled');
-      slot.innerHTML = '';
-
-      var valor = document.createElement('span');
-      valor.setAttribute('data-value', '');
-      valor.textContent = item.texto;
-      slot.appendChild(valor);
-
-      if (item.fonte) {
-        var fonte = document.createElement('em');
-        fonte.textContent = ' — ' + item.fonte;
-        slot.appendChild(fonte);
-      }
-    });
   }
 
   if (document.readyState === 'loading') {

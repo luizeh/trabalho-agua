@@ -2,9 +2,9 @@
    CICLO DA ÁGUA — "O caminho de uma gota"
    · as nove etapas vivem em ETAPAS; a timeline, o percurso e o
      painel são gerados a partir dessa lista (nada é duplicado no HTML)
-   · a linha e a gota avançam com o scroll até o usuário assumir o
-     controle; a partir daí quem manda é o clique, o teclado ou a
-     reprodução automática
+   · a etapa ativa é o único estado: só muda por interação explícita
+     (clique, teclado, percurso, anterior/próximo ou reprodução).
+     O scroll NÃO mexe na timeline — ele só faz o parallax da paisagem.
    ============================================================ */
 
 window.AGUA_CICLO = (function () {
@@ -133,8 +133,7 @@ window.AGUA_CICLO = (function () {
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var el = {};
-  var atual = 0;
-  var mandaOUsuario = false;   // depois da primeira interação o scroll para de mandar
+  var atual = 0;               // índice da etapa ativa — o único estado da seção
   var tocando = null;
   var camadaAtiva = 0;
 
@@ -171,7 +170,7 @@ window.AGUA_CICLO = (function () {
     montarPercurso();
     montarCamadas();
     ligarControles();
-    ligarScroll();
+    ligarCena();
     ligarRevelacao();
 
     selecionar(0, true);
@@ -229,7 +228,7 @@ window.AGUA_CICLO = (function () {
       b.className = 'ct-dot';
       b.textContent = dois(etapa.n);
       b.setAttribute('aria-label', 'Etapa ' + etapa.n + ' — ' + etapa.titulo);
-      b.addEventListener('click', function () { assumir(); selecionar(i); });
+      b.addEventListener('click', function () { pausar(); selecionar(i); });
       frag.appendChild(b);
     });
 
@@ -300,8 +299,8 @@ window.AGUA_CICLO = (function () {
     if (el.anterior) el.anterior.disabled = i === 0;
     if (el.proximo) el.proximo.disabled = i === ETAPAS.length - 1;
 
-    // quando o usuário manda, a linha e a gota acompanham a etapa escolhida
-    if (mandaOUsuario) progresso(i / (ETAPAS.length - 1), i + 1);
+    // a linha e a gota sempre acompanham a etapa ativa — nada mais as move
+    progresso(i / (ETAPAS.length - 1), i + 1);
 
     precarregar(i + 1);
     precarregar(i - 1);
@@ -354,23 +353,12 @@ window.AGUA_CICLO = (function () {
     });
   }
 
-  function ligarScroll() {
+  /* O scroll só cuida da paisagem (parallax e luz). A etapa ativa, a linha e
+     a gota não dependem dele — mudam apenas em selecionar(). */
+  function ligarCena() {
     var pendente = false;
 
     function medir() {
-      // enquanto o usuário não interage, o percurso acompanha o scroll
-      if (!mandaOUsuario) {
-        var r = el.lista.getBoundingClientRect();
-        var vh = window.innerHeight;
-        var inicio = vh * 0.9;
-        var fim = vh * 0.35;
-        var bruto = (inicio - r.top) / (inicio - fim + r.height * 0.35);
-        var p = Math.min(Math.max(bruto, 0), 1);
-        progresso(p, Math.round(p * ETAPAS.length));
-      } else if (el.trilho) {
-        el.trilho.style.setProperty('--ct-w', el.trilho.clientWidth + 'px');
-      }
-
       cenaNoScroll();
       pendente = false;
     }
@@ -378,7 +366,13 @@ window.AGUA_CICLO = (function () {
     window.addEventListener('scroll', function () {
       if (!pendente) { window.requestAnimationFrame(medir); pendente = true; }
     }, { passive: true });
-    window.addEventListener('resize', medir);
+
+    // o trilho muda de largura ao redimensionar: a gota precisa reposicionar
+    window.addEventListener('resize', function () {
+      progresso(atual / (ETAPAS.length - 1), atual + 1);
+      medir();
+    });
+
     medir();
   }
 
@@ -403,14 +397,9 @@ window.AGUA_CICLO = (function () {
   /* ------------------------------------------------------------
      Controles: clique, teclado, anterior/próximo e reprodução
      ------------------------------------------------------------ */
-  function assumir() {
-    mandaOUsuario = true;
-    el.raiz.classList.add('is-manual');
-  }
-
   function ligarControles() {
     el.botoes.forEach(function (btn, i) {
-      btn.addEventListener('click', function () { pausar(); assumir(); selecionar(i); });
+      btn.addEventListener('click', function () { pausar(); selecionar(i); });
       btn.addEventListener('keydown', function (e) {
         var destino = null;
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') destino = (i + 1) % ETAPAS.length;
@@ -420,17 +409,16 @@ window.AGUA_CICLO = (function () {
         if (destino === null) return;
         e.preventDefault();
         pausar();
-        assumir();
         selecionar(destino);
         el.botoes[destino].focus();
       });
     });
 
     if (el.anterior) el.anterior.addEventListener('click', function () {
-      pausar(); assumir(); selecionar(atual - 1);
+      pausar(); selecionar(atual - 1);
     });
     if (el.proximo) el.proximo.addEventListener('click', function () {
-      pausar(); assumir(); selecionar(atual + 1);
+      pausar(); selecionar(atual + 1);
     });
     if (el.play) el.play.addEventListener('click', function () {
       tocando ? pausar() : reproduzir();
@@ -438,7 +426,6 @@ window.AGUA_CICLO = (function () {
   }
 
   function reproduzir() {
-    assumir();
     if (atual === ETAPAS.length - 1) selecionar(0);
     rotular(true);
 

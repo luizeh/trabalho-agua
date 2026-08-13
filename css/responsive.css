@@ -181,20 +181,15 @@
   }
   .wt-step-name { text-align: left; font-size: 0.88rem; }
 
-  .waste-top { grid-template-columns: minmax(0, 1fr); }
-  .waste-visual { position: static; max-width: 260px; margin: 0 auto 10px; }
-  .section-title.left, .section-lead.left { text-align: center; margin-inline: auto; }
+  /* desperdício: a casa passa para cima e os cards ficam abaixo, em 2 colunas */
+  .waste-grid { grid-template-columns: minmax(0, 1fr); }
+  .waste-house { position: static; }   /* empilhado, grudar no topo atrapalha */
+  .waste-faixa { grid-template-columns: auto minmax(0, 1fr); }
+  .wf-nota { grid-column: 1 / -1; padding-left: 0; padding-top: 14px;
+             border-left: 0; border-top: 1px solid var(--line); }
 
   .faucet-lab { grid-template-columns: minmax(0, 1fr); }
   .faucet-stage svg { width: min(70%, 260px); }
-
-  /* o painel da casa deixa de flutuar e vira um bloco abaixo da ilustração */
-  .house-pop {
-    position: static !important;
-    width: 100% !important;
-    margin-top: 18px;
-    transform: none !important;
-  }
 
   .sim { grid-template-columns: minmax(0, 1fr); }
   .sim-visual { order: -1; }
@@ -329,9 +324,14 @@
   .faucet-actions { flex-direction: column; align-items: stretch; }
   .faucet-actions .btn { width: 100%; }
 
-  .house-stage { border-radius: var(--radius-sm); }
-  .hotspot { width: 40px; height: 40px; }   /* área de toque adequada */
-  .hotspot em { font-size: 0.7rem; }
+  /* desperdício no celular: cards empilhados e projeção em coluna única */
+  .waste-cards { grid-template-columns: minmax(0, 1fr); }
+  .wc.is-active { grid-column: auto; }
+  .wc-proj-lista { grid-template-columns: minmax(0, 1fr); }
+  .wc-comp-linha { grid-template-columns: minmax(84px, auto) minmax(0, 1fr) auto; font-size: 0.74rem; }
+  .waste-faixa { grid-template-columns: minmax(0, 1fr); }
+  .wf-mark { margin-bottom: 4px; }
+  .wh-spot-nome { font-size: 0.68rem; padding: 3px 8px; }
 
   .sim-bar { grid-template-columns: 74px minmax(0, 1fr); }
   .tank { width: min(100%, 180px); }

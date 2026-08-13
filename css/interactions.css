@@ -612,111 +612,6 @@
 }
 .faucet-stage.is-open .faucet-hint { opacity: .45; }
 
-/* torneira decorativa da seção Desperdício: registro gira no hover */
-.tap-wheel { transform-origin: 118px 70px; transition: transform 900ms var(--ease); }
-.waste-visual:hover .tap-wheel { transform: rotate(120deg); }
-
-/* ------------------------------------------------------------
-   CASA — destaque de cômodo + painel compacto
-   ------------------------------------------------------------ */
-.house-stage { cursor: default; }
-
-.room-glow {
-  fill: #4fc3ff;
-  opacity: 0;
-  transition: opacity 380ms var(--ease);
-  pointer-events: none;
-}
-.room.is-lit .room-glow { opacity: .1; }
-.room[data-room="jardim"].is-lit .room-glow { fill: #4ade80; opacity: .14; }
-
-.room-drip circle { opacity: 0; }
-.room.is-lit .room-drip circle { animation: roomDrip 1.5s ease-in infinite; }
-.room.is-lit .room-drip circle:nth-child(2) { animation-delay: .7s; }
-@keyframes roomDrip {
-  0%   { opacity: 0;  transform: translateY(0) }
-  20%  { opacity: .9 }
-  100% { opacity: 0;  transform: translateY(26px) }
-}
-
-.room-spin { transition: transform 900ms var(--ease); }
-.room.is-lit .room-spin { animation: roomSpin 2.4s linear infinite; }
-@keyframes roomSpin { to { transform: rotate(360deg) } }
-
-.room-sway { transition: transform 700ms var(--ease); }
-.room.is-lit .room-sway { animation: roomSway 2.6s ease-in-out infinite; }
-@keyframes roomSway {
-  0%, 100% { transform: rotate(0deg) }
-  50%      { transform: rotate(-7deg) }
-}
-
-.house-pop {
-  position: absolute;
-  z-index: 5;
-  width: min(300px, 78%);
-  padding: 18px 20px 20px;
-  animation: popIn 320ms var(--ease);
-  transform-origin: var(--pop-origin, 50% 0%);
-}
-@keyframes popIn {
-  from { opacity: 0; transform: scale(.92) translateY(-6px); }
-  to   { opacity: 1; transform: none; }
-}
-.house-pop h3 { font-size: 1.05rem; color: var(--cyan-300); margin: 10px 0 6px; }
-.house-pop > p { font-size: .84rem; color: var(--text-soft); margin: 0; }
-.house-pop .house-list { margin-top: 12px; gap: 7px; }
-.house-pop .house-list li { padding: 7px 11px 7px 28px; font-size: .8rem; }
-.house-pop .house-list li::before { left: 11px; top: .95em; width: 6px; height: 6px; }
-
-.house-pop-icon {
-  display: grid; place-items: center;
-  width: 38px; height: 38px;
-  border-radius: 11px;
-  border: 1px solid var(--line-strong);
-  background: linear-gradient(150deg, rgba(56, 217, 255, .2), rgba(6, 20, 38, .6));
-}
-.house-pop-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--cyan-300);
-                      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-
-.house-pop-close {
-  position: absolute;
-  top: 10px; right: 10px;
-  display: grid; place-items: center;
-  width: 30px; height: 30px;
-  border-radius: 9px;
-  border: 1px solid var(--line);
-  background: rgba(6, 22, 40, .7);
-  color: var(--text-mute);
-  cursor: pointer;
-  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
-}
-.house-pop-close:hover { color: var(--text); border-color: var(--line-strong); }
-.house-pop-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2;
-                       stroke-linecap: round; }
-
-.house-fix {
-  margin: 12px 0 0;
-  padding-top: 11px;
-  border-top: 1px solid var(--line);
-  font-size: .8rem;
-  color: var(--mint-300);
-}
-.house-fix:empty { display: none; }
-
-.house-hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin: 20px 0 0;
-  font-size: .86rem;
-  color: var(--text-mute);
-  transition: opacity var(--t-mid) var(--ease);
-}
-.house-hint svg { width: 17px; height: 17px; fill: none; stroke: var(--cyan-400); stroke-width: 1.6;
-                  stroke-linecap: round; stroke-linejoin: round; }
-.house.is-exploring .house-hint { opacity: 0; }
-
 /* ------------------------------------------------------------
    SIMULADOR — o cenário responde ao consumo
    ------------------------------------------------------------ */
@@ -784,8 +679,6 @@
   /* tipos de agua: tocar acende a etapa do caminho (o JS marca .is-on) */
   .wt-steps li:has(.is-on) { opacity: 1; }
 
-  .waste-visual.is-touched .tap-wheel { transform: rotate(120deg); }
-
   /* "a água está em tudo": tocar o card faz o mesmo que o hover */
   .eco-card.is-touched {
     transform: translateY(-6px);
@@ -822,9 +715,7 @@
   .eco-pipe,
   .eco-drum,
   .eco-fall,
-  .room-drip circle,
-  .room-spin,
-  .room-sway,
+  .wh-spot-dot::after,
   .tank-bubbles i,
   #faucet-drop .fd,
   #faucet-ripple .fr,

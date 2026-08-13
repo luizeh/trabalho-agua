@@ -21,7 +21,7 @@ extensão *Live Server* do VS Code → botão direito em `index.html` → *Open 
 ```
 trabalho-agua/
 ├─ index.html              página completa (HTML semântico + ícones SVG)
-├─ assets/images/          fotos dos tipos de água e do ciclo da água
+├─ assets/images/          fotos: tipos de água, ciclo da água e a casa do desperdício
 ├─ css/
 │  ├─ global.css           cores, tipografia, layout base
 │  ├─ components.css       header, hero, cards, timeline, simulador...
@@ -37,8 +37,8 @@ trabalho-agua/
    ├─ water-types.js       blocos, imagens e caminhos de "tipos de água"
    ├─ water-cycle.js       ciclo da água: etapas, painel, percurso e reprodução
    ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
+   ├─ waste.js             desperdício: casa com hotspots, cards e projeções
    ├─ faucet.js            torneira interativa
-   ├─ waste-house.js       casa do desperdício
    ├─ simulator.js         simulador de consumo
    ├─ availability.js      esfera de disponibilidade de água
    ├─ water-mode.js        modo "como seria sem água?"
@@ -154,6 +154,14 @@ arquivo. Cada etapa tem:
 
 Para corrigir um texto, edite ali — a interface toda acompanha.
 
+### 3d. Imagem da casa → `assets/images/waste/waste-house.webp`
+
+Foto real (1600×1000, 16:10) de uma casa modernista, com licença livre.
+**A proporção 16:10 importa:** as posições dos pontos luminosos são
+porcentagens da imagem, definidas em `js/waste.js`. Se trocar a foto por
+outra de proporção diferente, os pontos saem do lugar — ajuste o `x`/`y`
+de `PONTOS` no mesmo arquivo.
+
 ### 4. Dados numéricos → `js/config.js`
 
 > **Nenhum número foi inventado neste projeto.** Enquanto os campos estiverem
@@ -178,15 +186,6 @@ vazoes: {
 }
 ```
 
-**Cards de desperdício** (na mesma ordem em que aparecem na seção):
-
-```js
-desperdicio: [
-  { chave: 'banho', texto: 'até 135 L em um banho de 15 minutos', fonte: 'SABESP' },
-  ...
-]
-```
-
 **Disponibilidade de água no planeta:**
 
 ```js
@@ -202,9 +201,15 @@ disponibilidade: {
 Onde buscar: **ONU**, **ANA (Agência Nacional de Águas)**, **UNESCO**,
 companhias de saneamento, órgãos ambientais e o material fornecido pelo professor.
 
-### 5. Textos da casa do desperdício → `js/config.js`
+### 5. Dados do desperdício → `js/waste.js`
 
-Objeto `comodos` — banheiro, cozinha, lavanderia, jardim e garagem.
+Os seis hábitos e os cinco pontos da casa ficam em `PONTOS` e `CARDS`, no
+começo do arquivo. Cada card já traz o número pesquisado, a premissa do
+cálculo e a fonte com link — **não há nada a preencher**. As projeções de
+30 dias e 1 ano são calculadas a partir do valor da fonte, nunca fixas.
+
+Fontes usadas: **Caesb** (banho, torneira, louça, calçada) e **WWF-Brasil,
+com base no Idec** (vazamento e rega).
 
 ### 6. Definição de "água cinza"
 
@@ -237,7 +242,8 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Ciclo da água | *O caminho de uma gota* | paisagem real ao fundo, gota central flutuando e uma linha que avança com o scroll; clicar (ou usar as setas) escolhe a etapa e troca a foto e o texto do painel |
 | Percurso da gota | *O caminho de uma gota* | os números 01–09, os botões anterior/próximo e **Reproduzir percurso** navegam pelas nove etapas |
 | Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
-| Casa do desperdício | *A casa do desperdício* | passar o mouse acende o cômodo (chuveiro pinga, máquina gira, planta balança); clicar abre um painel junto ao ponto |
+| Casa do desperdício | *Desperdício de Água* | foto real com cinco pontos luminosos; clicar em um ponto abre o hábito correspondente, e passar o mouse num card acende o ponto na casa |
+| Hábitos e projeções | *Desperdício de Água* | cada card abre com a comparação, o volume em 1 dia / 30 dias / 1 ano (calculado) e a fonte do número |
 | Simulador | *Como nossos hábitos...* | 3 sliders; a caixa d'água esvazia, muda de cor e as bolhas somem |
 | Esfera de disponibilidade | *Quanta água temos?* | diminui progressivamente no scroll |
 | Modo sem água | header e rodapé | remove cor, brilho e movimento da página |
