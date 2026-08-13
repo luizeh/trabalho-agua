@@ -13,6 +13,13 @@
   .timeline-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 34px; }
   .timeline-track { display: none; }
 
+  /* tipos de água: a imagem cede espaço para o texto */
+  .wt-block,
+  .wt-block[data-media="right"] { min-height: 0; }
+  .wt-block { grid-template-columns: minmax(0, 40fr) minmax(0, 60fr); }
+  .wt-block[data-media="right"] { grid-template-columns: minmax(0, 60fr) minmax(0, 40fr); }
+  .wt-step-name { font-size: 0.74rem; }
+
   .footer-grid { grid-template-columns: 1.3fr 1fr 1.2fr; }
   .footer-seal { grid-column: 1 / -1; }
 }
@@ -126,6 +133,46 @@
   }
   .eco-card[data-theme="cotidiano"] .eco-art { align-self: stretch; margin-top: 4px; }
   .eco-card[data-theme="cotidiano"] .type-toggle { margin-top: 18px; }
+
+  /* --- Tipos de água: empilha na ordem título → texto → imagem → info → fluxo --- */
+  .wt-list { width: min(100% - 2.5rem, var(--container)); gap: clamp(48px, 8vw, 76px); }
+  .wt-block,
+  .wt-block[data-media="right"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "media" "info" "flow";
+    grid-template-rows: auto;
+  }
+  .wt-media { min-height: clamp(200px, 40vw, 300px); }
+  /* na pilha a imagem entra de baixo, como o resto do conteúdo.
+     o :not(.is-in) é necessário: sem ele esta regra venceria por ordem
+     de arquivo e a imagem nunca voltaria para translate 0. */
+  .wt-block:not(.is-in) .wt-media,
+  .wt-block[data-media="right"]:not(.is-in) .wt-media { translate: 0 22px; }
+
+  /* os caminhos passam a ser verticais: nada de rolagem lateral */
+  .wt-steps {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    gap: 18px;
+    max-width: 420px;
+  }
+  .wt-steps li { justify-items: start; }
+  .wt-steps li:not(:last-child)::after {
+    top: 54px; bottom: -18px;
+    left: 27px; right: auto;
+    width: 1px; height: auto;
+    margin: 4px 0;
+    background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.45), rgba(var(--accent-rgb), 0.12));
+  }
+  .wt-step {
+    grid-template-columns: 54px minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    gap: 16px;
+    padding: 0;
+    text-align: left;
+  }
+  .wt-step-name { text-align: left; font-size: 0.88rem; }
 
   .waste-top { grid-template-columns: minmax(0, 1fr); }
   .waste-visual { position: static; max-width: 260px; margin: 0 auto 10px; }
@@ -242,8 +289,17 @@
   .section-kicker { font-size: 0.7rem; letter-spacing: 0.16em; }
   .section-kicker .rule { width: 24px; }
 
-  .type-body { margin-top: -22px; }
   .tab-buttons { flex-direction: column; }
+
+  /* tipos de água no celular */
+  .wt-list { width: min(100% - 2rem, var(--container)); }
+  .wt-block { padding: 20px; border-radius: 22px; }
+  .wt-num span { width: 40px; height: 40px; border-radius: 12px; }
+  .wt-media-empty code { display: none; }
+  .wt-facts li { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; }
+  .wt-fact-ico { width: 38px; height: 38px; border-radius: 11px; }
+  .wt-fact-ico svg { width: 19px; height: 19px; }
+  .wt-where > div { grid-template-columns: minmax(0, 1fr); }
 
   /* na casa do cotidiano os rótulos ficariam ilegíveis nesse tamanho */
   .eco-labels { display: none; }
@@ -315,13 +371,16 @@
   body::before, body::after { display: none; }
   .reveal { opacity: 1 !important; transform: none !important; }
 
-  /* a seção "está em tudo" entra por scroll: no papel precisa vir pronta */
+  /* seções que entram por scroll: no papel precisam vir prontas */
   .section-eco { min-height: 0; }
+  .wt-bg { display: none; }
+  .wt-block { min-height: 0; break-inside: avoid; }
+  .wt-media, .wt-head, .wt-info, .wt-flow { opacity: 1 !important; translate: none !important; }
   .eco-core { opacity: 1 !important; }
   .eco-card { opacity: 1 !important; translate: none !important; }
   .eco-trace { stroke-dashoffset: 0 !important; }
   .eco-node { opacity: .75 !important; }
   .eco-flow { display: none; }
   .section { padding: 24px 0; break-inside: avoid; }
-  .card, .type-card, .action { border-color: #ccd; box-shadow: none; }
+  .card, .wt-block, .action { border-color: #ccd; box-shadow: none; }
 }

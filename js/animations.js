@@ -55,7 +55,7 @@ window.AGUA_ANIM = (function () {
      2) Halo luminoso acompanhando o mouse nos cards
      ------------------------------------------------------------ */
   function initCardGlow() {
-    var cards = document.querySelectorAll('.card-glow, .type-card');
+    var cards = document.querySelectorAll('.card-glow');
     if (!cards.length) return;
 
     cards.forEach(function (card) {

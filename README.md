@@ -21,6 +21,8 @@ extensão *Live Server* do VS Code → botão direito em `index.html` → *Open 
 ```
 trabalho-agua/
 ├─ index.html              página completa (HTML semântico + ícones SVG)
+├─ assets/
+│  └─ images/water-types/  ★ COLOQUE AQUI as 3 imagens dos tipos de água
 ├─ css/
 │  ├─ global.css           cores, tipografia, layout base
 │  ├─ components.css       header, hero, cards, timeline, simulador...
@@ -33,6 +35,7 @@ trabalho-agua/
    ├─ animations.js        reveal por scroll, parallax, partículas, abas
    ├─ svg-interactions.js  parallax local, ripple, toque, draw-svg
    ├─ water-link.js        gota central e ligações de "a água está em tudo"
+   ├─ water-types.js       blocos, imagens e caminhos de "tipos de água"
    ├─ timeline.js          gota no scroll + etapas clicáveis
    ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
    ├─ faucet.js            torneira interativa
@@ -77,7 +80,25 @@ Logo abaixo, na coluna **Fontes**. Coloque apenas fontes realmente consultadas:
 <li><a href="https://..." target="_blank" rel="noopener">ANA — título do material</a></li>
 ```
 
-### 3. Dados numéricos → `js/config.js`
+### 3. Imagens dos tipos de água → `assets/images/water-types/`
+
+A seção **Tipos de Água** tem três blocos grandes com um espaço reservado
+para uma imagem em cada um. Basta colocar os arquivos na pasta com estes
+nomes — o site passa a exibi-los sozinho, sem mexer no código:
+
+```
+assets/images/water-types/
+├─ blue-water.webp    01 Água Azul    (rios, lagos, reservatórios)
+├─ green-water.webp   02 Água Verde   (chuva, árvore, raízes, solo)
+└─ grey-water.webp    03 Água Cinza   (casa, tubulações, lançamento)
+```
+
+Enquanto o arquivo não existir, aparece um espaço reservado com o nome
+esperado — nada fica quebrado. Para usar `.jpg` ou `.png`, troque a
+extensão no `src` dentro de `index.html` (procure por `water-types`).
+Detalhes de formato e proporção em `assets/images/water-types/LEIA-ME.txt`.
+
+### 4. Dados numéricos → `js/config.js`
 
 > **Nenhum número foi inventado neste projeto.** Enquanto os campos estiverem
 > `null`, o site funciona em modo demonstrativo: mostra proporções, animações e
@@ -120,11 +141,11 @@ disponibilidade: {
 Onde buscar: **ONU**, **ANA (Agência Nacional de Águas)**, **UNESCO**,
 companhias de saneamento, órgãos ambientais e o material fornecido pelo professor.
 
-### 4. Textos da casa do desperdício → `js/config.js`
+### 5. Textos da casa do desperdício → `js/config.js`
 
 Objeto `comodos` — banheiro, cozinha, lavanderia, jardim e garagem.
 
-### 5. Definição de "água cinza"
+### 6. Definição de "água cinza"
 
 A seção **Tipos de Água** traz **as duas definições corretas** em abas, porque o
 termo muda de sentido conforme o conteúdo estudado:
@@ -147,8 +168,10 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Cards | várias seções | sobem no hover e o **ícone reage** (coração pulsa, folha inclina, fábrica acende, luz da casa acende) |
 | Gota central | *A água está em tudo* | três linhas saem da gota até Vida, Indústria e Cotidiano; passar o mouse na gota acende as três, passar em um card acende só a ligação dele e recua as outras |
 | Ambientes | *A água está em tudo* | cada card traz uma cena própria que reage ao hover: a árvore balança e a luz do peito pulsa, as janelas da fábrica acendem e o vapor sobe, a casa acende e o tambor da máquina gira |
-| Tipos de água | *Tipos de Água* | camadas seguem o mouse (parallax até 5px), brilho atravessa a água, copa balança, fluxo percorre os canos |
-| Expansão dos tipos | *Tipos de Água* | botão revela a cadeia do percurso; na Água Cinza o fluxo acompanha a aba escolhida |
+| Caminho da água | *Tipos de Água* | passar o mouse destaca a etapa e recua as outras; clicar mostra o que acontece nela |
+| Ver o percurso | *Tipos de Água* | na Água Verde, o botão acende as seis etapas uma por vez |
+| Onde ela está? | *Tipos de Água* | na Água Azul, abre a explicação de rios, lagos, reservatórios e aquíferos |
+| Duas definições | *Tipos de Água* | na Água Cinza, as abas trocam o texto, as informações **e** o caminho da água |
 | "Ver mais" | *A água está em tudo* | abre um parágrafo extra dentro do próprio card, sem modal |
 | Timeline do ciclo | *O caminho de uma gota* | gota percorre as 9 etapas no scroll; clicar destaca a etapa e revela um detalhe |
 | Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
@@ -176,6 +199,7 @@ Não há quiz, pontuação, ranking, login nem cadastro.
 ## Performance
 
 - Sem bibliotecas externas — apenas HTML, CSS e JavaScript
-- Ícones e ilustrações em SVG inline (sem requisições de imagem)
+- Ícones e ilustrações em SVG inline; as únicas imagens são as três dos
+  tipos de água, com `loading="lazy"` (carregam só quando você chega nelas)
 - Partículas em canvas com densidade limitada, pausadas fora da tela e com a aba oculta
 - Scroll usando `requestAnimationFrame` e `IntersectionObserver`

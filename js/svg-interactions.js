@@ -24,7 +24,7 @@ window.AGUA_SVG = (function () {
   function initLocalParallax() {
     if (reduce.matches) return;
 
-    document.querySelectorAll('.type-art, .house-stage, .eco-art').forEach(function (stage) {
+    document.querySelectorAll('.house-stage, .eco-art').forEach(function (stage) {
       var layers = Array.prototype.slice.call(stage.querySelectorAll('.art-layer'));
       if (!layers.length) return;
 
@@ -90,7 +90,7 @@ window.AGUA_SVG = (function () {
   function initTouchStates() {
     if (!noHover.matches) return;
 
-    var alvos = '.card, .action, .type-card, .waste-visual';
+    var alvos = '.card, .action, .waste-visual';
 
     document.addEventListener('pointerdown', function (e) {
       var el = e.target.closest(alvos);

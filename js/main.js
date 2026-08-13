@@ -10,6 +10,7 @@
     'AGUA_ANIM',
     'AGUA_SVG',
     'AGUA_LINK',
+    'AGUA_TIPOS',
     'AGUA_TIMELINE',
     'AGUA_CARDS',
     'AGUA_FAUCET',
