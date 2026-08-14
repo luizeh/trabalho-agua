@@ -10,21 +10,23 @@
 window.AGUA_WASTE = (function () {
   'use strict';
 
-  /* Áreas marcadas sobre a foto. x/y são porcentagens da imagem
-     (1600 × 1000), então acompanham qualquer tamanho de tela. */
+  /* Pontos marcados sobre a foto. x/y são porcentagens da imagem
+     (1600 × 1000), então acompanham qualquer tamanho de tela.
+     A relação com os cards é de um para um: cada ponto abre um hábito. */
   var PONTOS = [
-    { id: 'banheiro',   rotulo: 'Banheiro',    x: 30, y: 43 },
-    { id: 'cozinha',    rotulo: 'Cozinha',     x: 60, y: 64 },
-    { id: 'lavanderia', rotulo: 'Lavanderia',  x: 70, y: 67 },
-    { id: 'externa',    rotulo: 'Área externa', x: 83, y: 67 },
-    { id: 'jardim',     rotulo: 'Jardim',      x: 16, y: 86 }
+    { id: 'chuveiro',   rotulo: 'Chuveiro',        x: 27, y: 41 },
+    { id: 'pia',        rotulo: 'Pia do banheiro', x: 58, y: 41 },
+    { id: 'cozinha',    rotulo: 'Cozinha',         x: 57, y: 66 },
+    { id: 'lavanderia', rotulo: 'Lavanderia',      x: 71, y: 72 },
+    { id: 'externa',    rotulo: 'Área externa',    x: 84, y: 64 },
+    { id: 'jardim',     rotulo: 'Jardim',          x: 16, y: 86 }
   ];
 
   /* Todos os números vêm das fontes citadas em "fonte". Nenhum foi estimado.
      "vezesPorDia" existe só para deixar a premissa da projeção explícita. */
   var CARDS = [
     {
-      id: 'banho', ponto: 'banheiro', icone: 'i-shower',
+      id: 'banho', ponto: 'chuveiro', icone: 'i-shower',
       titulo: 'Banho demorado',
       resumo: 'Cada minuto a mais no chuveiro se soma direto ao volume do banho.',
       valor: 120, unidade: 'L', contexto: 'em um banho de 20 minutos',
@@ -40,7 +42,7 @@ window.AGUA_WASTE = (function () {
       }
     },
     {
-      id: 'torneira', ponto: 'banheiro', icone: 'i-faucet',
+      id: 'torneira', ponto: 'pia', icone: 'i-faucet',
       titulo: 'Torneira aberta',
       resumo: 'Deixar a água correndo enquanto escova os dentes gasta quase tudo à toa.',
       valor: 18, unidade: 'L', contexto: 'a cada escovação com a torneira aberta',
@@ -139,9 +141,12 @@ window.AGUA_WASTE = (function () {
     el.legenda = raiz.querySelector('[data-waste-legend]');
     if (!el.mapa || !el.grade) return;
 
+    el.voltar = raiz.querySelector('[data-waste-back]');
+    if (el.voltar) el.voltar.addEventListener('click', function () { setAtivo(null); });
+
     montarPontos();
     montarCards();
-    setAtivo('banho');   // estado inicial visível, como pede o plano
+    setAtivo(null);   // começa com os seis cards fechados, nenhum ponto escolhido
   }
 
   /* ------------------------------------------------------------
@@ -163,9 +168,10 @@ window.AGUA_WASTE = (function () {
                     '<span class="wh-spot-nome">' + p.rotulo + '</span>';
 
       b.addEventListener('click', function () {
-        // um ambiente pode ter mais de um hábito: abre o primeiro dele
         var card = CARDS.filter(function (c) { return c.ponto === p.id; })[0];
-        if (card) setAtivo(card.id);
+        if (!card) return;
+        // clicar de novo no mesmo ponto volta para a visão geral
+        setAtivo(ativo === card.id ? null : card.id);
       });
 
       frag.appendChild(b);
@@ -201,7 +207,7 @@ window.AGUA_WASTE = (function () {
           '<span class="wc-unidade">' + c.unidade + '</span>' +
           '<span class="wc-contexto">' + c.contexto + '</span></span>';
 
-      cab.addEventListener('click', function () { setAtivo(c.id); });
+      cab.addEventListener('click', function () { setAtivo(ativo === c.id ? null : c.id); });
       cab.addEventListener('mouseenter', function () { realce(c.ponto, true); });
       cab.addEventListener('mouseleave', function () { realce(c.ponto, false); });
       cab.addEventListener('focus', function () { realce(c.ponto, true); });
@@ -270,14 +276,20 @@ window.AGUA_WASTE = (function () {
   /* ------------------------------------------------------------
      Estado único: um card ativo, com o ambiente correspondente
      ------------------------------------------------------------ */
+  /* id = null → visão geral: os seis cards aparecem fechados.
+     id = um hábito → só ele fica na tela, já expandido. */
   function setAtivo(id) {
-    var card = CARDS.filter(function (c) { return c.id === id; })[0];
-    if (!card) return;
-    ativo = id;
+    var card = id ? CARDS.filter(function (c) { return c.id === id; })[0] : null;
+    if (id && !card) return;
+    ativo = card ? card.id : null;
+
+    el.grade.classList.toggle('is-focado', !!card);
 
     el.cards.forEach(function (art) {
-      var on = art.getAttribute('data-card') === id;
+      var on = !!card && art.getAttribute('data-card') === card.id;
       art.classList.toggle('is-active', on);
+      // fora do foco os outros saem do fluxo e do alcance do teclado
+      art.hidden = !!card && !on;
       var cab = art.querySelector('.wc-head');
       var mais = art.querySelector('.wc-mais');
       cab.setAttribute('aria-expanded', String(on));
@@ -285,14 +297,20 @@ window.AGUA_WASTE = (function () {
     });
 
     el.pontos.forEach(function (b) {
-      var on = b.getAttribute('data-ponto') === card.ponto;
+      var on = !!card && b.getAttribute('data-ponto') === card.ponto;
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', String(on));
     });
 
+    if (el.voltar) el.voltar.hidden = !card;
+
     if (el.legenda) {
-      var ponto = PONTOS.filter(function (p) { return p.id === card.ponto; })[0];
-      el.legenda.textContent = ponto ? ponto.rotulo + ' — ' + card.titulo : card.titulo;
+      if (!card) {
+        el.legenda.textContent = 'Toque em um ponto da casa para ver o hábito daquele lugar.';
+      } else {
+        var ponto = PONTOS.filter(function (p) { return p.id === card.ponto; })[0];
+        el.legenda.textContent = ponto ? ponto.rotulo + ' — ' + card.titulo : card.titulo;
+      }
     }
   }
 

@@ -1524,7 +1524,8 @@
 <section class="section section-alt waste" id="desperdicio">
   <div class="container waste-grid">
 
-    <!-- ESQUERDA: a casa com os pontos de desperdício -->
+    <!-- ESQUERDA: a casa com os pontos de desperdício, e a faixa logo abaixo -->
+    <div class="waste-col">
     <figure class="waste-house glass reveal">
       <figcaption class="wh-frase">
         <strong>Cada gota conta.</strong>
@@ -1545,6 +1546,20 @@
       </p>
     </figure>
 
+      <!-- fica junto da casa para caber na mesma tela que o hábito aberto -->
+      <div class="waste-faixa glass reveal">
+        <span class="wf-mark interactive-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
+        </span>
+        <div class="wf-texto">
+          <strong>Consciência que transforma.</strong>
+          <span>Atitudes simples, repetidas todos os dias, reduzem o desperdício sem abrir mão do conforto.</span>
+        </div>
+        <p class="wf-nota">Os volumes vêm de companhias de saneamento e de organizações de defesa do
+          consumidor — cada card mostra a fonte e a condição do cálculo.</p>
+      </div>
+    </div>
+
     <!-- DIREITA: título e os seis hábitos -->
     <div class="waste-lado">
       <header class="waste-head reveal">
@@ -1552,24 +1567,15 @@
         <h2 class="section-title left">Desperdício de <span class="grad-text">Água</span></h2>
         <p class="section-lead left">Pequenas atitudes repetidas todos os dias podem virar um grande
           desperdício. Escolha um ponto da casa ou um hábito para ver o volume e a fonte.</p>
+
+        <button type="button" class="btn btn-ghost btn-sm click-feedback waste-back"
+                data-waste-back hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>
+          <span>Ver todos os hábitos</span>
+        </button>
       </header>
 
       <div class="waste-cards reveal" data-waste-cards></div>
-    </div>
-  </div>
-
-  <!-- FAIXA FINAL -->
-  <div class="container">
-    <div class="waste-faixa glass reveal">
-      <span class="wf-mark interactive-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
-      </span>
-      <div class="wf-texto">
-        <strong>Consciência que transforma.</strong>
-        <span>Atitudes simples, repetidas todos os dias, reduzem o desperdício sem abrir mão do conforto.</span>
-      </div>
-      <p class="wf-nota">Os volumes vêm de companhias de saneamento e de organizações de defesa do
-        consumidor — cada card mostra a fonte e a condição do cálculo.</p>
     </div>
   </div>
 </section>

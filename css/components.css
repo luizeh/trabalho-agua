@@ -1417,6 +1417,10 @@
 /* ============================================================
    DESPERDÍCIO DE ÁGUA — a casa, os hábitos e a faixa final
    ============================================================ */
+/* a seção é densa: menos respiro em cima e embaixo ajuda o hábito aberto
+   e a faixa a caberem na mesma tela */
+.waste { padding-block: clamp(56px, 6vw, 86px); }
+
 .waste-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
@@ -1424,11 +1428,18 @@
   align-items: start;
 }
 
+/* Coluna da esquerda: casa + faixa, que antes sobrava vazia.
+   Sem sticky de propósito — a coluna é mais baixa que a dos hábitos, e o
+   sticky a empurrava até o fim da grade, jogando a faixa para fora da tela. */
+.waste-col {
+  display: grid;
+  align-content: start;
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
 /* ---------- A casa ---------- */
 .waste-house {
-  /* acompanha a leitura dos cards em vez de deixar a coluna vazia */
-  position: sticky;
-  top: calc(var(--header-h) + 20px);
+  /* quem gruda no topo é a coluna inteira (.waste-col) */
   overflow: hidden;
   padding: clamp(16px, 1.8vw, 24px);
   margin: 0;
@@ -1575,12 +1586,30 @@
               box-shadow var(--t-mid) var(--ease), background-color var(--t-mid) var(--ease);
 }
 .wc:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 0 34px -14px rgba(56, 217, 255, 0.6); }
+
+/* com um ponto escolhido, só o hábito dele fica na tela */
+.waste-cards.is-focado { grid-template-columns: minmax(0, 1fr); }
 .wc.is-active {
-  grid-column: 1 / -1;    /* o card aberto ocupa a linha inteira */
+  grid-column: 1 / -1;
   border-color: rgba(56, 217, 255, 0.5);
   background: rgba(9, 30, 54, 0.72);
   box-shadow: 0 0 40px -16px rgba(56, 217, 255, 0.8);
+  animation: wcFoca 420ms var(--ease);
 }
+.wc.is-active:hover { transform: none; }
+@keyframes wcFoca { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* aberto, o resumo vira repetição do que o detalhe já diz */
+.wc.is-active .wc-resumo { display: none; }
+.wc.is-active .wc-head { padding-bottom: 14px; }
+.wc.is-active .wc-titulo { align-self: center; font-size: 1.08rem; }
+.wc.is-active .wc-valor { margin-top: 12px; padding-top: 11px; }
+
+/* .btn define display, que venceria o [hidden] do navegador */
+.waste-back[hidden] { display: none; }
+.waste-back { margin-top: 16px; }
+.waste-back svg { transform: rotate(90deg); }   /* chevron → seta para a esquerda */
+.waste-back:hover svg { transform: rotate(90deg) translateY(3px); }
 
 .wc-head {
   display: grid;
@@ -1706,13 +1735,13 @@
 .wc-fonte strong { color: var(--text-soft); }
 
 /* ---------- Faixa final ---------- */
+/* na coluna estreita: ícone + texto lado a lado, nota embaixo */
 .waste-faixa {
   display: grid;
-  grid-template-columns: auto minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: clamp(16px, 2vw, 30px);
-  margin-top: clamp(22px, 3vw, 40px);
-  padding: clamp(18px, 2.2vw, 28px);
+  gap: 12px clamp(14px, 1.6vw, 20px);
+  padding: clamp(15px, 1.7vw, 20px);
 }
 .wf-mark {
   display: grid;
@@ -1732,11 +1761,12 @@
 }
 .wf-texto span { display: block; margin-top: 3px; font-size: 0.85rem; line-height: 1.55; color: var(--text-mute); }
 .wf-nota {
+  grid-column: 1 / -1;
   margin: 0;
-  padding-left: clamp(16px, 2vw, 26px);
-  border-left: 1px solid var(--line);
-  font-size: 0.76rem;
-  line-height: 1.55;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 0.74rem;
+  line-height: 1.5;
   color: var(--text-mute);
 }
 

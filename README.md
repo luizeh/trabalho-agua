@@ -203,13 +203,21 @@ companhias de saneamento, órgãos ambientais e o material fornecido pelo profes
 
 ### 5. Dados do desperdício → `js/waste.js`
 
-Os seis hábitos e os cinco pontos da casa ficam em `PONTOS` e `CARDS`, no
-começo do arquivo. Cada card já traz o número pesquisado, a premissa do
-cálculo e a fonte com link — **não há nada a preencher**. As projeções de
-30 dias e 1 ano são calculadas a partir do valor da fonte, nunca fixas.
+Os seis hábitos e os seis pontos da casa ficam em `PONTOS` e `CARDS`, no
+começo do arquivo — **um ponto para cada hábito**. Cada card já traz o número
+pesquisado, a premissa do cálculo e a fonte com link: **não há nada a
+preencher**. As projeções de 30 dias e 1 ano são calculadas a partir do valor
+da fonte, nunca fixas.
 
 Fontes usadas: **Caesb** (banho, torneira, louça, calçada) e **WWF-Brasil,
 com base no Idec** (vazamento e rega).
+
+**Como a seção se comporta:** ao chegar, os seis cards aparecem fechados e
+nenhum ponto está aceso. Clicar em um ponto da casa (ou em um card) deixa
+**só aquele hábito na tela**, já aberto, e acende o ponto correspondente.
+Clicar de novo no mesmo ponto, ou no botão *Ver todos os hábitos*, volta para
+os seis fechados. A faixa *Consciência que transforma* fica na coluna da casa
+justamente para caber na mesma tela que o hábito aberto.
 
 ### 6. Definição de "água cinza"
 
@@ -242,7 +250,7 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Ciclo da água | *O caminho de uma gota* | paisagem real ao fundo, gota central flutuando e uma linha que avança com o scroll; clicar (ou usar as setas) escolhe a etapa e troca a foto e o texto do painel |
 | Percurso da gota | *O caminho de uma gota* | os números 01–09, os botões anterior/próximo e **Reproduzir percurso** navegam pelas nove etapas |
 | Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
-| Casa do desperdício | *Desperdício de Água* | foto real com cinco pontos luminosos; clicar em um ponto abre o hábito correspondente, e passar o mouse num card acende o ponto na casa |
+| Casa do desperdício | *Desperdício de Água* | foto real com seis pontos luminosos; clicar em um ponto deixa só o hábito daquele lugar na tela, e passar o mouse num card acende o ponto na casa |
 | Hábitos e projeções | *Desperdício de Água* | cada card abre com a comparação, o volume em 1 dia / 30 dias / 1 ano (calculado) e a fonte do número |
 | Simulador | *Como nossos hábitos...* | 3 sliders; a caixa d'água esvazia, muda de cor e as bolhas somem |
 | Esfera de disponibilidade | *Quanta água temos?* | diminui progressivamente no scroll |

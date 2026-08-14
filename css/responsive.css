@@ -183,10 +183,12 @@
 
   /* desperdício: a casa passa para cima e os cards ficam abaixo, em 2 colunas */
   .waste-grid { grid-template-columns: minmax(0, 1fr); }
-  .waste-house { position: static; }   /* empilhado, grudar no topo atrapalha */
-  .waste-faixa { grid-template-columns: auto minmax(0, 1fr); }
-  .wf-nota { grid-column: 1 / -1; padding-left: 0; padding-top: 14px;
-             border-left: 0; border-top: 1px solid var(--line); }
+  /* empilhado, a coluna se dissolve: a faixa volta para o fim da seção,
+     depois dos hábitos, e nada gruda no topo */
+  .waste-col { display: contents; }
+  .waste-house { order: 1; }
+  .waste-lado { order: 2; }
+  .waste-faixa { order: 3; }
 
   .faucet-lab { grid-template-columns: minmax(0, 1fr); }
   .faucet-stage svg { width: min(70%, 260px); }
@@ -332,6 +334,10 @@
   .waste-faixa { grid-template-columns: minmax(0, 1fr); }
   .wf-mark { margin-bottom: 4px; }
   .wh-spot-nome { font-size: 0.68rem; padding: 3px 8px; }
+  /* seis pontos numa foto pequena: um alvo pouco menor evita que as áreas de
+     toque se sobreponham. Os seis cards abaixo continuam sendo alvos grandes
+     para exatamente a mesma função. */
+  .wh-spot { width: 40px; height: 40px; }
 
   .sim-bar { grid-template-columns: 74px minmax(0, 1fr); }
   .tank { width: min(100%, 180px); }
