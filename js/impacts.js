@@ -2,7 +2,7 @@
    POLUIÇÃO E IMPACTOS
    · os seis impactos vivem em IMPACTOS; os cards e o conteúdo
      expandido são gerados a partir dessa lista
-   · "Ver mais" abre dentro do próprio card, com altura animada
+   · o conteúdo fica sempre visível: sem botão de abrir/fechar
    · nenhum dado repete números já usados em outras seções
    ============================================================ */
 
@@ -104,6 +104,22 @@ window.AGUA_IMPACTOS = (function () {
       fonte: 'UN-Water — indicador ODS 6.3.1 (2024)',
       contexto: 'Base pequena: apenas 22 países reportaram o dado industrial, então o número não vale como média mundial.',
       url: 'https://www.unwater.org/publications/progress-wastewater-treatment-2024-update'
+    },
+    {
+      id: 'pesca', icone: 'i-fish', accent: 'blue',
+      titulo: 'Pesca e alimentação',
+      imagem: IMG + 'pesca.webp',
+      alt: 'Pescador lançando uma rede de arremesso em um rio ao pôr do sol.',
+      resumo: 'Rio poluído é comida a menos na mesa de quem vive dele.',
+      texto: 'A pesca em rios e lagos sustenta comunidades inteiras, muitas vezes onde não há outra ' +
+             'fonte de proteína acessível. Quando a água perde qualidade, o estoque de peixe cai — e ' +
+             'quem depende dele sente primeiro.',
+      valor: '11,3 milhões', unidade: '',
+      dado: 'de toneladas de pescado por ano vêm de águas continentais. Ásia e África respondem por ' +
+            'mais de 90% desse total, onde a pesca é peça da segurança alimentar.',
+      fonte: 'FAO — The State of World Fisheries and Aquaculture (2024)',
+      contexto: 'Pesca de captura em águas continentais (rios, lagos e represas), sem contar a aquicultura.',
+      url: 'https://www.fao.org/3/cd0683en/online/sofia/2024/capture-fisheries-production.html'
     }
   ];
 
@@ -139,77 +155,16 @@ window.AGUA_IMPACTOS = (function () {
             '<svg viewBox="0 0 24 24"><use href="#' + im.icone + '"/></svg></span>' +
           '<h3 class="imp-titulo">' + im.titulo + '</h3>' +
           '<p class="imp-resumo">' + im.resumo + '</p>' +
-          '<button type="button" class="imp-btn" aria-expanded="false" aria-controls="imp-mais-' + im.id + '">' +
-            '<span>Ver mais</span>' +
-            '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron"/></svg>' +
-          '</button>' +
-          '<div class="imp-mais" id="imp-mais-' + im.id + '">' +
-            '<div class="imp-mais-inner">' +
-              '<p class="imp-texto">' + im.texto + '</p>' +
-              '<p class="imp-dado"><strong>' + im.valor + '</strong> ' + im.dado + '</p>' +
-              '<p class="imp-fonte"><span>Fonte:</span> ' + im.fonte + '. ' + im.contexto +
-                ' <a href="' + im.url + '" target="_blank" rel="noopener">Saiba mais</a></p>' +
-            '</div>' +
-          '</div>' +
+          '<p class="imp-texto">' + im.texto + '</p>' +
+          '<p class="imp-dado"><strong>' + im.valor + '</strong> ' + im.dado + '</p>' +
+          '<p class="imp-fonte"><span>Fonte:</span> ' + im.fonte + '. ' + im.contexto +
+            ' <a href="' + im.url + '" target="_blank" rel="noopener">Saiba mais</a></p>' +
         '</div>';
 
       frag.appendChild(art);
     });
 
     el.grade.appendChild(frag);
-    ligar();
-  }
-
-  /* ------------------------------------------------------------
-     "Ver mais": altura animada de 0 até a altura real do conteúdo.
-     Sem isso a abertura fica seca; com uma altura fixa, quebraria
-     em telas estreitas — por isso a medida é feita na hora.
-     ------------------------------------------------------------ */
-  function ligar() {
-    Array.prototype.forEach.call(el.grade.querySelectorAll('.imp'), function (art) {
-      var btn = art.querySelector('.imp-btn');
-      var painel = art.querySelector('.imp-mais');
-      var rotulo = btn.querySelector('span');
-
-      btn.addEventListener('click', function () {
-        var aberto = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!aberto));
-        art.classList.toggle('is-open', !aberto);
-        rotulo.textContent = aberto ? 'Ver mais' : 'Ver menos';
-        altura(painel, !aberto);
-      });
-    });
-
-    // ao redimensionar, quem está aberto precisa remedir
-    window.addEventListener('resize', function () {
-      Array.prototype.forEach.call(el.grade.querySelectorAll('.imp.is-open .imp-mais'), function (p) {
-        p.style.height = p.firstElementChild.offsetHeight + 'px';
-      });
-    });
-  }
-
-  function altura(painel, abrir) {
-    var alvo = painel.firstElementChild.offsetHeight;
-
-    if (reduce.matches) {
-      painel.style.height = abrir ? 'auto' : '0px';
-      return;
-    }
-
-    if (abrir) {
-      painel.style.height = alvo + 'px';
-      // depois da transição, "auto" deixa o conteúdo crescer sozinho
-      painel.addEventListener('transitionend', function fim(e) {
-        if (e.propertyName !== 'height') return;
-        painel.style.height = 'auto';
-        painel.removeEventListener('transitionend', fim);
-      });
-    } else {
-      // de "auto" não há transição: fixa a altura atual antes de fechar
-      painel.style.height = alvo + 'px';
-      void painel.offsetHeight;
-      painel.style.height = '0px';
-    }
   }
 
   return { init: init };
