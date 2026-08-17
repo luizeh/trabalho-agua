@@ -149,7 +149,8 @@ window.AGUA_LAB = (function () {
     el.litros = document.getElementById('labLiters');
     el.litrosSub = document.getElementById('labLitersSub');
     el.anuncio = document.getElementById('labAnuncio');
-    el.barra = document.getElementById('labBar');
+    el.scrub = document.getElementById('labScrub');
+    el.scrubMax = document.getElementById('labScrubMax');
     el.msg = document.getElementById('labMsg');
     el.skips = document.getElementById('labSkips');
     el.banho = document.getElementById('labBanho');
@@ -172,6 +173,7 @@ window.AGUA_LAB = (function () {
     ligarAbas();
     montarBanhos();
     ligarControles();
+    ligarScrub();
     trocarEquipamento('torneira', true);
     iniciarRelogio();
   }
@@ -311,6 +313,65 @@ window.AGUA_LAB = (function () {
     pulsar();
   }
 
+  /* ------------------------------------------------------------
+     Barra arrastável: percorre o tempo simulado com o dedo/mouse.
+     A escala acompanha o estado — minutos com a água correndo,
+     dias quando é vazamento, que é onde o volume só faz sentido.
+     ------------------------------------------------------------ */
+  var arrastando = false;
+
+  function escalaScrub() {
+    if (ehVazamento()) return { max: 30 * DIA, passo: HORA, rotulo: 'até 30 dias' };
+    if (st.equipamento === 'chuveiro') return { max: 30 * MIN, passo: 10, rotulo: 'até 30 min' };
+    return { max: 30 * MIN, passo: 5, rotulo: 'até 30 min' };
+  }
+
+  function sincronizarScrub(lpm) {
+    if (!el.scrub) return;
+    var e = escalaScrub();
+
+    // avançar pelos presets pode passar do fim da barra: a escala então cresce
+    var max = Math.max(e.max, Math.ceil(st.segundos / e.passo) * e.passo);
+    el.scrub.max = max;
+    el.scrub.step = e.passo;
+    el.scrub.disabled = lpm === 0;
+    el.scrub.value = Math.min(st.segundos, max);
+    el.scrub.setAttribute('aria-valuetext', tempoTexto(st.segundos));
+    el.scrub.style.setProperty('--fill', (max ? (st.segundos / max) * 100 : 0).toFixed(1) + '%');
+
+    if (el.scrubMax) {
+      el.scrubMax.textContent = max > e.max
+        ? 'até ' + tempoTexto(max)
+        : e.rotulo;
+    }
+  }
+
+  function ligarScrub() {
+    if (!el.scrub) return;
+
+    el.scrub.addEventListener('input', function () {
+      if (vazao() === 0) return;
+      arrastando = true;
+      st.rodando = false;          // arrastar assume o controle do relógio
+      st.segundos = parseFloat(el.scrub.value) || 0;
+      aplicar();
+      el.scrub.setAttribute('aria-valuetext', tempoTexto(st.segundos));
+      el.scrub.style.setProperty('--fill',
+        ((st.segundos / (parseFloat(el.scrub.max) || 1)) * 100).toFixed(1) + '%');
+      arrastando = false;
+    });
+
+    // soltar a barra vale como um salto: aí sim o leitor de tela é avisado
+    el.scrub.addEventListener('change', function () {
+      if (vazao() === 0) return;
+      pulsar();
+      if (el.anuncio) {
+        el.anuncio.textContent = estadoAtual().rotulo + '. ' + tempoTexto(st.segundos) +
+          ', ' + litrosTexto(litros(vazao(), st.segundos)) + ' litros.';
+      }
+    });
+  }
+
   /* pequeno pulso no número, para o salto não passar despercebido */
   function pulsar() {
     if (reduce.matches || !el.litros) return;
@@ -369,11 +430,7 @@ window.AGUA_LAB = (function () {
       el.litrosSub.textContent = lpm === 0 ? '' : 'a ' + n(lpm, lpm < 1 ? 2 : 1) + ' L/min';
     }
 
-    if (el.barra) {
-      // a barra enche em 5 minutos de água corrente; para vazamento, em 1 dia
-      var alvo = ehVazamento() ? DIA : 5 * MIN;
-      el.barra.style.width = Math.min(st.segundos / alvo, 1) * 100 + '%';
-    }
+    if (!arrastando) sincronizarScrub(lpm);
 
     if (el.msg && !soRelogio) el.msg.textContent = mensagem(e, lpm);
 

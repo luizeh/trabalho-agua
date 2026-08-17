@@ -1906,22 +1906,26 @@
 .lab-value small { font-size: 0.4em; font-weight: 700; -webkit-text-fill-color: var(--cyan-400); }
 .lab-sub { display: block; margin-top: 6px; font-size: 0.76rem; color: var(--text-mute); }
 
-.lab-bar {
-  height: 6px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-  margin-bottom: 18px;
+/* ---------- Barra de tempo arrastável ---------- */
+.lab-scrub { margin-bottom: 18px; }
+.lab-scrub-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
 }
-.lab-bar span {
-  display: block;
-  height: 100%;
-  width: 0%;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--blue-500), var(--cyan-400));
-  box-shadow: 0 0 14px rgba(56, 217, 255, 0.7);
-  transition: width 400ms var(--ease);
-}
+.lab-scrub-top label { cursor: pointer; }
+.lab-scrub-max { letter-spacing: 0.04em; color: var(--cyan-300); }
+
+.lab-scrub input[type="range"] { height: 44px; }   /* alvo de toque */
+.lab-scrub input[type="range"]:disabled { opacity: 0.4; cursor: not-allowed; }
+.lab-scrub input[type="range"]:disabled::-webkit-slider-thumb { display: none; }
+.lab-scrub input[type="range"]:disabled::-moz-range-thumb { visibility: hidden; }
 
 .lab-msg {
   min-height: 3em;

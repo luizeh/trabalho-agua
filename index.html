@@ -1832,7 +1832,15 @@
           </div>
         </div>
 
-        <div class="lab-bar"><span id="labBar"></span></div>
+        <!-- arrastar percorre o tempo simulado; os presets continuam abaixo -->
+        <div class="lab-scrub">
+          <div class="lab-scrub-top">
+            <label for="labScrub">Arraste para percorrer o tempo</label>
+            <span class="lab-scrub-max" id="labScrubMax">até 30 min</span>
+          </div>
+          <input type="range" id="labScrub" min="0" max="1800" step="5" value="0"
+                 aria-valuetext="00:00" disabled>
+        </div>
 
         <p class="lab-msg" id="labMsg" role="status">A torneira está fechada. Cada segundo fechada é água preservada.</p>
 
