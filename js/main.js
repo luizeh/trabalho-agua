@@ -15,6 +15,7 @@
     'AGUA_CARDS',
     'AGUA_LAB',
     'AGUA_WASTE',
+    'AGUA_IMPACTOS',
     'AGUA_SIM',
     'AGUA_AVAIL',
     'AGUA_MODE'

@@ -76,6 +76,16 @@ window.AGUA_TIPOS = (function () {
 
       var padrao = saida.textContent;
 
+      /* a troca de texto era instantânea; reiniciar a animação faz o
+         detalhe entrar como o resto dos conteúdos que abrem no site */
+      function trocar(el, texto) {
+        if (el.textContent === texto) return;
+        el.textContent = texto;
+        el.classList.remove('is-fresh');
+        void el.offsetWidth;          // reinicia a animação
+        el.classList.add('is-fresh');
+      }
+
       etapas.forEach(function (etapa) {
         etapa.addEventListener('click', function () {
           var jaAtiva = etapa.classList.contains('is-on');
@@ -86,13 +96,13 @@ window.AGUA_TIPOS = (function () {
           });
 
           if (jaAtiva) {                       // clicar de novo desmarca
-            saida.textContent = padrao;
+            trocar(saida, padrao);
             return;
           }
 
           etapa.classList.add('is-on');
           etapa.setAttribute('aria-pressed', 'true');
-          saida.textContent = etapa.getAttribute('data-detail') || padrao;
+          trocar(saida, etapa.getAttribute('data-detail') || padrao);
         });
       });
     });

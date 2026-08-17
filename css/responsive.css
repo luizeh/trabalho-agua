@@ -196,6 +196,11 @@
   .lab-art { width: min(72%, 260px); }
   .lab-readout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+  /* impactos: duas colunas e o destaque empilhado */
+  .imp-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .imp-destaque { grid-template-columns: minmax(0, 1fr); }
+  .imp-destaque .imp-media { min-height: 0; aspect-ratio: 16 / 9; }
+
   .sim { grid-template-columns: minmax(0, 1fr); }
   .sim-visual { order: -1; }
   .tank-glass { height: 220px; }
@@ -330,6 +335,7 @@
   .faucet-actions .btn { width: 100%; }
 
   /* desperdício no celular: cards empilhados e projeção em coluna única */
+  .imp-grade { grid-template-columns: minmax(0, 1fr); }
   .waste-cards { grid-template-columns: minmax(0, 1fr); }
   .wc.is-active { grid-column: auto; }
   .wc-proj-lista { grid-template-columns: minmax(0, 1fr); }

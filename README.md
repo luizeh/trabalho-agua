@@ -38,6 +38,7 @@ trabalho-agua/
    ├─ water-cycle.js       ciclo da água: etapas, painel, percurso e reprodução
    ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
    ├─ waste.js             desperdício: casa com hotspots, cards e projeções
+   ├─ impacts.js           poluição e impactos: seis cards com dado e fonte
    ├─ water-lab.js         laboratório: torneira e chuveiro, estados e projeções
    ├─ simulator.js         simulador de consumo
    ├─ availability.js      esfera de disponibilidade de água
@@ -127,8 +128,10 @@ Todas são fotografias reais, de bancos com **licença livre** (Wikimedia Common
 e Flickr, em CC BY, CC BY-SA ou CC0), recortadas e convertidas para WebP.
 Nenhuma tem marca d'água, texto ou logotipo.
 
-> **Os créditos são obrigatórios.** As licenças CC BY e CC BY-SA exigem citar o
-> autor. A lista completa já está no rodapé do site, em *Créditos das
+> **As imagens dos tipos de água (azul, verde e cinza) foram geradas por IA**
+> para fins educacionais — não são fotografias, e o rodapé do site diz isso.
+> As demais são fotos reais de acervo livre, e **os créditos são obrigatórios**:
+> as licenças CC BY e CC BY-SA exigem citar o autor. A lista completa já está no rodapé do site, em *Créditos das
 > fotografias*. Se trocar alguma foto, atualize o crédito correspondente.
 
 Para trocar uma foto, substitua o arquivo mantendo o mesmo nome e a mesma
@@ -232,6 +235,7 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | Ciclo da água | *O caminho de uma gota* | paisagem real ao fundo, gota central flutuando e uma linha que avança com o scroll; clicar (ou usar as setas) escolhe a etapa e troca a foto e o texto do painel |
 | Percurso da gota | *O caminho de uma gota* | os números 01–09, os botões anterior/próximo e **Reproduzir percurso** navegam pelas nove etapas |
 | Laboratório da água | *Experimente o desperdício* | escolha torneira ou chuveiro, deixe fechado, pingando, em filete ou aberto, e avance o tempo (+1 min a +30 dias) para ver o volume |
+| Impactos | *Poluição e impactos* | seis cards com foto real; o botão de expandir abre dentro do próprio card, com altura animada, e mostra o dado, o contexto e o link da fonte |
 | Barra de tempo | *Experimente o desperdício* | arraste para percorrer o tempo simulado; a escala muda com o estado (30 min correndo, 30 dias vazando) e cresce se os presets passarem do fim |
 | Projeções | *Experimente o desperdício* | o mesmo ritmo projetado em 1 min, 1 hora, 1 dia, 30 dias e 1 ano, sempre calculado a partir da vazão da fonte |
 | Casa do desperdício | *Desperdício de Água* | foto real com seis pontos luminosos; clicar em um ponto deixa só o hábito daquele lugar na tela, e passar o mouse num card acende o ponto na casa |

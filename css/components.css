@@ -1030,8 +1030,11 @@
   color: var(--text);
   box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.34);
 }
+/* a troca de aba tinha um corte seco: agora o painel entra como os
+   outros conteúdos que abrem no site (fade curto + subida) */
 .tab-panel { padding-top: 14px; }
 .tab-panel p { font-size: 0.9rem; }
+.tab-panel.is-active { animation: flowOpen 380ms var(--ease); }
 
 /* ============================================================
    CICLO DA ÁGUA — O CAMINHO DE UMA GOTA
@@ -2285,6 +2288,232 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 .sim-summary { font-size: 0.94rem; color: var(--text-soft); }
 .sim-summary strong { color: var(--cyan-300); font-family: var(--font-display); font-size: 1.1rem; }
 .sim-liters { color: var(--cyan-300); font-size: 0.92rem; }
+
+/* ============================================================
+   POLUIÇÃO E IMPACTOS
+   Composição hierárquica: o primeiro card ocupa a largura toda,
+   os outros cinco vêm menores mas ainda com imagem e dado.
+   ============================================================ */
+.imp-grade {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.imp {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(170deg, rgba(9, 28, 50, 0.72), rgba(4, 14, 28, 0.9));
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t-mid) var(--ease), border-color var(--t-mid) var(--ease),
+              box-shadow var(--t-mid) var(--ease);
+}
+.imp:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--accent-rgb), 0.42);
+  box-shadow: var(--shadow-card), 0 0 44px -18px rgba(var(--accent-rgb), 0.7);
+}
+
+/* cores por card, no mesmo esquema das outras seções */
+.imp[data-accent="cyan"]  { --accent-rgb: 56, 217, 255; }
+.imp[data-accent="blue"]  { --accent-rgb: 43, 143, 224; }
+.imp[data-accent="ice"]   { --accent-rgb: 207, 238, 255; }
+.imp[data-accent="green"] { --accent-rgb: 74, 222, 128; }
+
+/* ---------- destaque: imagem à esquerda, texto à direita ---------- */
+.imp-destaque {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-items: stretch;   /* a foto acompanha a altura do card */
+}
+.imp-destaque .imp-media { min-height: 320px; aspect-ratio: auto; }
+.imp-destaque .imp-corpo { justify-content: center; }
+
+/* Aberto, o destaque vira coluna única: em duas colunas a foto teria de
+   esticar junto com o texto e viraria uma tira vertical recortada. */
+.imp-destaque.is-open {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+.imp-destaque.is-open .imp-media { min-height: 0; aspect-ratio: 21 / 9; }
+.imp-destaque.is-open .imp-veu {
+  background: linear-gradient(180deg, rgba(3, 12, 24, 0.15), rgba(3, 12, 24, 0.72));
+}
+.imp-destaque .imp-titulo { font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.8rem); }
+.imp-destaque .imp-resumo { font-size: 0.98rem; max-width: 46ch; }
+
+/* ---------- imagem ---------- */
+.imp-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;   /* o zoom do hover não pode escapar */
+}
+.imp-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.82) saturate(0.9);
+  transform: scale(1);
+  transition: transform 620ms var(--ease), filter var(--t-mid) var(--ease);
+}
+.imp:hover .imp-media img { transform: scale(1.03); filter: brightness(0.92) saturate(0.98); }
+.imp.is-open .imp-media img { transform: scale(1.02); filter: brightness(0.95) saturate(1); }
+
+.imp-veu {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 12, 24, 0.15), rgba(3, 12, 24, 0.72));
+}
+.imp-destaque .imp-veu {
+  background: linear-gradient(100deg, rgba(3, 12, 24, 0.1), rgba(3, 12, 24, 0.55) 78%,
+              rgba(4, 14, 28, 0.92));
+}
+
+/* ---------- corpo ---------- */
+.imp-corpo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(18px, 2vw, 26px);
+}
+.imp-ico {
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.32);
+  background: radial-gradient(circle at 50% 30%, rgba(var(--accent-rgb), 0.28), rgba(3, 12, 24, 0.9));
+  transition: box-shadow var(--t-mid) var(--ease), border-color var(--t-mid) var(--ease);
+}
+.imp-ico svg {
+  width: 21px; height: 21px;
+  fill: none; stroke: rgb(var(--accent-rgb)); stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.imp:hover .imp-ico,
+.imp.is-open .imp-ico {
+  border-color: rgba(var(--accent-rgb), 0.6);
+  box-shadow: 0 0 24px -6px rgba(var(--accent-rgb), 0.85);
+}
+
+.imp-titulo {
+  margin: 0 0 8px;
+  font-size: 1.06rem;
+  /* filete colorido à esquerda, como assinatura do card */
+  padding-left: 12px;
+  border-left: 2px solid rgb(var(--accent-rgb));
+}
+.imp-resumo {
+  margin: 0 0 16px;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--text-mute);
+}
+
+/* ---------- botão ver mais ---------- */
+.imp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(var(--accent-rgb));
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.imp-btn svg {
+  width: 17px; height: 17px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform var(--t-mid) var(--ease);
+}
+.imp-btn:hover svg { transform: translateY(2px); }
+.imp-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.imp-btn[aria-expanded="true"]:hover svg { transform: rotate(180deg) translateY(2px); }
+
+/* ---------- conteúdo expandido ---------- */
+.imp-mais {
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+  transition: height 420ms var(--ease);
+}
+.imp-mais-inner { padding-top: 16px; }
+
+/* cada parte entra depois da anterior, mas só depois de o card abrir */
+.imp-texto, .imp-dado, .imp-fonte {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+}
+.imp.is-open .imp-texto { opacity: 1; transform: none; transition-delay: 140ms; }
+.imp.is-open .imp-dado  { opacity: 1; transform: none; transition-delay: 240ms; }
+.imp.is-open .imp-fonte { opacity: 1; transform: none; transition-delay: 330ms; }
+
+.imp-texto {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+}
+.imp-dado {
+  margin: 0 0 12px;
+  padding: 13px 15px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  background: rgba(var(--accent-rgb), 0.07);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+.imp-dado strong {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: rgb(var(--accent-rgb));
+}
+.imp-fonte {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-mute);
+}
+.imp-fonte span { color: var(--text-soft); font-weight: 600; }
+.imp-fonte a { overflow-wrap: anywhere; }
+
+/* ---------- nota de rodapé da seção ---------- */
+.imp-nota {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: clamp(20px, 2.4vw, 32px) 0 0;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--line-strong);
+  background: rgba(9, 28, 50, 0.44);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-mute);
+}
+.imp-nota svg {
+  width: 18px; height: 18px;
+  flex: none; margin-top: 3px;
+  fill: none; stroke: var(--cyan-400); stroke-width: 1.6;
+}
 
 /* ============================================================
    REUTILIZAÇÃO
