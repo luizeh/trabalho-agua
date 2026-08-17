@@ -59,7 +59,11 @@ window.AGUA_AVAIL = (function () {
     function renderPercent(etapa) {
       if (!pctSlot) return;
       if (etapa && etapa.percentual !== null && etapa.percentual !== undefined) {
-        pctSlot.textContent = etapa.percentual + '%' + (dados.fonte ? ' — fonte: ' + dados.fonte : '');
+        // pt-BR e sem zeros à toa: 100%, 2,5%, 0,78%, 0,007%
+        var pct = etapa.percentual.toLocaleString('pt-BR', { maximumFractionDigits: 3 });
+        pctSlot.textContent = pct + '% de toda a água do planeta' +
+          (etapa.nota ? ' — ' + etapa.nota : '') +
+          (dados.fonte ? ' (' + dados.fonte + ')' : '');
       } else {
         pctSlot.textContent = '';
       }

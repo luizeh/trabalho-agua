@@ -190,8 +190,11 @@
   .waste-lado { order: 2; }
   .waste-faixa { order: 3; }
 
-  .faucet-lab { grid-template-columns: minmax(0, 1fr); }
-  .faucet-stage svg { width: min(70%, 260px); }
+  /* laboratório: equipamento em cima, controles abaixo */
+  .lab { grid-template-columns: minmax(0, 1fr); }
+  .lab-stage { min-height: 0; order: -1; }
+  .lab-art { width: min(72%, 260px); }
+  .lab-readout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .sim { grid-template-columns: minmax(0, 1fr); }
   .sim-visual { order: -1; }
@@ -362,7 +365,8 @@
    ------------------------------------------------------------ */
 @media (max-width: 400px) {
   .hero-title { font-size: 3.6rem; }
-  .counter-value { font-size: 2.4rem; }
+  .lab-value { font-size: 2rem; }
+  .lab-readout { grid-template-columns: minmax(0, 1fr); }
   .ct-btn { grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; }
   .ct-ico { width: 48px; height: 48px; }
   .ct-ico svg { width: 22px; height: 22px; }

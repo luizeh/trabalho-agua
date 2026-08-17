@@ -1771,6 +1771,346 @@
 }
 
 /* ============================================================
+   LABORATÓRIO DA ÁGUA — torneira e chuveiro
+   Tudo aqui vive sob .lab-*, para que uma remoção de bloco
+   vizinho não leve estes estilos junto de novo.
+   ============================================================ */
+.lab {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(20px, 3vw, 44px);
+  align-items: start;
+  padding: clamp(20px, 2.6vw, 36px);
+}
+
+/* ---------- Seletor de equipamento ---------- */
+.lab-devices {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(4, 16, 30, 0.6);
+  justify-self: center;
+  margin-bottom: clamp(8px, 1.4vw, 18px);
+}
+.lab-device {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-mute);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.lab-device svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.lab-device:hover { color: var(--text); }
+.lab-device[aria-selected="true"] {
+  background: linear-gradient(120deg, rgba(21, 96, 207, 0.85), rgba(43, 143, 224, 0.9));
+  color: #fff;
+  box-shadow: 0 0 24px -8px rgba(56, 217, 255, 0.9);
+}
+
+/* ---------- Palco do equipamento ---------- */
+.lab-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 340px;
+}
+.lab-art { display: none; width: min(100%, 320px); }
+.lab-art.is-on { display: block; }
+
+.lab-hit {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+.lab-hint {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 0.84rem;
+  color: var(--text-mute);
+}
+
+/* ---------- Painel ---------- */
+.lab-panel { min-width: 0; }
+
+.lab-states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.lab-state {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 18, 34, 0.8);
+  color: var(--text-mute);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+              background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.lab-state:hover { transform: translateY(-2px); color: var(--text); }
+.lab-state[aria-pressed="true"] {
+  border-color: var(--cyan-400);
+  background: rgba(12, 52, 92, 0.9);
+  color: #eafaff;
+  box-shadow: 0 0 22px -8px rgba(56, 217, 255, 0.9);
+}
+
+/* leitura principal: tempo e litros */
+.lab-readout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+  margin-bottom: 18px;
+}
+.lab-metric { min-width: 0; }
+.lab-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 6px;
+}
+.lab-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 2.4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg, #ffffff, var(--cyan-300) 55%, var(--blue-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lab-value small { font-size: 0.4em; font-weight: 700; -webkit-text-fill-color: var(--cyan-400); }
+.lab-sub { display: block; margin-top: 6px; font-size: 0.76rem; color: var(--text-mute); }
+
+.lab-bar {
+  height: 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.lab-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--blue-500), var(--cyan-400));
+  box-shadow: 0 0 14px rgba(56, 217, 255, 0.7);
+  transition: width 400ms var(--ease);
+}
+
+.lab-msg {
+  min-height: 3em;
+  margin-bottom: 18px;
+  padding-left: 14px;
+  border-left: 2px solid var(--cyan-400);
+  color: var(--text-soft);
+  font-size: 0.92rem;
+}
+
+/* ---------- Avanço de tempo ---------- */
+.lab-skip { margin-bottom: 16px; }
+.lab-skip-title,
+.lab-proj-title {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.lab-skips { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab-skips button {
+  min-height: 44px;
+  padding: 0 15px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(6, 22, 40, 0.7);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+}
+.lab-skips button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(56, 217, 255, 0.6);
+  color: var(--cyan-300);
+}
+.lab-skips button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* tempo digitado */
+.lab-custom { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.lab-custom input,
+.lab-custom select {
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(4, 16, 30, 0.85);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+}
+.lab-custom input { width: 84px; }
+.lab-custom .btn { min-height: 44px; }
+.lab-custom input:focus-visible,
+.lab-custom select:focus-visible { border-color: var(--cyan-400); }
+
+.lab-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+
+/* ---------- Projeções ---------- */
+.lab-proj { margin-top: 4px; }
+.lab-projs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 8px;
+}
+.lab-projs li {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(4, 18, 34, 0.6);
+}
+.lab-projs span {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.lab-projs strong {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  color: var(--cyan-300);
+  font-variant-numeric: tabular-nums;
+}
+
+/* equivalência visual */
+.lab-equiv {
+  margin: 14px 0 0;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--line-strong);
+  background: rgba(7, 24, 44, 0.5);
+  font-size: 0.82rem;
+  color: var(--text-mute);
+}
+.lab-equiv strong { color: var(--mint-300); }
+
+/* ---------- Vazão + fonte ---------- */
+.lab-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.8rem;
+  color: var(--text-mute);
+}
+.lab-flow strong { color: var(--cyan-300); }
+
+.lab-fonte { position: relative; display: inline-block; }
+.lab-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;      /* alvo de toque confortável, como o resto dos controles */
+  padding: 0 13px 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(6, 20, 38, 0.7);
+  color: var(--text-mute);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.lab-info svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.lab-info:hover,
+.lab-fonte:focus-within .lab-info { border-color: var(--line-strong); color: var(--cyan-300); }
+
+.lab-detalhe {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 8;
+  width: max(260px, 100%);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: rgba(4, 16, 30, 0.98);
+  box-shadow: var(--shadow-card);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-mute);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease),
+              visibility var(--t-fast);
+}
+.lab-fonte:hover .lab-detalhe,
+.lab-fonte:focus-within .lab-detalhe { opacity: 1; visibility: visible; transform: none; }
+.lab-detalhe strong { color: var(--text-soft); }
+.lab-detalhe a { overflow-wrap: anywhere; }
+
+/* ---------- Água da torneira e do chuveiro ---------- */
+/* o estado do palco liga cada camada; nada aparece por padrão */
+#faucet-water, #faucet-drop, #faucet-ripple, #faucet-splash,
+#shower-spray, #shower-drop, #shower-ripple {
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.lab-stage[data-state="aberta"] #faucet-water,
+.lab-stage[data-state="aberta"] #faucet-ripple,
+.lab-stage[data-state="aberta"] #faucet-splash { opacity: 1; }
+.lab-stage[data-state="gota"] #faucet-drop,
+.lab-stage[data-state="filete"] #faucet-drop { opacity: 1; }
+.lab-stage[data-state="filete"] #faucet-water { opacity: .55; }
+
+.lab-stage[data-state="aberta"] #shower-spray,
+.lab-stage[data-state="aberta"] #shower-ripple { opacity: 1; }
+.lab-stage[data-state="gota"] #shower-drop { opacity: 1; }
+
+/* o registro e a aura ficam em interactions.css, junto das outras
+   microinterações da torneira */
+
+/* registro do chuveiro */
+#shower-knob { transform-origin: 150px 96px; transition: transform 700ms var(--ease); }
+.lab-stage[data-state="aberta"] #shower-knob { transform: rotate(38deg); }
+
+/* ============================================================
    SIMULADOR
    ============================================================ */
 .sim {
@@ -2231,6 +2571,20 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   border-top: 1px solid var(--line);
 }
 .footer-bottom p { font-size: 0.8rem; color: var(--text-mute); margin: 0; }
+
+/* a coluna de fontes cresceu: ocupa duas faixas da grade do rodapé */
+.footer-col-wide { grid-column: span 2; }
+.footer-sub {
+  margin: 16px 0 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-300);
+}
+.footer-sub:first-of-type { margin-top: 4px; }
+.footer-col-wide .footer-list { gap: 6px; }
 
 /* ---------- Créditos das fotografias ---------- */
 .footer-credits { margin-top: clamp(24px, 3vw, 38px); }

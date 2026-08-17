@@ -13,7 +13,7 @@
     'AGUA_TIPOS',
     'AGUA_CICLO',
     'AGUA_CARDS',
-    'AGUA_FAUCET',
+    'AGUA_LAB',
     'AGUA_WASTE',
     'AGUA_SIM',
     'AGUA_AVAIL',

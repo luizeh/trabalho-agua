@@ -1581,165 +1581,320 @@
 </section>
 
 <!-- ============================================================
-     TORNEIRA INTERATIVA
+     LABORATÓRIO — TORNEIRA E CHUVEIRO
+     Os estados, o avanço de tempo e as projeções vêm de
+     js/water-lab.js; as vazões e os vazamentos, de js/config.js.
      ============================================================ -->
 <section class="section" id="torneira">
   <div class="container">
     <header class="section-head reveal">
       <p class="section-kicker"><span class="rule"></span>Experiência<span class="rule"></span></p>
-      <h2 class="section-title">A torneira <span class="grad-text">aberta</span></h2>
-      <p class="section-lead">Abra a torneira e observe o tempo passar. Enquanto ela permanece aberta, a água não para de correr.</p>
+      <h2 class="section-title">Experimente o <span class="grad-text">desperdício</span></h2>
+      <p class="section-lead">Escolha o equipamento, deixe-o pingando ou aberto e avance o tempo:
+        o volume é calculado com a vazão de referência da companhia de saneamento.</p>
     </header>
 
-    <div class="faucet-lab reveal glass">
-      <div class="faucet-stage" id="faucetStage">
-        <button class="faucet-hit" id="faucetHit" aria-pressed="false"
-                aria-label="Abrir ou fechar a torneira">
-        <svg viewBox="0 0 340 440" class="faucet-svg" role="img"
-             aria-label="Torneira cromada sobre uma cuba">
-          <defs>
-            <!-- cromado: bandas claras e escuras alternadas dão leitura de metal -->
-            <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%"   stop-color="#26323f"/>
-              <stop offset="16%"  stop-color="#6d8296"/>
-              <stop offset="34%"  stop-color="#f2f8ff"/>
-              <stop offset="50%"  stop-color="#aebfd0"/>
-              <stop offset="66%"  stop-color="#63788c"/>
-              <stop offset="84%"  stop-color="#c3d4e3"/>
-              <stop offset="100%" stop-color="#2b3846"/>
-            </linearGradient>
-            <linearGradient id="chromeSoft" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%"   stop-color="#3a4a5c"/>
-              <stop offset="40%"  stop-color="#dfeaf5"/>
-              <stop offset="70%"  stop-color="#8ea3b8"/>
-              <stop offset="100%" stop-color="#34424f"/>
-            </linearGradient>
-            <linearGradient id="streamLab" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stop-color="#ddf5ff" stop-opacity=".95"/>
-              <stop offset="35%"  stop-color="#8fdcff" stop-opacity=".8"/>
-              <stop offset="100%" stop-color="#2b8fe0" stop-opacity=".3"/>
-            </linearGradient>
-            <linearGradient id="poolGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#7fd8ff" stop-opacity=".85"/>
-              <stop offset="100%" stop-color="#1560cf" stop-opacity=".7"/>
-            </linearGradient>
-            <radialGradient id="faucetAura" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#4fd0ff" stop-opacity=".5"/>
-              <stop offset="100%" stop-color="#4fd0ff" stop-opacity="0"/>
-            </radialGradient>
-            <clipPath id="basinClip">
-              <path d="M62 344h216l-15 46a24 24 0 0 1-23 17H100a24 24 0 0 1-23-17Z"/>
-            </clipPath>
-          </defs>
-
-          <!-- brilho azulado que cresce quando aberta -->
-          <ellipse id="faucet-aura" cx="176" cy="230" rx="150" ry="150" fill="url(#faucetAura)"/>
-
-          <!-- cuba -->
-          <g id="faucet-basin">
-            <path d="M62 344h216l-15 46a24 24 0 0 1-23 17H100a24 24 0 0 1-23-17Z"
-                  fill="#0d2136" stroke="#3f6f9c" stroke-width="2.5"/>
-            <g clip-path="url(#basinClip)">
-              <rect id="faucet-pool" x="60" y="407" width="220" height="0" fill="url(#poolGrad)"/>
-            </g>
-            <path d="M62 344h216" stroke="#8fc4ee" stroke-opacity=".5" stroke-width="2"/>
-          </g>
-
-          <!-- sombra projetada da base -->
-          <ellipse id="faucet-shadow" cx="118" cy="342" rx="52" ry="9" fill="#020a14" opacity=".55"/>
-
-          <g id="faucet-tilt">
-            <!-- corpo: base + gargalo -->
-            <g id="faucet-body">
-              <path d="M80 340c0-18 17-27 38-27s38 9 38 27Z" fill="url(#chrome)"/>
-              <ellipse cx="118" cy="340" rx="38" ry="7" fill="url(#chromeSoft)"/>
-              <path d="M118 330V210C118 152 141 122 186 122c45 0 68 30 68 74v32"
-                    stroke="url(#chrome)" stroke-width="30" fill="none" stroke-linecap="round"/>
-              <path d="M118 330V210C118 152 141 122 186 122c45 0 68 30 68 74v32"
-                    stroke="#f4faff" stroke-opacity=".22" stroke-width="8" fill="none"
-                    stroke-linecap="round" transform="translate(-7 0)"/>
-              <!-- colar do registro -->
-              <rect x="96" y="196" width="44" height="26" rx="12" fill="url(#chromeSoft)"/>
-              <!-- aerador -->
-              <rect x="238" y="222" width="32" height="18" rx="6" fill="url(#chrome)"/>
-              <ellipse cx="254" cy="240" rx="16" ry="4.5" fill="#8ba3ba"/>
-            </g>
-
-            <!-- reflexo especular que acompanha o mouse -->
-            <g id="faucet-highlight">
-              <path d="M110 322V212c0-52 20-80 60-82" stroke="#ffffff" stroke-opacity=".65"
-                    stroke-width="5" fill="none" stroke-linecap="round"/>
-              <path d="M246 200v34" stroke="#ffffff" stroke-opacity=".4" stroke-width="3"
-                    fill="none" stroke-linecap="round"/>
-              <ellipse cx="104" cy="332" rx="10" ry="3" fill="#ffffff" opacity=".35"/>
-            </g>
-
-            <!-- registro: gira ao abrir -->
-            <g id="faucet-handle">
-              <path d="M118 202 62 176" stroke="url(#chrome)" stroke-width="15"
-                    fill="none" stroke-linecap="round"/>
-              <ellipse cx="60" cy="175" rx="11" ry="9.5" fill="url(#chromeSoft)"/>
-              <path d="M112 198 70 178" stroke="#ffffff" stroke-opacity=".45"
-                    stroke-width="3" fill="none" stroke-linecap="round"/>
-            </g>
-          </g>
-
-          <!-- água -->
-          <g id="faucet-water">
-            <path id="faucet-stream-strong"
-                  d="M242 240c-3 40 3 82-1 126h27c-4-44 2-86-1-126Z" fill="url(#streamLab)"/>
-            <path id="faucet-stream-thin"
-                  d="M250 240c-1.5 40 1.5 82-.5 126h9c-2-44 1-86-.5-126Z" fill="url(#streamLab)"/>
-            <path id="faucet-stream-shine" d="M252 248c-2 38 1 76-1 110"
-                  stroke="#ffffff" stroke-opacity=".5" stroke-width="2.5" fill="none"/>
-          </g>
-
-          <g id="faucet-drop">
-            <circle class="fd fd1" cx="254" cy="252" r="5"/>
-            <circle class="fd fd2" cx="254" cy="252" r="4"/>
-            <circle class="fd fd3" cx="254" cy="252" r="3.2"/>
-          </g>
-
-          <g id="faucet-ripple" fill="none" stroke="#9fe4ff">
-            <ellipse class="fr fr1" cx="254" cy="368" rx="18" ry="5"/>
-            <ellipse class="fr fr2" cx="254" cy="368" rx="18" ry="5"/>
-            <ellipse class="fr fr3" cx="254" cy="368" rx="18" ry="5"/>
-          </g>
-
-          <g id="faucet-splash" fill="none" stroke="#bfeaff" stroke-linecap="round">
-            <path d="M232 362c-10 4-17 10-21 18" stroke-width="2.5"/>
-            <path d="M276 362c10 4 17 10 21 18" stroke-width="2.5"/>
-          </g>
-        </svg>
+    <div class="lab reveal glass" id="lab">
+      <div class="lab-devices" role="tablist" aria-label="Equipamento da simulação">
+        <button type="button" class="lab-device" role="tab" id="lab-tab-torneira"
+                aria-selected="true" aria-controls="labStage" data-lab-device="torneira">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-faucet"/></svg>
+          <span>Torneira</span>
         </button>
-        <p class="faucet-hint" id="faucetHint">Toque na torneira para abrir</p>
+        <button type="button" class="lab-device" role="tab" id="lab-tab-chuveiro"
+                aria-selected="false" aria-controls="labStage" data-lab-device="chuveiro" tabindex="-1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shower"/></svg>
+          <span>Chuveiro</span>
+        </button>
       </div>
 
-      <div class="faucet-panel">
-        <div class="counter">
-          <span class="counter-label">Tempo com a torneira aberta</span>
-          <output class="counter-value" id="faucetTime" aria-live="polite">00:00</output>
-          <div class="counter-bar"><span id="faucetBar"></span></div>
+      <div class="lab-stage" id="labStage" data-state="fechada">
+        <button type="button" class="lab-hit" id="labHit"
+                aria-label="Mudar o estado do equipamento">
+    <svg viewBox="0 0 340 440" class="lab-art is-on" id="faucetArt" role="img"
+                 aria-label="Torneira cromada sobre uma cuba">
+              <defs>
+                <!-- cromado: bandas claras e escuras alternadas dão leitura de metal -->
+                <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#26323f"/>
+                  <stop offset="16%"  stop-color="#6d8296"/>
+                  <stop offset="34%"  stop-color="#f2f8ff"/>
+                  <stop offset="50%"  stop-color="#aebfd0"/>
+                  <stop offset="66%"  stop-color="#63788c"/>
+                  <stop offset="84%"  stop-color="#c3d4e3"/>
+                  <stop offset="100%" stop-color="#2b3846"/>
+                </linearGradient>
+                <linearGradient id="chromeSoft" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#3a4a5c"/>
+                  <stop offset="40%"  stop-color="#dfeaf5"/>
+                  <stop offset="70%"  stop-color="#8ea3b8"/>
+                  <stop offset="100%" stop-color="#34424f"/>
+                </linearGradient>
+                <linearGradient id="streamLab" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#ddf5ff" stop-opacity=".95"/>
+                  <stop offset="35%"  stop-color="#8fdcff" stop-opacity=".8"/>
+                  <stop offset="100%" stop-color="#2b8fe0" stop-opacity=".3"/>
+                </linearGradient>
+                <linearGradient id="poolGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7fd8ff" stop-opacity=".85"/>
+                  <stop offset="100%" stop-color="#1560cf" stop-opacity=".7"/>
+                </linearGradient>
+                <radialGradient id="faucetAura" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#4fd0ff" stop-opacity=".5"/>
+                  <stop offset="100%" stop-color="#4fd0ff" stop-opacity="0"/>
+                </radialGradient>
+                <clipPath id="basinClip">
+                  <path d="M62 344h216l-15 46a24 24 0 0 1-23 17H100a24 24 0 0 1-23-17Z"/>
+                </clipPath>
+              </defs>
+
+              <!-- brilho azulado que cresce quando aberta -->
+              <ellipse id="faucet-aura" cx="176" cy="230" rx="150" ry="150" fill="url(#faucetAura)"/>
+
+              <!-- cuba -->
+              <g id="faucet-basin">
+                <path d="M62 344h216l-15 46a24 24 0 0 1-23 17H100a24 24 0 0 1-23-17Z"
+                      fill="#0d2136" stroke="#3f6f9c" stroke-width="2.5"/>
+                <g clip-path="url(#basinClip)">
+                  <rect id="faucet-pool" x="60" y="407" width="220" height="0" fill="url(#poolGrad)"/>
+                </g>
+                <path d="M62 344h216" stroke="#8fc4ee" stroke-opacity=".5" stroke-width="2"/>
+              </g>
+
+              <!-- sombra projetada da base -->
+              <ellipse id="faucet-shadow" cx="118" cy="342" rx="52" ry="9" fill="#020a14" opacity=".55"/>
+
+              <g id="faucet-tilt">
+                <!-- corpo: base + gargalo -->
+                <g id="faucet-body">
+                  <path d="M80 340c0-18 17-27 38-27s38 9 38 27Z" fill="url(#chrome)"/>
+                  <ellipse cx="118" cy="340" rx="38" ry="7" fill="url(#chromeSoft)"/>
+                  <path d="M118 330V210C118 152 141 122 186 122c45 0 68 30 68 74v32"
+                        stroke="url(#chrome)" stroke-width="30" fill="none" stroke-linecap="round"/>
+                  <path d="M118 330V210C118 152 141 122 186 122c45 0 68 30 68 74v32"
+                        stroke="#f4faff" stroke-opacity=".22" stroke-width="8" fill="none"
+                        stroke-linecap="round" transform="translate(-7 0)"/>
+                  <!-- colar do registro -->
+                  <rect x="96" y="196" width="44" height="26" rx="12" fill="url(#chromeSoft)"/>
+                  <!-- aerador -->
+                  <rect x="238" y="222" width="32" height="18" rx="6" fill="url(#chrome)"/>
+                  <ellipse cx="254" cy="240" rx="16" ry="4.5" fill="#8ba3ba"/>
+                </g>
+
+                <!-- reflexo especular que acompanha o mouse -->
+                <g id="faucet-highlight">
+                  <path d="M110 322V212c0-52 20-80 60-82" stroke="#ffffff" stroke-opacity=".65"
+                        stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M246 200v34" stroke="#ffffff" stroke-opacity=".4" stroke-width="3"
+                        fill="none" stroke-linecap="round"/>
+                  <ellipse cx="104" cy="332" rx="10" ry="3" fill="#ffffff" opacity=".35"/>
+                </g>
+
+                <!-- registro: gira ao abrir -->
+                <g id="faucet-handle">
+                  <path d="M118 202 62 176" stroke="url(#chrome)" stroke-width="15"
+                        fill="none" stroke-linecap="round"/>
+                  <ellipse cx="60" cy="175" rx="11" ry="9.5" fill="url(#chromeSoft)"/>
+                  <path d="M112 198 70 178" stroke="#ffffff" stroke-opacity=".45"
+                        stroke-width="3" fill="none" stroke-linecap="round"/>
+                </g>
+              </g>
+
+              <!-- água -->
+              <g id="faucet-water">
+                <path id="faucet-stream-strong"
+                      d="M242 240c-3 40 3 82-1 126h27c-4-44 2-86-1-126Z" fill="url(#streamLab)"/>
+                <path id="faucet-stream-thin"
+                      d="M250 240c-1.5 40 1.5 82-.5 126h9c-2-44 1-86-.5-126Z" fill="url(#streamLab)"/>
+                <path id="faucet-stream-shine" d="M252 248c-2 38 1 76-1 110"
+                      stroke="#ffffff" stroke-opacity=".5" stroke-width="2.5" fill="none"/>
+              </g>
+
+              <g id="faucet-drop">
+                <circle class="fd fd1" cx="254" cy="252" r="5"/>
+                <circle class="fd fd2" cx="254" cy="252" r="4"/>
+                <circle class="fd fd3" cx="254" cy="252" r="3.2"/>
+              </g>
+
+              <g id="faucet-ripple" fill="none" stroke="#9fe4ff">
+                <ellipse class="fr fr1" cx="254" cy="368" rx="18" ry="5"/>
+                <ellipse class="fr fr2" cx="254" cy="368" rx="18" ry="5"/>
+                <ellipse class="fr fr3" cx="254" cy="368" rx="18" ry="5"/>
+              </g>
+
+              <g id="faucet-splash" fill="none" stroke="#bfeaff" stroke-linecap="round">
+                <path d="M232 362c-10 4-17 10-21 18" stroke-width="2.5"/>
+                <path d="M276 362c10 4 17 10 21 18" stroke-width="2.5"/>
+              </g>
+            </svg>
+
+          <svg viewBox="0 0 340 440" class="lab-art" id="showerArt" role="img"
+               aria-label="Chuveiro cromado preso à parede, sobre o piso do box">
+            <defs>
+              <linearGradient id="shChrome" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#26323f"/>
+                <stop offset="18%"  stop-color="#6d8296"/>
+                <stop offset="36%"  stop-color="#f2f8ff"/>
+                <stop offset="54%"  stop-color="#aebfd0"/>
+                <stop offset="72%"  stop-color="#63788c"/>
+                <stop offset="88%"  stop-color="#c3d4e3"/>
+                <stop offset="100%" stop-color="#2b3846"/>
+              </linearGradient>
+              <linearGradient id="shChromeSoft" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#3a4a5c"/>
+                <stop offset="42%"  stop-color="#dfeaf5"/>
+                <stop offset="72%"  stop-color="#8ea3b8"/>
+                <stop offset="100%" stop-color="#34424f"/>
+              </linearGradient>
+              <linearGradient id="shSpray" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"   stop-color="#ddf5ff" stop-opacity=".9"/>
+                <stop offset="45%"  stop-color="#8fdcff" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#2b8fe0" stop-opacity="0"/>
+              </linearGradient>
+              <radialGradient id="shAura" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#4fd0ff" stop-opacity=".42"/>
+                <stop offset="100%" stop-color="#4fd0ff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <ellipse id="shower-aura" cx="176" cy="250" rx="150" ry="150" fill="url(#shAura)"/>
+
+            <!-- parede e rodapé do box -->
+            <path d="M40 24h18v392H40z" fill="#0d2136" stroke="#3f6f9c" stroke-width="2"/>
+            <path d="M58 402h250" stroke="#3f6f9c" stroke-width="2.5"/>
+            <path d="M58 402h250l-8 22H66Z" fill="#0b1f34" opacity=".85"/>
+
+            <!-- cano: sobe pela parede e dobra -->
+            <path d="M58 96h44c34 0 58 22 58 54v10"
+                  stroke="url(#shChrome)" stroke-width="16" fill="none" stroke-linecap="round"/>
+            <path d="M58 96h44c34 0 58 22 58 54v10" stroke="#f4faff" stroke-opacity=".22"
+                  stroke-width="4.5" fill="none" stroke-linecap="round" transform="translate(0 -5)"/>
+
+            <!-- registro da parede -->
+            <g id="shower-knob">
+              <circle cx="150" cy="96" r="19" fill="url(#shChromeSoft)" stroke="#8ba3ba" stroke-width="2"/>
+              <path d="M150 84v-9M150 117v-9M138 96h-9M180 96h-9" stroke="#e8f4ff"
+                    stroke-opacity=".7" stroke-width="3.4" stroke-linecap="round"/>
+              <circle cx="150" cy="96" r="6" fill="#cfe3f5"/>
+            </g>
+
+            <!-- crivo -->
+            <g id="shower-head">
+              <path d="M132 158h56l14 26H118Z" fill="url(#shChrome)"/>
+              <ellipse cx="160" cy="184" rx="42" ry="8" fill="url(#shChromeSoft)"/>
+              <g fill="#7f97ac">
+                <circle cx="134" cy="186" r="2.2"/><circle cx="147" cy="188" r="2.2"/>
+                <circle cx="160" cy="189" r="2.2"/><circle cx="173" cy="188" r="2.2"/>
+                <circle cx="186" cy="186" r="2.2"/>
+              </g>
+              <path d="M136 162h44" stroke="#ffffff" stroke-opacity=".45" stroke-width="3.5"
+                    stroke-linecap="round"/>
+            </g>
+
+            <!-- jato: poucos filetes reaproveitados, cada um com seu ritmo -->
+            <g id="shower-spray" fill="url(#shSpray)">
+              <path class="sj sj1" d="M131 190c-6 56-9 106-8 158h9c-1-52 2-102 7-158Z"/>
+              <path class="sj sj2" d="M147 191c-3 56-4 106-3 158h9c-1-52 0-102 3-158Z"/>
+              <path class="sj sj3" d="M160 192c0 56 0 106 0 158h9c0-52 0-102 0-158Z"/>
+              <path class="sj sj4" d="M175 191c3 56 4 106 3 158h9c-1-52 0-102-3-158Z"/>
+              <path class="sj sj5" d="M190 190c6 56 9 106 8 158h9c-1-52-2-102-7-158Z"/>
+            </g>
+
+            <!-- gotas do chuveiro mal fechado -->
+            <g id="shower-drop" fill="#bfeaff">
+              <circle class="sd sd1" cx="147" cy="192" r="4.2"/>
+              <circle class="sd sd2" cx="173" cy="192" r="3.6"/>
+            </g>
+
+            <g id="shower-ripple" fill="none" stroke="#9fe4ff">
+              <ellipse class="sr sr1" cx="160" cy="400" rx="30" ry="7"/>
+              <ellipse class="sr sr2" cx="160" cy="400" rx="30" ry="7"/>
+              <ellipse class="sr sr3" cx="160" cy="400" rx="30" ry="7"/>
+            </g>
+          </svg>
+        </button>
+        <p class="lab-hint" id="labHint">Toque no equipamento para trocar de estado</p>
+      </div>
+
+      <div class="lab-panel">
+        <div class="lab-states" role="group" aria-label="Estado do equipamento" id="labStates"></div>
+
+        <div class="lab-readout">
+          <div class="lab-metric">
+            <span class="lab-label">Tempo simulado</span>
+            <output class="lab-value" id="labTime">00:00</output>
+            <span class="lab-sub" id="labTimeSub">Nada correndo ainda.</span>
+          </div>
+          <div class="lab-metric">
+            <span class="lab-label">Água utilizada</span>
+            <output class="lab-value" id="labLiters">0 <small>L</small></output>
+            <span class="lab-sub" id="labLitersSub"></span>
+          </div>
         </div>
 
-        <p class="faucet-msg" id="faucetMsg" role="status">A torneira está fechada. Cada segundo fechada é água preservada.</p>
+        <div class="lab-bar"><span id="labBar"></span></div>
 
-        <div class="faucet-actions">
-          <button class="btn btn-primary ripple-host click-feedback" id="faucetToggle" aria-pressed="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-faucet"/></svg>
-            <span id="faucetToggleLabel">Abrir torneira</span>
+        <p class="lab-msg" id="labMsg" role="status">A torneira está fechada. Cada segundo fechada é água preservada.</p>
+
+        <!-- só esta região fala com o leitor de tela, e apenas em mudanças
+             deliberadas: a contagem segundo a segundo não é anunciada -->
+        <span class="sr-only" id="labAnuncio" aria-live="polite"></span>
+
+        <!-- tempos de banho: só aparece com o chuveiro ligado -->
+        <div class="lab-skip" id="labBanho" hidden>
+          <span class="lab-skip-title">Tempo de banho</span>
+          <div class="lab-skips" id="labBanhos"></div>
+        </div>
+
+        <div class="lab-skip">
+          <span class="lab-skip-title">Avançar simulação</span>
+          <div class="lab-skips" id="labSkips"></div>
+
+          <div class="lab-custom">
+            <label class="sr-only" for="labQtd">Quantidade de tempo a avançar</label>
+            <input type="number" id="labQtd" value="15" min="1" max="999" step="1" inputmode="numeric">
+            <label class="sr-only" for="labUnid">Unidade de tempo</label>
+            <select id="labUnid">
+              <option value="60">minutos</option>
+              <option value="1">segundos</option>
+              <option value="3600">horas</option>
+              <option value="86400">dias</option>
+              <option value="2592000">meses (30 dias)</option>
+            </select>
+            <button type="button" class="btn btn-ghost btn-sm click-feedback" id="labAdd">Avançar</button>
+          </div>
+        </div>
+
+        <div class="lab-actions">
+          <button type="button" class="btn btn-primary ripple-host click-feedback" id="labPlay" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-drop"/></svg>
+            <span id="labPlayLabel">Pausar</span>
           </button>
-          <button class="btn btn-ghost ripple-host click-feedback" id="faucetReset">Reiniciar</button>
+          <button type="button" class="btn btn-ghost ripple-host click-feedback" id="labReset">Reiniciar</button>
         </div>
 
-        <p class="note small">
-          <span class="note-text">O contador é <strong>demonstrativo</strong>. Para exibir a equivalência real em litros, informe a vazão pesquisada (L/min) e a fonte em <code>js/config.js</code>.</span>
+        <div class="lab-proj">
+          <span class="lab-proj-title" id="labProjTitle">Neste ritmo</span>
+          <ul class="lab-projs" id="labProjs"></ul>
+        </div>
+
+        <p class="lab-equiv" id="labEquiv" hidden></p>
+
+        <p class="lab-flow">
+          <span id="labFlowText">Simulação considerando <strong>11 L/min</strong>.</span>
+          <span class="lab-fonte">
+            <button type="button" class="lab-info" id="labInfo" aria-label="Ver a fonte da vazão usada">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              fonte
+            </button>
+            <span class="lab-detalhe" id="labDetalhe" role="note"></span>
+          </span>
         </p>
-        <p class="faucet-liters" id="faucetLiters" hidden></p>
       </div>
     </div>
   </div>
 </section>
+
 
 <!-- ============================================================
      SIMULADOR
@@ -1789,7 +1944,7 @@
         <p class="tank-caption">Água restante na caixa</p>
         <p class="sim-summary" id="simSummary" aria-live="polite">Consumo relativo: <strong id="simRelative">—</strong></p>
         <p class="sim-liters" id="simLiters" hidden></p>
-        <p class="note small"><span class="note-text">A caixa d'água representa a <strong>proporção</strong> entre os hábitos escolhidos. Para exibir litros reais, preencha as vazões e as fontes em <code>js/config.js</code>.</span></p>
+        <p class="note small"><span class="note-text">A caixa d'água mostra a <strong>proporção</strong> entre os hábitos escolhidos; o total em litros usa as vazões de referência citadas ao lado.</span></p>
       </div>
     </div>
   </div>
@@ -1945,8 +2100,7 @@
           <li><h3>A parcela acessível é ainda menor</h3><p>É dessa fração que dependem o abastecimento, a agricultura e a indústria.</p></li>
         </ol>
         <p class="note small">
-          <span class="note-text">As porcentagens devem ser preenchidas com dados de fontes confiáveis em <code>js/config.js</code>.
-          <span class="pct-slot" id="availPct"></span></span>
+          <span class="note-text"><span class="pct-slot" id="availPct"></span></span>
         </p>
       </div>
 
@@ -2091,19 +2245,29 @@
       </ul>
     </div>
 
-    <!-- ===== ADICIONE AQUI AS FONTES REALMENTE UTILIZADAS =====
-         Ex.: <li><a href="URL" target="_blank" rel="noopener">ONU — título do material</a></li>
-         Não inclua fontes que não foram consultadas. -->
-    <div class="footer-col">
-      <h2>Fontes</h2>
+    <!-- Fontes agrupadas por assunto. Todas foram consultadas e estão
+         citadas também dentro das seções, junto do número. -->
+    <div class="footer-col footer-col-wide">
+      <h2>Fontes e referências</h2>
+
+      <h3 class="footer-sub">Disponibilidade e ciclo da água</h3>
       <ul class="footer-list footer-sources">
-        <!-- usadas na seção "O caminho de uma gota" -->
         <li><a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></li>
-        <li><a href="https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef" target="_blank" rel="noopener">OMS/UNICEF — Progress on Household Drinking Water and Sanitation 2000–2024 (2025)</a></li>
-        <li><a href="https://tratabrasil.org.br/ranking-do-saneamento-2025/" target="_blank" rel="noopener">Instituto Trata Brasil — Ranking do Saneamento 2025 (dados SINISA 2023)</a></li>
-        <!-- usadas na seção "Desperdício de Água" -->
+      </ul>
+
+      <h3 class="footer-sub">Acesso à água e saneamento</h3>
+      <ul class="footer-list footer-sources">
+        <li><a href="https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef" target="_blank" rel="noopener">OMS e UNICEF (JMP) — Progress on Household Drinking Water and Sanitation 2000–2024 (2025)</a></li>
+        <li><a href="https://tratabrasil.org.br/ranking-do-saneamento-2025/" target="_blank" rel="noopener">Instituto Trata Brasil — Ranking do Saneamento 2025 (dados SINISA, ano-base 2023)</a></li>
+      </ul>
+
+      <h3 class="footer-sub">Desperdício, torneiras e chuveiros</h3>
+      <ul class="footer-list footer-sources">
         <li><a href="https://www.caesb.df.gov.br/dicas-de-economia-de-agua/" target="_blank" rel="noopener">Caesb — Dicas de economia de água</a></li>
-        <li><a href="https://www.wwf.org.br/?4080/" target="_blank" rel="noopener">WWF-Brasil (com base no Idec) — Economize água na sua casa</a></li>
+        <li><a href="https://www.caesb.df.gov.br/dicas-importantes-da-caesb-para-um-consumo-de-agua-mais-consciente/" target="_blank" rel="noopener">Caesb — Consumo de água mais consciente (vazões e vazamentos)</a></li>
+        <li><a href="https://saaesalto.sp.gov.br/2024/10/07/dicas-para-voce-economizar-agua-usando-bem-sempre-tem/" target="_blank" rel="noopener">SAAE Salto (SP) — Dicas para economizar água (2024)</a></li>
+        <li><a href="https://www.agenciasp.sp.gov.br/louca-banho-e-mangueira-veja-gestos-simples-que-economizam-centenas-de-litros-de-agua/" target="_blank" rel="noopener">Agência SP, com dados da Sabesp — Louça, banho e mangueira (2024)</a></li>
+        <li><a href="https://www.wwf.org.br/?4080/" target="_blank" rel="noopener">WWF-Brasil, com base no Idec — Economize água na sua casa</a></li>
       </ul>
     </div>
 
@@ -2174,7 +2338,7 @@
 <script src="js/water-cycle.js"></script>
 <script src="js/water-cards.js"></script>
 <script src="js/waste.js"></script>
-<script src="js/faucet.js"></script>
+<script src="js/water-lab.js"></script>
 <script src="js/simulator.js"></script>
 <script src="js/availability.js"></script>
 <script src="js/water-mode.js"></script>

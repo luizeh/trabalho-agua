@@ -38,7 +38,7 @@ trabalho-agua/
    ├─ water-cycle.js       ciclo da água: etapas, painel, percurso e reprodução
    ├─ water-cards.js       expansão dos cards (tipos de água e "está em tudo")
    ├─ waste.js             desperdício: casa com hotspots, cards e projeções
-   ├─ faucet.js            torneira interativa
+   ├─ water-lab.js         laboratório: torneira e chuveiro, estados e projeções
    ├─ simulator.js         simulador de consumo
    ├─ availability.js      esfera de disponibilidade de água
    ├─ water-mode.js        modo "como seria sem água?"
@@ -162,44 +162,26 @@ porcentagens da imagem, definidas em `js/waste.js`. Se trocar a foto por
 outra de proporção diferente, os pontos saem do lugar — ajuste o `x`/`y`
 de `PONTOS` no mesmo arquivo.
 
-### 4. Dados numéricos → `js/config.js`
+### 4. Dados numéricos → js/config.js
 
-> **Nenhum número foi inventado neste projeto.** Enquanto os campos estiverem
-> `null`, o site funciona em modo demonstrativo: mostra proporções, animações e
-> comparações, mas **não exibe litros nem porcentagens**.
+> **Nenhum número foi inventado, e não sobrou nada a preencher.** Todos os
+> valores do site já foram pesquisados e trazem instituição, ano e link.
 
-> **Exceção já resolvida:** os três dados da faixa final do *ciclo da água*
-> (2,5% · 2,1 bilhões · 44,8%) foram pesquisados e estão no HTML, cada um com
-> instituição, publicação, ano e link no botão **fonte**. Eles não dependem de
-> `js/config.js`.
+O que fica em js/config.js:
 
-Assim que a equipe pesquisar os dados, preencha em `js/config.js` — o site passa
-a exibir os valores automaticamente, **sempre junto da fonte**.
+- **azoes** — torneira 11 L/min (SAAE Salto), chuveiro 6 L/min (Caesb) e
+  mangueira 18,6 L/min (Agência SP, com dados da Sabesp)
+- **azamentos** — torneira gotejando 48 L/dia e em filete 180 L/dia (Caesb)
+- **disponibilidade** — 100% · 2,5% · 0,78% · 0,007% de toda a água do
+  planeta, derivados da distribuição do USGS
 
-**Vazões** (usadas na torneira interativa e no simulador):
+Cada entrada guarda onte, detalhe e url, e é isso que aparece no
+botão **fonte** dentro das seções. Para trocar um valor, edite o objeto e
+**atualize a fonte junto**.
 
-```js
-vazoes: {
-  chuveiro:  { valor: 12, unidade: 'L/min', fonte: 'ANA (2023)' },
-  torneira:  { valor: null, unidade: 'L/min', fonte: null },
-  mangueira: { valor: null, unidade: 'L/min', fonte: null }
-}
-```
+Os outros números moram perto de onde são usados: os do *ciclo da água* no
+index.html e os do *desperdício* em js/waste.js.
 
-**Disponibilidade de água no planeta:**
-
-```js
-disponibilidade: {
-  fonte: 'UNESCO — WWDR',
-  etapas: [
-    { rotulo: 'Toda a água do planeta', percentual: 100 },
-    ...
-  ]
-}
-```
-
-Onde buscar: **ONU**, **ANA (Agência Nacional de Águas)**, **UNESCO**,
-companhias de saneamento, órgãos ambientais e o material fornecido pelo professor.
 
 ### 5. Dados do desperdício → `js/waste.js`
 
@@ -249,7 +231,8 @@ Se o professor usa apenas uma delas, remova a aba que não se aplica em `index.h
 | "Ver mais" | *A água está em tudo* | abre um parágrafo extra dentro do próprio card, sem modal |
 | Ciclo da água | *O caminho de uma gota* | paisagem real ao fundo, gota central flutuando e uma linha que avança com o scroll; clicar (ou usar as setas) escolhe a etapa e troca a foto e o texto do painel |
 | Percurso da gota | *O caminho de uma gota* | os números 01–09, os botões anterior/próximo e **Reproduzir percurso** navegam pelas nove etapas |
-| Torneira interativa | *A torneira aberta* | hover inclina e move o reflexo; clique gira o registro, abre o jato, gotas e ondas; fechar afina o jato até a última gota |
+| Laboratório da água | *Experimente o desperdício* | escolha torneira ou chuveiro, deixe fechado, pingando, em filete ou aberto, e avance o tempo (+1 min a +30 dias) para ver o volume |
+| Projeções | *Experimente o desperdício* | o mesmo ritmo projetado em 1 min, 1 hora, 1 dia, 30 dias e 1 ano, sempre calculado a partir da vazão da fonte |
 | Casa do desperdício | *Desperdício de Água* | foto real com seis pontos luminosos; clicar em um ponto deixa só o hábito daquele lugar na tela, e passar o mouse num card acende o ponto na casa |
 | Hábitos e projeções | *Desperdício de Água* | cada card abre com a comparação, o volume em 1 dia / 30 dias / 1 ano (calculado) e a fonte do número |
 | Simulador | *Como nossos hábitos...* | 3 sliders; a caixa d'água esvazia, muda de cor e as bolhas somem |
