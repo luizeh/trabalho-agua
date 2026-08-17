@@ -207,9 +207,6 @@
   25%  { opacity: 1 }
   100% { transform: translateY(150px); opacity: 0 }
 }
-.reuse-rain path { animation: rain-fall 2.6s linear infinite; }
-.reuse-rain path:nth-child(even) { animation-duration: 3.4s; animation-delay: .7s; }
-.reuse-rain path:nth-child(3n) { animation-duration: 3s; animation-delay: 1.3s; }
 
 /* ------------------------------------------------------------
    Torneira (ilustração da seção desperdício)
@@ -303,13 +300,13 @@ body.no-water .ripples ellipse,
 body.no-water .bubbles circle,
 body.no-water .wave-1,
 body.no-water .wave-2,
-body.no-water .reuse-rain path,
 body.no-water .flow-pipe,
 body.no-water .tank-wave,
 body.no-water .tank-level,
 body.no-water #shower-spray .sj,
 body.no-water #shower-drop .sd,
 body.no-water .wh-spot-dot::after,
+body.no-water .ru-ponto-dot::after,
 body.no-water .eco-core-float,
 body.no-water .eco-core-light,
 body.no-water .eco-bubbles circle,
@@ -327,7 +324,6 @@ body.no-water .ct-fill,
 body.no-water .ct-travel { box-shadow: none; transition: box-shadow 1.2s var(--ease); }
 
 body.no-water .particles { opacity: 0; transition: opacity 1.2s var(--ease); }
-body.no-water .reuse-rain,
 body.no-water .bubbles,
 body.no-water .ripples,
 body.no-water .dust,
@@ -342,7 +338,6 @@ body.no-water .eco-drop { filter: none; }
 
 /* vegetação seca */
 body.no-water .wt-block[data-wt="verde"] .wt-media,
-body.no-water .reuse-art,
 body.no-water .final-earth { filter: sepia(.55) saturate(.5) brightness(.8); transition: filter 1.4s var(--ease); }
 
 body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
@@ -351,7 +346,6 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
 .particles,
 .hero-glow,
 .wt-media,
-.reuse-art,
 .final-earth { transition: opacity 1.2s var(--ease), filter 1.4s var(--ease); }
 
 /* ============================================================
@@ -442,6 +436,8 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
      A troca de etapa continua funcionando — muda o estado, não o movimento. */
   .cycle-drop svg,
   .cd-shadow,
+  .ru-ponto-dot::after,
+  .reuso-painel.is-fresh > *,
   .ct-play.is-playing svg { animation: none !important; }
 
   .cycle-photo { transform: none !important; filter: brightness(.86) saturate(.82) contrast(1.05) !important; }

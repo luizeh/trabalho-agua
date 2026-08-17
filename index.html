@@ -1983,90 +1983,60 @@
 </section>
 
 <!-- ============================================================
-     REUTILIZAÇÃO (identidade verde)
+     REUTILIZAÇÃO — o sistema de água de chuva da casa
+     As seis etapas, os pontos sobre a foto e o painel vêm da
+     lista ETAPAS em js/reuse.js. A referência é a NBR 15527:2019.
      ============================================================ -->
-<section class="section section-green" id="reutilizacao">
+<section class="section section-green reuso" id="reutilizacao">
   <div class="container">
     <header class="section-head reveal">
       <p class="section-kicker green"><span class="rule"></span>Segundo ciclo<span class="rule"></span></p>
-      <h2 class="section-title"><span class="grad-green">Reutilização</span></h2>
-      <p class="section-lead">A água pode cumprir mais de um ciclo quando existem planejamento, tratamento e usos adequados.</p>
+      <h2 class="section-title">Reutili<span class="grad-green">zação</span></h2>
+      <p class="section-lead">A água pode cumprir mais de um ciclo quando existe planejamento,
+        tratamento e uso adequado. Percorra o sistema da casa e veja o caminho da chuva.</p>
     </header>
 
-    <div class="reuse">
-      <div class="reuse-visual reveal">
-        <svg viewBox="0 0 560 420" class="reuse-art" data-parallax="0.05" role="img" aria-label="Casa sustentável com captação de água da chuva pelo telhado, calhas e reservatório">
-          <defs>
-            <linearGradient id="reuseSky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#062b25"/><stop offset="100%" stop-color="#03161c"/>
-            </linearGradient>
-            <linearGradient id="reuseRoof" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#1d7f5f"/><stop offset="100%" stop-color="#0b3f3a"/>
-            </linearGradient>
-          </defs>
-          <rect width="560" height="420" fill="url(#reuseSky)" rx="20"/>
-          <g class="reuse-rain" stroke="#7cf0c0" stroke-opacity=".45" stroke-width="1.8" stroke-linecap="round">
-            <path d="M70 20v20M130 8v22M190 26v18M250 12v22M310 22v18M370 6v24M430 24v18M490 14v20"/>
-          </g>
-          <path d="M120 180 280 88l160 92Z" fill="url(#reuseRoof)" stroke="#4ade80" stroke-width="2"/>
-          <rect x="150" y="180" width="260" height="150" fill="#0a2434" stroke="#4ade80" stroke-opacity=".5" stroke-width="2"/>
-          <g fill="#0e3a4e" stroke="#5eead4" stroke-opacity=".5" stroke-width="1.5">
-            <rect x="180" y="210" width="52" height="42" rx="4"/>
-            <rect x="256" y="210" width="52" height="42" rx="4"/>
-            <rect x="332" y="210" width="52" height="42" rx="4"/>
-            <rect x="256" y="272" width="52" height="58" rx="4"/>
-          </g>
-          <!-- calha e descida -->
-          <path class="flow-pipe" d="M440 182h34v96h-38" stroke="#4ade80" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <!-- reservatório -->
-          <g>
-            <ellipse cx="470" cy="290" rx="42" ry="14" fill="#0e4a4a" stroke="#4ade80" stroke-width="2"/>
-            <path d="M428 290v56c0 8 19 14 42 14s42-6 42-14v-56" fill="#0b3b3d" stroke="#4ade80" stroke-width="2"/>
-            <path class="tank-level" d="M428 322c0 8 19 14 42 14s42-6 42-14v24c0 8-19 14-42 14s-42-6-42-14Z" fill="#2fd39a" opacity=".55"/>
-          </g>
-          <!-- saída para usos -->
-          <path class="flow-pipe" d="M428 350H150v-20" stroke="#4ade80" stroke-width="4" fill="none" stroke-dasharray="8 8"/>
-          <g fill="#2fbf6d">
-            <path d="M60 360c0-34 18-52 40-58-4 38-16 54-40 58ZM520 366c0-28-14-44-34-48 4 32 14 46 34 48Z"/>
-          </g>
-          <path d="M0 380h560v40H0z" fill="#04212a" opacity=".85"/>
-        </svg>
-
-        <ol class="reuse-flow reveal">
-          <li>Chuva</li><li>Telhado</li><li>Calhas</li><li>Reservatório</li><li>Usos não potáveis</li>
-        </ol>
-      </div>
-
-      <div class="reuse-side">
-        <p class="reuse-quote glass reveal">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-leaf"/></svg>
-          Reutilizar é cuidar do presente para garantir o futuro.
-        </p>
-
-        <div class="grid grid-2 reuse-cards">
-          <article class="card card-green reveal" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-roof"/></svg></span>
-            <h3>Captação da chuva</h3>
-            <p>A água da chuva é captada pelo telhado e conduzida pelas calhas até o sistema.</p>
-          </article>
-          <article class="card card-green reveal" data-delay="1" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-tank"/></svg></span>
-            <h3>Reservatório</h3>
-            <p>É armazenada em reservatórios adequados, protegidos da luz e de contaminação.</p>
-          </article>
-          <article class="card card-green reveal" data-delay="2" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-watering"/></svg></span>
-            <h3>Irrigação</h3>
-            <p>Utilizada para regar plantas, jardins e hortas, reduzindo o uso de água potável.</p>
-          </article>
-          <article class="card card-green reveal" data-delay="3" tabindex="0">
-            <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-broom"/></svg></span>
-            <h3>Limpeza externa</h3>
-            <p>Ideal para a limpeza de pisos, quintais e calçadas, conforme o sistema instalado.</p>
-          </article>
+    <div class="reuso-grid reveal">
+      <!-- ESQUERDA: a casa, com os pontos do sistema -->
+      <figure class="reuso-casa">
+        <div class="ru-media">
+          <img src="assets/images/reuse/casa.webp"
+               alt="Casa à noite com o sistema de aproveitamento de água de chuva desenhado em azul: calha, filtro, reservatório e a malha de irrigação no jardim."
+               width="1536" height="1024" loading="lazy" decoding="async">
+          <span class="ru-veu" aria-hidden="true"></span>
+          <div class="ru-pontos" data-reuso-pontos></div>
         </div>
-      </div>
+        <figcaption class="ru-legenda">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-drop"/></svg>
+          <span>Toque nos pontos para percorrer o sistema, da chuva até o reúso.</span>
+        </figcaption>
+      </figure>
+
+      <!-- DIREITA: o painel da etapa -->
+      <article class="reuso-painel glass" data-reuso-painel>
+        <p class="ru-etapa"><span data-reuso-num>01</span> · <span data-reuso-selo>Conta direta</span></p>
+        <h3 class="ru-titulo" data-reuso-titulo>A chuva encontra o telhado</h3>
+        <p class="ru-texto" data-reuso-texto></p>
+
+        <div class="ru-dado">
+          <strong data-reuso-valor>100 L</strong>
+          <span data-reuso-dado></span>
+        </div>
+
+        <p class="ru-contexto" data-reuso-contexto></p>
+        <p class="ru-fonte" data-reuso-fonte></p>
+      </article>
     </div>
+
+    <!-- o percurso, também navegável por teclado -->
+    <div class="reuso-trilha reveal" role="group" aria-label="Etapas do sistema de reúso"
+         data-reuso-trilha></div>
+
+    <p class="reuso-nota">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-leaf"/></svg>
+      <span>Requisitos técnicos conforme a <strong>ABNT NBR 15527:2019</strong>. A imagem da casa foi
+        gerada por inteligência artificial para fins educacionais — não é uma fotografia.</span>
+    </p>
   </div>
 </section>
 
@@ -2288,8 +2258,9 @@
         <li>Impactos · Produção — <a href="https://commons.wikimedia.org/wiki/File:REPUBLIC_STEEL_DISCHARGES_WASTE_WATER_INTO_THE_CUYAHOGA_RIVER_-_NARA_-_550218.jpg" target="_blank" rel="noopener">REPUBLIC STEEL DISCHARGES WASTE WATER INTO THE CUYAHOGA RI</a>, por Frank John Aleksandrowicz (domínio público)</li>
         <li>Casa do desperdício — <a href="https://commons.wikimedia.org/wiki/File:CharlesandIngridKoebelHouseGrossePointeMI.jpg" target="_blank" rel="noopener">Charles and Ingrid Koebel House, Grosse Pointe MI</a>, por Andrew Jameson (CC BY-SA 3.0)</li>
       </ul>
-      <p><strong>Imagens dos tipos de água (azul, verde e cinza):</strong> geradas por
-        inteligência artificial para fins educacionais — não são fotografias.</p>
+      <p><strong>Geradas por inteligência artificial</strong> para fins educacionais, e não
+        fotografias: as três imagens dos <em>tipos de água</em> (azul, verde e cinza) e a
+        <em>casa do sistema de reúso</em>.</p>
       <p>As demais são fotografias reais de acervos com licença livre, recortadas e convertidas
         para WebP. As licenças CC BY e CC BY-SA exigem o crédito ao autor.</p>
     </details>
@@ -2334,6 +2305,7 @@
 <script src="js/water-cards.js"></script>
 <script src="js/waste.js"></script>
 <script src="js/impacts.js"></script>
+<script src="js/reuse.js"></script>
 <script src="js/water-lab.js"></script>
 <script src="js/simulator.js"></script>
 <script src="js/availability.js"></script>

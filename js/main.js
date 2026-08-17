@@ -16,6 +16,7 @@
     'AGUA_LAB',
     'AGUA_WASTE',
     'AGUA_IMPACTOS',
+    'AGUA_REUSO',
     'AGUA_SIM',
     'AGUA_AVAIL',
     'AGUA_MODE'

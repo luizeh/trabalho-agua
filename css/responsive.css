@@ -205,7 +205,9 @@
   .sim-visual { order: -1; }
   .tank-glass { height: 220px; }
 
-  .reuse { grid-template-columns: minmax(0, 1fr); }
+  /* reúso: a casa vai para cima, painel abaixo, trilha em 3 colunas */
+  .reuso-grid { grid-template-columns: minmax(0, 1fr); }
+  .reuso-trilha { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
   /* --- Disponibilidade: empilhada --- */
   .availability-inner { grid-template-columns: minmax(0, 1fr); gap: 22px; }
@@ -336,6 +338,9 @@
 
   /* desperdício no celular: cards empilhados e projeção em coluna única */
   .imp-grade { grid-template-columns: minmax(0, 1fr); }
+  .reuso-trilha { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ru-ponto { width: 40px; height: 40px; }
+  .ru-ponto-nome { font-size: 0.68rem; padding: 3px 8px; }
   .waste-cards { grid-template-columns: minmax(0, 1fr); }
   .wc.is-active { grid-column: auto; }
   .wc-proj-lista { grid-template-columns: minmax(0, 1fr); }
@@ -352,7 +357,6 @@
   .tank { width: min(100%, 180px); }
   .tank-glass { height: 190px; }
 
-  .reuse-flow li:not(:last-child)::after { margin-left: 8px; }
 
   .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .footer-bottom { justify-content: center; text-align: center; }
