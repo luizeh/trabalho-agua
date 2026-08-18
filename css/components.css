@@ -3016,95 +3016,437 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 .aj-fecho-fonte a:hover { color: var(--cyan-300); }
 
 /* ============================================================
-   DISPONIBILIDADE (esfera)
+   QUANTA ÁGUA TEMOS — a esfera
    ============================================================ */
-.availability { padding: 0; }
-.availability-scroll { height: 260vh; }
-.availability-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  display: flex;
-  align-items: center;
-  padding-top: var(--header-h);   /* o título nunca fica sob o header fixo */
-  overflow: hidden;
-}
-.availability-inner {
+.availability { overflow: hidden; }
+
+.esf-grade {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  gap: clamp(24px, 4vw, 60px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  gap: clamp(24px, 4vw, 56px);
   align-items: center;
-  width: min(100% - 2.5rem, var(--container));
+  margin-top: clamp(26px, 4vw, 52px);
 }
 
-.availability-steps { display: grid; gap: 8px; margin-top: 24px; counter-reset: av; }
-.availability-steps li {
-  position: relative;
-  padding: 14px 18px 14px 56px;
+/* ---- a lista da esquerda ---- */
+.esf-lista { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.esf-passo-btn {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
-  opacity: 0.34;
-  transform: translateX(-6px);
-  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease),
-              background var(--t-slow) var(--ease), border-color var(--t-slow) var(--ease);
+  background: var(--glass);
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--t-mid) var(--ease), background var(--t-mid) var(--ease),
+              transform var(--t-mid) var(--ease);
 }
-.availability-steps li::before {
-  counter-increment: av;
-  content: counter(av);
-  position: absolute;
-  left: 16px; top: 15px;
+.esf-passo.is-active .esf-passo-btn {
+  border-color: rgba(56, 217, 255, 0.5);
+  background: rgba(12, 46, 84, 0.6);
+  transform: translateX(4px);
+}
+.esf-passo-n {
   display: grid;
   place-items: center;
-  width: 26px; height: 26px;
+  width: 34px; height: 34px;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
   font-family: var(--font-display);
-  font-size: 0.76rem;
-  color: var(--cyan-300);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  transition: background var(--t-mid) var(--ease), color var(--t-mid) var(--ease),
+              border-color var(--t-mid) var(--ease);
 }
-.availability-steps li.is-active {
-  opacity: 1;
-  transform: translateX(0);
-  background: rgba(9, 30, 54, 0.6);
-  border-color: var(--line);
+.esf-passo.is-active .esf-passo-n {
+  background: var(--cyan-400);
+  border-color: var(--cyan-400);
+  color: #04203a;
 }
-.availability-steps h3 { font-size: 1.05rem; margin-bottom: 2px; color: var(--cyan-300); }
-.availability-steps p { font-size: 0.86rem; color: var(--text-soft); margin: 0; }
+.esf-passo-txt { display: grid; gap: 3px; min-width: 0; }
+.esf-passo-tit { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+.esf-passo-sub { font-size: 0.78rem; line-height: 1.5; color: var(--text-mute); }
+.esf-passo-pct {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-mute);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-mid) var(--ease);
+}
+.esf-passo.is-active .esf-passo-pct { color: var(--cyan-300); }
 
-.availability-visual { display: grid; justify-items: center; gap: 18px; }
-.sphere-wrap { position: relative; display: grid; place-items: center; width: min(100%, 420px); aspect-ratio: 1; }
-.sphere-ghost {
+.esf-painel {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--cyan-400);
+  border-radius: var(--radius-sm);
+  background: rgba(6, 22, 44, 0.5);
+}
+.esf-dado { font-size: 0.85rem; line-height: 1.65; color: var(--text-soft); }
+.esf-dado strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--cyan-300);
+  margin-right: 5px;
+}
+.esf-fonte { margin-top: 8px; font-size: 0.7rem; color: var(--text-mute); }
+.esf-fonte span { font-weight: 700; }
+.esf-fonte a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.esf-fonte a:hover { color: var(--cyan-300); }
+
+/* ---- o palco da esfera ---- */
+.esf-palco {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+  aspect-ratio: 1;
+  perspective: 900px;
+  container-type: size;
+}
+.esf-orbita {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 1px dashed rgba(120, 190, 255, 0.16);
+}
+
+.esf-bola {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 76%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* CAMADA 1 — halo externo */
+.esf-glow {
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 217, 255, 0.3), rgba(21, 96, 207, 0.1) 42%, transparent 66%);
+  pointer-events: none;
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+}
+.esf-bola.is-perto .esf-glow { opacity: 1.35; transform: scale(1.06); }
+
+/* CAMADA 2 — o corpo de vidro, que recorta tudo em círculo */
+.esf-corpo {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px dashed rgba(140, 210, 255, 0.2);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 100% at 32% 22%, rgba(150, 225, 255, 0.16), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(8, 32, 66, 0.55), rgba(3, 14, 34, 0.9));
+  box-shadow:
+    inset 0 0 60px rgba(10, 40, 90, 0.7),
+    0 30px 80px -30px rgba(0, 0, 0, 0.95);
+  transition: box-shadow var(--t-slow) var(--ease);
 }
-.sphere {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 36% 30%, #a9e8ff, #2b8fe0 45%, #0a2f6b 78%, #04173a);
-  box-shadow: 0 0 90px rgba(45, 160, 255, 0.5), inset -18px -22px 60px rgba(0, 0, 0, 0.55);
-  transform: scale(1);
-  transition: transform 220ms var(--ease);
+.esf-bola.is-perto .esf-corpo {
+  box-shadow:
+    inset 0 0 70px rgba(20, 70, 140, 0.75),
+    0 0 60px -8px rgba(56, 217, 255, 0.32),
+    0 30px 80px -30px rgba(0, 0, 0, 0.95);
 }
-.sphere-shine {
+
+/* CAMADA 3 — a água. A altura é escrita pelo JS a cada quadro,
+   por isso aqui não existe transition: as duas brigariam. */
+.esf-agua {
   position: absolute;
-  top: 12%; left: 18%;
-  width: 30%; height: 22%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background:
+    linear-gradient(180deg,
+      rgba(126, 226, 255, 0.5) 0%,
+      rgba(38, 146, 232, 0.62) 26%,
+      rgba(16, 78, 174, 0.78) 62%,
+      rgba(7, 40, 104, 0.9) 100%);
+}
+/* a linha da superficie. Sem ela, a lamina de 0,008% (uns 3px)
+   sumiria contra o fundo escuro do vidro. */
+.esf-agua::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: rgba(186, 242, 255, 0.95);
+  box-shadow: 0 0 14px rgba(120, 226, 255, 0.9), 0 0 34px rgba(56, 217, 255, 0.55);
+}
+.esf-fundo {
+  position: absolute;
+  left: 50%;
+  bottom: -14%;
+  width: 78%;
+  height: 40%;
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.65), transparent 70%);
-  filter: blur(4px);
+  background: radial-gradient(circle, rgba(90, 200, 255, 0.45), transparent 68%);
+  filter: blur(10px);
 }
-.sphere-caption {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  color: var(--cyan-300);
+
+/* a superfície: duas ondas em velocidades diferentes */
+.esf-ondas {
+  position: absolute;
+  left: -50%;
+  top: -13px;
+  width: 200%;
+  height: 26px;
+  overflow: visible;
+}
+.esf-onda { fill: rgba(150, 232, 255, 0.5); }
+.esf-onda-a { animation: esf-desliza 9s linear infinite; }
+.esf-onda-b { fill: rgba(96, 196, 255, 0.42); animation: esf-desliza 13s linear infinite reverse; }
+@keyframes esf-desliza {
+  to { transform: translateX(-240px); }
+}
+
+/* CAMADA 4 — bolhas subindo */
+.esf-bolhas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* CAMADA 5 — vidro e reflexos por cima da água */
+.esf-vidro {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(110% 80% at 30% 18%, rgba(255, 255, 255, 0.16), transparent 46%),
+    radial-gradient(70% 60% at 74% 82%, rgba(90, 190, 255, 0.14), transparent 60%);
+  box-shadow:
+    inset 0 0 0 1px rgba(174, 228, 255, 0.28),
+    inset 0 -26px 50px -24px rgba(120, 220, 255, 0.5),
+    inset 0 20px 46px -20px rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+.esf-brilho,
+.esf-brilho-b {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent 66%);
+  filter: blur(5px);
+  pointer-events: none;
+}
+.esf-brilho {
+  left: 20%; top: 12%;
+  width: 30%; height: 19%;
+  transform: rotate(-22deg);
+  animation: esf-respira 11s ease-in-out infinite;
+}
+.esf-brilho-b {
+  right: 20%; bottom: 18%;
+  width: 15%; height: 9%;
+  opacity: 0.4;
+  animation: esf-respira 14s ease-in-out infinite reverse;
+}
+@keyframes esf-respira {
+  50% { opacity: 0.45; transform: rotate(-16deg) scale(1.08); }
+}
+
+/* CAMADA 6 — o texto, um pouco à frente do vidro */
+.esf-texto {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
   text-align: center;
-  margin: 0;
+  transform: translateZ(50px);
+  pointer-events: none;
 }
-.pct-slot { display: block; margin-top: 4px; color: var(--cyan-300); }
+.esf-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 5.6vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 26px rgba(0, 20, 50, 0.95), 0 0 40px rgba(56, 217, 255, 0.4);
+}
+.esf-rotulo {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.84rem;
+  color: rgba(226, 241, 255, 0.9);
+  text-shadow: 0 2px 14px rgba(0, 16, 40, 0.95);
+}
+
+/* CAMADA 7 — sombra na base */
+.esf-sombra {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  width: 62%;
+  height: 8%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 217, 255, 0.3), transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* ---- indicadores em órbita ---- */
+.esf-pontos { position: absolute; inset: 0; }
+.esf-ponto {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgba(6, 22, 44, 0.85);
+  color: inherit;
+  cursor: pointer;
+  /* gira até o ângulo, anda o raio e desgira, para o ícone ficar em pé */
+  --ang: calc(211deg - var(--i) * 21deg);
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--ang)) translate(46cqw) rotate(calc(var(--ang) * -1));
+  transition: border-color var(--t-mid) var(--ease), background var(--t-mid) var(--ease),
+              box-shadow var(--t-mid) var(--ease);
+}
+.esf-ponto-ico { width: 20px; height: 20px; }
+.esf-ponto-ico svg { width: 100%; height: 100%; fill: none; stroke: var(--cyan-300); stroke-width: 1.6; }
+.esf-ponto.is-active,
+.esf-ponto:hover,
+.esf-ponto:focus-visible {
+  border-color: var(--cyan-400);
+  background: rgba(14, 58, 106, 0.95);
+  box-shadow: 0 0 22px -4px rgba(56, 217, 255, 0.75);
+}
+.esf-ponto-dica {
+  position: absolute;
+  right: calc(100% + 10px);
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(4, 16, 34, 0.95);
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity var(--t-mid) var(--ease), transform var(--t-mid) var(--ease);
+}
+.esf-ponto:hover .esf-ponto-dica,
+.esf-ponto:focus-visible .esf-ponto-dica,
+.esf-ponto.is-active .esf-ponto-dica { opacity: 1; transform: none; }
+
+/* ---- a marca da última etapa ---- */
+.esf-marca {
+  position: absolute;
+  right: 1%;
+  bottom: 8%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  animation: esf-entra var(--t-slow) var(--ease) both;
+}
+.esf-marca[hidden] { display: none; }
+.esf-marca-linha {
+  width: 48px;
+  height: 1px;
+  flex: none;
+  background: linear-gradient(270deg, var(--cyan-300), rgba(127, 230, 255, 0.1));
+  box-shadow: 0 0 10px rgba(56, 217, 255, 0.9);
+}
+.esf-marca-txt {
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--cyan-300);
+  text-shadow: 0 2px 10px rgba(0, 16, 40, 0.95);
+}
+@keyframes esf-entra {
+  from { opacity: 0; transform: translateX(10px); }
+}
+
+/* ---- a faixa de resumo ---- */
+.esf-faixa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: clamp(28px, 4vw, 50px);
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+}
+.esf-marco {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 14px 8px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--t-mid) var(--ease), background var(--t-mid) var(--ease);
+}
+.esf-marco.is-active,
+.esf-marco:hover { border-color: rgba(56, 217, 255, 0.42); background: rgba(12, 46, 84, 0.55); }
+.esf-marco-foto {
+  width: 54px; height: 54px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+}
+.esf-marco-foto img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.85) brightness(0.85);
+  transition: filter var(--t-mid) var(--ease), transform var(--t-slow) var(--ease);
+}
+.esf-marco.is-active .esf-marco-foto img,
+.esf-marco:hover .esf-marco-foto img { filter: none; transform: scale(1.08); }
+.esf-marco-txt { display: grid; gap: 1px; text-align: left; }
+.esf-marco-nome { font-size: 0.78rem; color: var(--text-soft); }
+.esf-marco-pct {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.esf-marco.is-active .esf-marco-pct { color: var(--cyan-300); }
+.esf-seta { display: grid; place-items: center; width: 20px; opacity: 0.4; }
+.esf-seta svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: var(--text-mute); stroke-width: 2;
+  transform: rotate(-90deg);
+}
 
 /* ============================================================
    AÇÕES

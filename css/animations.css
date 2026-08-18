@@ -453,6 +453,14 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
 
   /* como podemos ajudar: a lâmpada para de flutuar e os pontos de luz somem.
      Os cards entram prontos, sem a cascata e sem o atraso por posição. */
+  /* esfera: sem ondas, sem reflexo pulsando e sem bolhas. O nivel muda
+     na hora, e a inclinacao pelo mouse nem chega a ser ligada no JS. */
+  .esf-onda,
+  .esf-brilho,
+  .esf-brilho-b,
+  .esf-marca { animation: none !important; }
+  .esf-bolhas { display: none; }
+
   .aj-lampada { animation: none !important; }
   .aj-pulso { display: none; }
   .aj-card { opacity: 1; transform: none; transition-delay: 0ms !important; }

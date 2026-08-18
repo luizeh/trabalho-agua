@@ -210,13 +210,17 @@
   .reuso-trilha { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
   /* --- Disponibilidade: empilhada --- */
-  .availability-inner { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-  .availability-sticky { height: auto; min-height: 100svh; padding: 90px 0 50px; }
-  .availability-visual { order: -1; }
-  .sphere-wrap { width: min(58%, 240px); }
-  .availability-steps li { padding: 11px 14px 11px 50px; }
-  .availability-steps h3 { font-size: 0.98rem; }
-  .availability-scroll { height: 200vh; }
+  /* esfera: em uma coluna, com a esfera antes da lista para chegar primeiro */
+  .esf-grade { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .esf-palco { order: -1; max-width: min(400px, 78vw); }
+  .esf-passo-sub { font-size: 0.76rem; }
+  /* a etiqueta do indicador ativo escapava pela esquerda da tela. Empilhado,
+     ela e redundante: o rotulo ja aparece no centro da esfera e na lista.
+     O aria-label continua descrevendo cada ponto. */
+  .esf-ponto-dica { display: none; }
+  .esf-faixa { gap: 4px; }
+  .esf-marco { padding: 7px 12px 7px 7px; gap: 9px; }
+  .esf-marco-foto { width: 46px; height: 46px; }
 
   /* --- Ciclo da água: timeline vertical --- */
   .cycle-timeline { padding-top: 6px; }
@@ -325,6 +329,16 @@
   .aj-titulo { font-size: 0.92rem; }
   .aj-fecho-dados { grid-template-columns: minmax(0, 1fr); }
 
+  /* no celular a esfera continua grande: e ela que carrega a mensagem */
+  .esf-palco { max-width: min(340px, 86vw); }
+  .esf-passo-btn { grid-template-columns: 30px minmax(0, 1fr) auto; padding: 11px 13px; gap: 10px; }
+  .esf-passo-n { width: 30px; height: 30px; font-size: 0.8rem; }
+  .esf-faixa { flex-direction: column; align-items: stretch; }
+  .esf-marco { width: 100%; }
+  .esf-seta svg { transform: none; }
+  .esf-marca { right: 0; bottom: 4%; }
+  .esf-marca-linha { width: 30px; }
+
   .grid-2,
   .grid-3,
   .grid-4 { grid-template-columns: minmax(0, 1fr); }
@@ -423,8 +437,7 @@
    ------------------------------------------------------------ */
 @media (max-height: 520px) and (orientation: landscape) {
   .hero { min-height: auto; padding: calc(var(--header-h) + 30px) 0 80px; }
-  .availability-sticky { position: static; height: auto; padding: 60px 0; }
-  .availability-scroll { display: none; }
+  .esf-palco { max-width: min(300px, 60vw); }
 }
 
 /* ------------------------------------------------------------

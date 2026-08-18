@@ -1461,7 +1461,7 @@
           <span class="cf-detalhe" role="note">
             <strong>USGS</strong> — Water Science School, <em>How Much Water is There on Earth?</em> (2019).
             Os oceanos concentram 96,5% da água do planeta.
-            <a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">usgs.gov</a>
+            <a href="https://www.usgs.gov/special-topics/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">usgs.gov</a>
           </span>
         </span>
       </div>
@@ -2044,34 +2044,73 @@
      QUANTA ÁGUA TEMOS?
      ============================================================ -->
 <section class="section availability" id="disponibilidade">
-  <div class="availability-sticky">
-    <div class="container availability-inner">
-      <div class="availability-copy">
-        <p class="section-kicker"><span class="rule"></span>Disponibilidade<span class="rule"></span></p>
-        <h2 class="section-title left">Quanta água <span class="grad-text">temos?</span></h2>
-        <ol class="availability-steps" id="availSteps">
-          <li class="is-active"><h3>Toda a água do planeta</h3><p>Oceanos, geleiras, rios, lagos, atmosfera e água subterrânea somados.</p></li>
-          <li><h3>A maior parte é salgada</h3><p>Concentrada nos oceanos e mares, imprópria para consumo direto.</p></li>
-          <li><h3>Uma pequena parcela é doce</h3><p>E boa parte dela está congelada em geleiras e calotas polares.</p></li>
-          <li><h3>A parcela acessível é ainda menor</h3><p>É dessa fração que dependem o abastecimento, a agricultura e a indústria.</p></li>
-        </ol>
-        <p class="note small">
-          <span class="note-text"><span class="pct-slot" id="availPct"></span></span>
-        </p>
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span class="rule"></span>Disponibilidade<span class="rule"></span></p>
+      <h2 class="section-title">Quanta água <span class="grad-text">temos?</span></h2>
+      <p class="section-lead">A água existe em abundância no planeta. A parte que dá para usar é
+        outra história — e a esfera mostra a diferença.</p>
+    </header>
+
+    <!-- As quatro etapas vêm da lista ETAPAS em js/availability.js: a lista da
+         esquerda, os pontos em órbita e a faixa de baixo saem todos dela.
+         A altura da água é o volume da calota esférica, não o percentual direto. -->
+    <div class="esf-grade reveal">
+      <div class="esf-copy">
+        <ol class="esf-lista" data-esf-lista></ol>
+
+        <div class="esf-painel">
+          <p class="esf-dado"><strong data-esf-dado></strong> <span data-esf-complemento></span></p>
+          <p class="esf-fonte"><span>Fonte:</span>
+            <a href="https://www.usgs.gov/special-topics/water-science-school/science/how-much-water-there-earth"
+               target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></p>
+        </div>
       </div>
 
-      <div class="availability-visual" aria-hidden="true">
-        <div class="sphere-wrap">
-          <div class="sphere" id="availSphere">
-            <span class="sphere-shine"></span>
+      <div class="esf-palco" data-esf-palco>
+        <span class="esf-orbita" aria-hidden="true"></span>
+
+        <div class="esf-bola" data-esf-bola>
+          <span class="esf-glow" aria-hidden="true"></span>
+
+          <div class="esf-corpo" aria-hidden="true">
+            <div class="esf-agua" data-esf-agua>
+              <svg class="esf-ondas" viewBox="0 0 240 24" preserveAspectRatio="none">
+                <path class="esf-onda esf-onda-a" d="M0 12c20-8 40-8 60 0s40 8 60 0 40-8 60 0 40 8 60 0v20H0Z"/>
+                <path class="esf-onda esf-onda-b" d="M0 13c20-7 40-7 60 0s40 7 60 0 40-7 60 0 40 7 60 0v20H0Z"/>
+              </svg>
+              <canvas class="esf-bolhas" data-esf-bolhas></canvas>
+              <span class="esf-fundo"></span>
+            </div>
+
+            <span class="esf-vidro"></span>
+            <span class="esf-brilho"></span>
+            <span class="esf-brilho-b"></span>
           </div>
-          <div class="sphere-ghost"></div>
+
+          <div class="esf-texto">
+            <strong class="esf-num" data-esf-num>100%</strong>
+            <span class="esf-rotulo" data-esf-rotulo>Água total</span>
+          </div>
         </div>
-        <p class="sphere-caption" id="availCaption" aria-live="polite">Toda a água do planeta</p>
+
+        <span class="esf-sombra" aria-hidden="true"></span>
+
+        <!-- a marca que aponta para a lâmina de água da última etapa -->
+        <div class="esf-marca" data-esf-marca hidden>
+          <span class="esf-marca-linha" aria-hidden="true"></span>
+          <span class="esf-marca-txt">Esta lâmina<br>é a água doce<br>de superfície</span>
+        </div>
+
+        <div class="esf-pontos" role="group" aria-label="Etapas da distribuição da água"
+             data-esf-pontos></div>
       </div>
     </div>
+
+    <p class="sr-only" role="status" aria-live="polite" data-esf-anuncio></p>
+
+    <div class="esf-faixa reveal" role="group" aria-label="Resumo da redução" data-esf-faixa></div>
   </div>
-  <div class="availability-scroll" aria-hidden="true"></div>
 </section>
 
 <!-- ============================================================
@@ -2203,7 +2242,7 @@
 
       <h3 class="footer-sub">Disponibilidade e ciclo da água</h3>
       <ul class="footer-list footer-sources">
-        <li><a href="https://www.usgs.gov/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></li>
+        <li><a href="https://www.usgs.gov/special-topics/water-science-school/science/how-much-water-there-earth" target="_blank" rel="noopener">USGS — How Much Water is There on Earth? (2019)</a></li>
       </ul>
 
       <h3 class="footer-sub">Acesso à água e saneamento</h3>
@@ -2259,6 +2298,10 @@
         <li>Impactos · Pesca e alimentação — <a href="https://commons.wikimedia.org/wiki/File:Hunting_for_gold.jpg" target="_blank" rel="noopener">Hunting for gold</a>, por Fajle Rabbe Hossain (CC BY-SA 4.0)</li>
         <li>Impactos · Produção — <a href="https://commons.wikimedia.org/wiki/File:REPUBLIC_STEEL_DISCHARGES_WASTE_WATER_INTO_THE_CUYAHOGA_RIVER_-_NARA_-_550218.jpg" target="_blank" rel="noopener">REPUBLIC STEEL DISCHARGES WASTE WATER INTO THE CUYAHOGA RI</a>, por Frank John Aleksandrowicz (domínio público)</li>
         <li>Casa do desperdício — <a href="https://commons.wikimedia.org/wiki/File:CharlesandIngridKoebelHouseGrossePointeMI.jpg" target="_blank" rel="noopener">Charles and Ingrid Koebel House, Grosse Pointe MI</a>, por Andrew Jameson (CC BY-SA 3.0)</li>
+        <li>Disponibilidade · Água total — <a href="https://commons.wikimedia.org/wiki/File:Blue_Marble_Western_Hemisphere.jpg" target="_blank" rel="noopener">Blue Marble Western Hemisphere</a>, por Reto Stöckli / NASA (domínio público)</li>
+        <li>Disponibilidade · Água salgada — <a href="https://commons.wikimedia.org/wiki/File:Dramatic_Atlantic_Ocean_sunrise_under_a_cloudy_sky_near_Sagres,_Faro,_Algarve,_Portugal,_February_2025_(54452275690).jpg" target="_blank" rel="noopener">Dramatic Atlantic Ocean sunrise near Sagres</a>, por Sergei Gussev (CC BY 2.0)</li>
+        <li>Disponibilidade · Água doce — <a href="https://commons.wikimedia.org/wiki/File:114_once_an_iceberg_now_a_Growler_and_a_scupture_V-P.jpg" target="_blank" rel="noopener">Once an iceberg, now a growler</a>, por Virtual-Pano (CC BY-SA 4.0)</li>
+        <li>Disponibilidade · Doce de superfície — <a href="https://commons.wikimedia.org/wiki/File:River_(4162489348).jpg" target="_blank" rel="noopener">River</a>, por Jennifer C. (CC BY 2.0)</li>
         <li>Atitudes · Lâmpada — <a href="https://www.flickr.com/photos/88786104@N08/8800589580" target="_blank" rel="noopener">Bulb light with tree inside on blue background</a>, por mattwalker69 (CC BY-SA 2.0)</li>
         <li>Atitudes · Desperdícios — <a href="https://www.flickr.com/photos/36381291@N04/3357724442" target="_blank" rel="noopener">Running tap water</a>, por Joe Pell (CC BY 2.0)</li>
         <li>Atitudes · Vazamentos — <a href="https://www.flickr.com/photos/43241869@N00/312049664" target="_blank" rel="noopener">Water macro #2 — Dripping Tap</a>, por memoreks (CC BY-SA 2.0)</li>

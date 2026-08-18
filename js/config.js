@@ -10,6 +10,7 @@
      · ciclo da água ....... index.html (faixa da seção "O caminho de uma gota")
      · desperdício ......... js/waste.js (lista CARDS)
      · torneira/chuveiro ... aqui, em "vazoes" e "vazamentos"
+     · disponibilidade ..... js/availability.js (lista ETAPAS, dados do USGS)
    ============================================================ */
 
 window.AGUA = {
@@ -65,28 +66,7 @@ window.AGUA = {
   },
 
   /* ---------------------------------------------------------
-     3) DISPONIBILIDADE DE ÁGUA NO PLANETA
-     Percentuais sobre TODA a água do planeta, derivados da
-     distribuição do USGS (oceanos 96,5%; água doce 2,5%; e,
-     dentro da doce, 68,7% em geleiras e 30,1% subterrânea).
-     --------------------------------------------------------- */
-  disponibilidade: {
-    fonte: 'USGS (2019)',
-    url: 'https://www.usgs.gov/water-science-school/science/how-much-water-there-earth',
-    etapas: [
-      { rotulo: 'Toda a água do planeta',            percentual: 100,
-        nota: 'Oceanos e mares concentram 96,5% desse total.' },
-      { rotulo: 'A maior parte é salgada',           percentual: 2.5,
-        nota: 'Só 2,5% de toda a água do planeta é doce.' },
-      { rotulo: 'Uma pequena parcela é doce',        percentual: 0.78,
-        nota: 'Tirando as geleiras (68,7% da água doce), sobra 0,78% do total em forma líquida.' },
-      { rotulo: 'A parcela acessível é ainda menor', percentual: 0.007,
-        nota: 'Rios e lagos, de onde vem boa parte do abastecimento, são cerca de 0,3% da água doce.' }
-    ]
-  },
-
-  /* ---------------------------------------------------------
-     4) MENSAGENS DO LABORATÓRIO (marcos em segundos simulados)
+     3) MENSAGENS DO LABORATÓRIO (marcos em segundos simulados)
      --------------------------------------------------------- */
   mensagensTorneira: [
     { aos: 0,  texto: 'A água já começou a correr.' },
