@@ -17,6 +17,14 @@ window.AGUA_AVAIL = (function () {
     url: 'https://www.usgs.gov/special-topics/water-science-school/science/how-much-water-there-earth'
   };
 
+  /* A parcela potável não está na tabela do USGS: quem publica esse recorte
+     é o Bureau of Reclamation, que desconta da água doce o que está congelado,
+     poluída demais ou fundo demais para valer o custo de extrair. */
+  var USBR = {
+    fonte: 'US Bureau of Reclamation — Water Facts: Worldwide Water Supply',
+    url: 'https://www.usbr.gov/mp/arwec/water-facts-ww-water-sup.html'
+  };
+
   var ETAPAS = [
     {
       id: 'total', n: 1, pct: 100, icone: 'i-globe',
@@ -28,7 +36,8 @@ window.AGUA_AVAIL = (function () {
       complemento: 'é o volume estimado de toda a água do planeta. É desse total que saem ' +
                    'todas as porcentagens desta seção.',
       img: 'assets/images/sphere/01-total.webp',
-      alt: 'A Terra vista do espaço, com o oceano Pacífico ocupando quase todo o disco visível'
+      alt: 'A Terra vista do espaço, com o oceano Pacífico ocupando quase todo o disco visível',
+      fonte: USGS.fonte, url: USGS.url
     },
     {
       id: 'salgada', n: 2, pct: 96.54, icone: 'i-globe',
@@ -40,7 +49,8 @@ window.AGUA_AVAIL = (function () {
       complemento: 'do total está nos oceanos, mares e baías. Somando a água subterrânea e os ' +
                    'lagos salgados, a parcela salgada passa de 97%.',
       img: 'assets/images/sphere/02-salgada.webp',
-      alt: 'Oceano Atlântico aberto ao amanhecer, com o horizonte sob um céu nublado'
+      alt: 'Oceano Atlântico aberto ao amanhecer, com o horizonte sob um céu nublado',
+      fonte: USGS.fonte, url: USGS.url
     },
     {
       id: 'doce', n: 3, pct: 2.5, icone: 'i-cloud',
@@ -52,20 +62,22 @@ window.AGUA_AVAIL = (function () {
       complemento: 'de toda a água doce está congelada em geleiras, calotas polares e neve ' +
                    'permanente. Outros 30,1% estão no subsolo.',
       img: 'assets/images/sphere/03-doce.webp',
-      alt: 'Bloco de gelo à deriva no mar, com montanhas nevadas ao fundo'
+      alt: 'Bloco de gelo à deriva no mar, com montanhas nevadas ao fundo',
+      fonte: USGS.fonte, url: USGS.url
     },
     {
-      id: 'acessivel', n: 4, pct: 0.008, icone: 'i-river',
-      rotulo: 'A parcela de superfície é ainda menor',
-      curto: 'Doce de superfície',
-      texto: 'Rios, lagos e pântanos são de onde vem boa parte do abastecimento, da irrigação ' +
-             'e da indústria. É a fração mais fácil de alcançar — e a menor de todas.',
-      dado: '0,3%',
-      complemento: 'de toda a água doce está em rios, lagos e pântanos, o que equivale a 0,008% ' +
-                   'da água do planeta. A água subterrânea doce, 30,1% da doce, também abastece ' +
-                   'gente — mas leva muito mais tempo para se repor.',
-      img: 'assets/images/sphere/04-acessivel.webp',
-      alt: 'Rio de montanha correndo entre florestas de coníferas e encostas nevadas'
+      id: 'potavel', n: 4, pct: 0.5, icone: 'i-drop',
+      rotulo: 'A água potável é uma fração mínima',
+      curto: 'Água potável',
+      texto: 'Nem toda água doce serve para beber. Tirando a que está congelada, a poluída ' +
+             'demais e a que está funda demais para valer o custo de extrair, sobra muito pouco.',
+      dado: '0,5%',
+      complemento: 'de toda a água da Terra é água doce disponível — a parcela de onde sai ' +
+                   'tudo o que bebemos. E nem ela chega potável: precisa ser captada e tratada ' +
+                   'antes de sair na torneira.',
+      img: 'assets/images/sphere/04-potavel.webp',
+      alt: 'Copo de vidro cheio de água gelada, coberto de gotas de condensação',
+      fonte: USBR.fonte, url: USBR.url
     }
   ];
 
@@ -99,6 +111,7 @@ window.AGUA_AVAIL = (function () {
     el.rotulo = raiz.querySelector('[data-esf-rotulo]');
     el.dado = raiz.querySelector('[data-esf-dado]');
     el.complemento = raiz.querySelector('[data-esf-complemento]');
+    el.fonte = raiz.querySelector('[data-esf-fonte]');
     el.marca = raiz.querySelector('[data-esf-marca]');
     el.anuncio = raiz.querySelector('[data-esf-anuncio]');
 
@@ -272,7 +285,11 @@ window.AGUA_AVAIL = (function () {
     if (el.rotulo) el.rotulo.textContent = e.curto;
     if (el.dado) el.dado.textContent = e.dado;
     if (el.complemento) el.complemento.textContent = e.complemento;
-    if (el.marca) el.marca.hidden = e.id !== 'acessivel';
+    if (el.fonte) {
+      el.fonte.innerHTML = '<span>Fonte:</span> <a href="' + e.url +
+        '" target="_blank" rel="noopener">' + e.fonte + '</a>';
+    }
+    if (el.marca) el.marca.hidden = e.id !== 'potavel';
 
     animarNumero(antes, e.pct, inicial);
 
