@@ -7,6 +7,7 @@
 
   var modulos = [
     'AGUA_NAV',
+    'AGUA_SUAVE',
     'AGUA_ANIM',
     'AGUA_SVG',
     'AGUA_LINK',

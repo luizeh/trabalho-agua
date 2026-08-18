@@ -68,10 +68,20 @@
 *::after { box-sizing: border-box; }
 
 html {
-  scroll-behavior: smooth;
+  /* a rolagem suave da roda é feita em js/smooth-scroll.js. Deixar
+     scroll-behavior: smooth aqui suavizaria de novo cada passo dela,
+     e o resultado ficaria pastoso. As âncoras continuam animadas
+     porque navigation.js pede behavior: 'smooth' na chamada. */
+  scroll-behavior: auto;
   scroll-padding-top: calc(var(--header-h) + 12px);
   -webkit-text-size-adjust: 100%;
+
+  /* a barra lateral some, mas a página continua rolando normalmente */
+  scrollbar-width: none;              /* Firefox */
+  -ms-overflow-style: none;           /* Edge antigo */
 }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { width: 0; height: 0; }
 
 body {
   margin: 0;

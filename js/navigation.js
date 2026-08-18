@@ -5,7 +5,7 @@
 window.AGUA_NAV = (function () {
   'use strict';
 
-  var header, nav, toggle, progress, toTop;
+  var header, nav, toggle, toTop;
   var links = [];
   var sections = [];
 
@@ -13,7 +13,6 @@ window.AGUA_NAV = (function () {
     header   = document.getElementById('header');
     nav      = document.getElementById('nav');
     toggle   = document.getElementById('navToggle');
-    progress = document.getElementById('headerProgress');
     toTop    = document.getElementById('toTop');
     links    = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
 
@@ -27,28 +26,16 @@ window.AGUA_NAV = (function () {
     observeSections();
     onScroll();
 
-    medirAltura();
     window.addEventListener('scroll', agendarScroll, { passive: true });
-    window.addEventListener('resize', function () { medirAltura(); agendarScroll(); });
-
-    // seções abrem e fecham conteúdo: a altura da página muda sem resize
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(medirAltura).observe(document.body);
-    }
+    window.addEventListener('resize', agendarScroll);
   }
 
-  /* ---------- Header sólido + barra de progresso ----------
-     Rodava direto no evento de scroll e lia scrollHeight toda vez, o que
-     obriga o navegador a recalcular o layout no meio da rolagem. Agora o
-     evento só marca; a leitura acontece uma vez por quadro, e a altura da
-     página fica em cache até algo poder tê-la mudado. */
-  var alturaMax = 0;
+  /* ---------- Header sólido e botão de voltar ao topo ----------
+     Rodava direto no evento de scroll. Agora o evento só marca; a leitura
+     acontece uma vez por quadro, e as classes só mudam quando o estado
+     realmente vira. */
   var pendente = false;
   var ultimoEstado = { solido: null, mostraTopo: null };
-
-  function medirAltura() {
-    alturaMax = document.documentElement.scrollHeight - window.innerHeight;
-  }
 
   function agendarScroll() {
     if (pendente) return;
@@ -68,9 +55,6 @@ window.AGUA_NAV = (function () {
       ultimoEstado.solido = solido;
       header.classList.toggle('is-scrolled', solido);
     }
-
-    var pct = alturaMax > 0 ? (y / alturaMax) * 100 : 0;
-    progress.style.setProperty('--progress', pct.toFixed(2) + '%');
 
     if (toTop) {
       var show = y > vh * 0.9;
