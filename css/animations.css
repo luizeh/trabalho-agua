@@ -12,8 +12,10 @@
     opacity 700ms var(--ease),
     transform 700ms var(--ease);
   transition-delay: calc(var(--reveal-delay, 0) * 110ms);
-  will-change: opacity, transform;
 }
+/* will-change só enquanto o elemento ainda tem o que revelar. Mantê-lo
+   depois deixa dezenas de camadas de composição vivas para sempre. */
+.reveal:not(.is-visible) { will-change: opacity, transform; }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
@@ -23,6 +25,25 @@
 .reveal[data-delay="2"] { --reveal-delay: 2; }
 .reveal[data-delay="3"] { --reveal-delay: 3; }
 .reveal[data-delay="4"] { --reveal-delay: 4; }
+
+/* ------------------------------------------------------------
+   Seções fora da viewport param as animações contínuas.
+   Congelar (paused) em vez de remover (none) preserva o quadro
+   atual, então ao voltar não existe salto — e como a seção só
+   para quando está a 400px de distância, ninguém vê acontecer.
+   ------------------------------------------------------------ */
+/* O sprite de ícones fica em 0x0 no topo do body: nada dele é desenhado,
+   mas as animações dos <symbol> continuavam correndo. As cópias que o
+   <use> gera vivem no shadow tree de cada ícone e não são alcançadas por
+   este seletor, então só o desperdício para. */
+.sprite * { animation-play-state: paused !important; }
+
+.is-fora-da-tela,
+.is-fora-da-tela *,
+.is-fora-da-tela *::before,
+.is-fora-da-tela *::after {
+  animation-play-state: paused !important;
+}
 
 /* ------------------------------------------------------------
    HERO

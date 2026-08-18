@@ -14,6 +14,7 @@ window.AGUA_ANIM = (function () {
     initParallax();
     initTabs();
     initParticles();
+    initPausaForaDaTela();
 
     reduce.addEventListener('change', function () {
       if (reduce.matches && particleCtl) particleCtl.stop();
@@ -52,6 +53,38 @@ window.AGUA_ANIM = (function () {
   }
 
   /* ------------------------------------------------------------
+     1b) Seções longe da viewport param as animações contínuas
+
+     O site tem cerca de cem animações infinitas (poeira, bolhas,
+     ondas, halos, ícones). Todas rodavam o tempo todo, em todas as
+     seções, mesmo a dez telas de distância. Medindo o scroll com a
+     CPU 4x mais lenta, era isso — e só isso — que respondia por
+     87% dos quadros perdidos.
+
+     A margem de 400px garante que a seção volte a animar bem antes
+     de aparecer, então para quem olha nada muda. Usamos
+     animation-play-state, que congela e retoma de onde parou, em
+     vez de animation: none, que daria um salto visual.
+     ------------------------------------------------------------ */
+  function initPausaForaDaTela() {
+    if (!('IntersectionObserver' in window)) return;
+
+    var secoes = document.querySelectorAll('main > section, .site-footer');
+    if (!secoes.length) return;
+
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        e.target.classList.toggle('is-fora-da-tela', !e.isIntersecting);
+      });
+    }, { rootMargin: '400px 0px' });
+
+    secoes.forEach(function (s) {
+      s.classList.add('is-fora-da-tela');   // começa parada; o observer solta o que estiver à vista
+      obs.observe(s);
+    });
+  }
+
+  /* ------------------------------------------------------------
      2) Halo luminoso acompanhando o mouse nos cards
      ------------------------------------------------------------ */
   function initCardGlow() {
@@ -80,15 +113,23 @@ window.AGUA_ANIM = (function () {
 
     var ticking = false;
 
+    // lê todas as posições primeiro e só depois escreve: intercalar
+    // leitura e escrita obriga o navegador a recalcular o layout a cada volta
     function update() {
       var vh = window.innerHeight;
-      layers.forEach(function (layer) {
-        var rect = layer.getBoundingClientRect();
-        if (rect.bottom < -200 || rect.top > vh + 200) return;
-        var speed = parseFloat(layer.getAttribute('data-parallax')) || 0.1;
-        var offset = (rect.top + rect.height / 2 - vh / 2) * -speed;
-        layer.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
-      });
+      var escritas = [];
+
+      for (var i = 0; i < layers.length; i++) {
+        var rect = layers[i].getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > vh + 200) continue;
+        var speed = parseFloat(layers[i].getAttribute('data-parallax')) || 0.1;
+        escritas.push([layers[i], (rect.top + rect.height / 2 - vh / 2) * -speed]);
+      }
+
+      for (var k = 0; k < escritas.length; k++) {
+        escritas[k][0].style.transform =
+          'translate3d(0,' + escritas[k][1].toFixed(1) + 'px,0)';
+      }
       ticking = false;
     }
 

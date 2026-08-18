@@ -27,24 +27,60 @@ window.AGUA_NAV = (function () {
     observeSections();
     onScroll();
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    medirAltura();
+    window.addEventListener('scroll', agendarScroll, { passive: true });
+    window.addEventListener('resize', function () { medirAltura(); agendarScroll(); });
+
+    // seções abrem e fecham conteúdo: a altura da página muda sem resize
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(medirAltura).observe(document.body);
+    }
   }
 
-  /* ---------- Header sólido + barra de progresso ---------- */
-  function onScroll() {
-    var y = window.scrollY || document.documentElement.scrollTop;
-    header.classList.toggle('is-scrolled', y > 24);
+  /* ---------- Header sólido + barra de progresso ----------
+     Rodava direto no evento de scroll e lia scrollHeight toda vez, o que
+     obriga o navegador a recalcular o layout no meio da rolagem. Agora o
+     evento só marca; a leitura acontece uma vez por quadro, e a altura da
+     página fica em cache até algo poder tê-la mudado. */
+  var alturaMax = 0;
+  var pendente = false;
+  var ultimoEstado = { solido: null, mostraTopo: null };
 
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = max > 0 ? (y / max) * 100 : 0;
+  function medirAltura() {
+    alturaMax = document.documentElement.scrollHeight - window.innerHeight;
+  }
+
+  function agendarScroll() {
+    if (pendente) return;
+    pendente = true;
+    window.requestAnimationFrame(onScroll);
+  }
+
+  function onScroll() {
+    pendente = false;
+
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var vh = window.innerHeight;
+
+    // classes só mudam quando o estado realmente vira: nada de toggle por quadro
+    var solido = y > 24;
+    if (solido !== ultimoEstado.solido) {
+      ultimoEstado.solido = solido;
+      header.classList.toggle('is-scrolled', solido);
+    }
+
+    var pct = alturaMax > 0 ? (y / alturaMax) * 100 : 0;
     progress.style.setProperty('--progress', pct.toFixed(2) + '%');
 
     if (toTop) {
-      var show = y > window.innerHeight * 0.9;
-      toTop.hidden = false;
-      toTop.classList.toggle('is-visible', show);
-      toTop.setAttribute('aria-hidden', show ? 'false' : 'true');
-      toTop.tabIndex = show ? 0 : -1;
+      var show = y > vh * 0.9;
+      if (show !== ultimoEstado.mostraTopo) {
+        ultimoEstado.mostraTopo = show;
+        toTop.hidden = false;
+        toTop.classList.toggle('is-visible', show);
+        toTop.setAttribute('aria-hidden', show ? 'false' : 'true');
+        toTop.tabIndex = show ? 0 : -1;
+      }
     }
   }
 
