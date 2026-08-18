@@ -149,14 +149,12 @@ window.AGUA_AJUDA = (function () {
       art.style.setProperty('--i', i);
 
       var idDet = 'aj-det-' + a.id;
-      var num = (a.n < 10 ? '0' : '') + a.n;
 
       art.innerHTML =
         '<button type="button" class="aj-btn" aria-expanded="false" aria-controls="' + idDet + '">' +
           '<span class="aj-media">' +
             '<img src="' + a.img + '" alt="' + a.alt + '" width="900" height="600" ' +
                  'loading="lazy" decoding="async">' +
-            '<span class="aj-num">' + num + '</span>' +
           '</span>' +
           '<span class="aj-corpo">' +
             '<span class="aj-titulo">' +
