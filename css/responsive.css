@@ -279,6 +279,18 @@
   .ct-controles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ct-play { grid-column: 1 / -1; justify-content: center; }
 
+  /* --- Como podemos ajudar --- */
+  /* as colunas empilham; a lâmpada sobe para o topo e as linhas somem,
+     porque não sobra caminho lateral para elas percorrerem */
+  .aj-palco { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 3vw, 24px); }
+  .aj-linhas { display: none; }
+  .aj-lampada { order: -1; margin-bottom: 8px; }
+  .aj-lampada img { max-width: min(230px, 46vw); }
+  .aj-halo { width: calc(min(230px, 46vw) * 1.5); }
+  .aj-card[data-lado="b"] .aj-btn { grid-template-columns: clamp(84px, 14vw, 108px) minmax(0, 1fr); }
+  .aj-card[data-lado="b"] .aj-media { order: 0; }
+  .aj-btn { grid-template-columns: clamp(84px, 14vw, 108px) minmax(0, 1fr); }
+
   /* --- Footer --- */
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -300,6 +312,18 @@
   .cf-detalhe { left: auto; right: 0; }
 
   .section { padding: 66px 0; }
+
+  /* no celular a foto estreita para sobrar largura ao texto, e passa a
+     acompanhar a altura do card em vez de virar um quadradinho solto */
+  .aj-btn,
+  .aj-card[data-lado="b"] .aj-btn {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+  .aj-media { aspect-ratio: auto; }
+  .aj-titulo { font-size: 0.92rem; }
+  .aj-fecho-dados { grid-template-columns: minmax(0, 1fr); }
 
   .grid-2,
   .grid-3,

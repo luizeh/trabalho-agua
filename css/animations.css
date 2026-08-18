@@ -450,4 +450,11 @@ body.no-water .hero-glow { opacity: .25; transition: opacity 1.2s var(--ease); }
 
   .cycle-media, .cycle-drop, .ct-track, .ct-step { transition-delay: 0ms !important; }
   .ct-foto { transition-duration: 0.001ms !important; }
+
+  /* como podemos ajudar: a lâmpada para de flutuar e os pontos de luz somem.
+     Os cards entram prontos, sem a cascata e sem o atraso por posição. */
+  .aj-lampada { animation: none !important; }
+  .aj-pulso { display: none; }
+  .aj-card { opacity: 1; transform: none; transition-delay: 0ms !important; }
+  .aj-det { animation: none !important; }
 }

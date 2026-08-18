@@ -2085,43 +2085,38 @@
       <p class="section-lead">Mudanças simples, repetidas todos os dias, mudam o resultado no fim do mês — e no fim do ciclo.</p>
     </header>
 
-    <div class="grid grid-3 actions">
-      <article class="action reveal" tabindex="0">
-        <span class="action-num">01</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-faucet"/></svg></span>
-        <h3>Reduzir desperdícios</h3>
-        <p>Evitar manter torneiras abertas sem necessidade durante as tarefas do dia a dia.</p>
-      </article>
-      <article class="action reveal" data-delay="1" tabindex="0">
-        <span class="action-num">02</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wrench"/></svg></span>
-        <h3>Corrigir vazamentos</h3>
-        <p>Consertar rapidamente pequenos vazamentos evita perdas contínuas e silenciosas.</p>
-      </article>
-      <article class="action reveal" data-delay="2" tabindex="0">
-        <span class="action-num">03</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-broom"/></svg></span>
-        <h3>Usar com consciência</h3>
-        <p>Principalmente em atividades externas, como lavagem de calçadas e veículos.</p>
-      </article>
-      <article class="action reveal" tabindex="0">
-        <span class="action-num">04</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-recycle"/></svg></span>
-        <h3>Reutilizar quando possível</h3>
-        <p>Sempre com sistemas apropriados e usos compatíveis com a qualidade da água.</p>
-      </article>
-      <article class="action reveal" data-delay="1" tabindex="0">
-        <span class="action-num">05</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-roof"/></svg></span>
-        <h3>Aproveitar a água da chuva</h3>
-        <p>Captação e armazenamento adequados para usos não potáveis previamente definidos.</p>
-      </article>
-      <article class="action reveal" data-delay="2" tabindex="0">
-        <span class="action-num">06</span>
-        <span class="card-icon interactive-icon sm"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-footprint"/></svg></span>
-        <h3>Conhecer a pegada hídrica</h3>
-        <p>Entender que o consumo de água não acontece apenas diretamente na torneira, mas em tudo que consumimos.</p>
-      </article>
+    <!-- As seis atitudes são geradas por js/help.js a partir da lista ATITUDES.
+         As linhas entre os cards e a lâmpada são desenhadas em pixels e
+         recalculadas sempre que o layout muda. -->
+    <div class="aj-palco reveal" data-aj-palco>
+      <svg class="aj-linhas" data-aj-linhas aria-hidden="true" preserveAspectRatio="none"></svg>
+
+      <div class="aj-coluna" data-aj-coluna="a"></div>
+
+      <figure class="aj-lampada" data-aj-lampada>
+        <span class="aj-halo" aria-hidden="true"></span>
+        <img src="assets/images/help/lampada.webp"
+             alt="Lâmpada acesa com uma pequena árvore crescendo dentro do bulbo"
+             width="900" height="900" loading="lazy" decoding="async">
+        <figcaption>Cada atitude acende<br>uma parte da solução.</figcaption>
+      </figure>
+
+      <div class="aj-coluna" data-aj-coluna="b"></div>
+    </div>
+
+    <div class="aj-fecho reveal">
+      <h3>Pequenas atitudes. <span class="grad-green">Grandes transformações.</span></h3>
+      <p class="aj-fecho-lead">Nenhum desses gestos exige viver com menos conforto. Todos eles
+        exigem apenas repetição — e é a repetição, multiplicada por uma casa, uma rua, uma cidade,
+        que muda o volume que sobra no manancial.</p>
+      <div class="aj-fecho-dados">
+        <p><strong>16 L</strong> é quanto cada escovação de dentes economiza, só de fechar a
+          torneira. Duas vezes por dia, para cada pessoa da casa.</p>
+        <p><strong>até 20%</strong> do volume é o que se economiza instalando arejadores nas
+          torneiras e nos chuveiros, sem perder a sensação de pressão.</p>
+      </div>
+      <p class="aj-fecho-fonte"><span>Fonte:</span>
+        <a href="https://www.caesb.df.gov.br/dicas-de-economia-de-agua/" target="_blank" rel="noopener">Caesb — Dicas de economia de água</a></p>
     </div>
   </div>
 </section>
@@ -2225,6 +2220,13 @@
         <li><a href="https://www.agenciasp.sp.gov.br/louca-banho-e-mangueira-veja-gestos-simples-que-economizam-centenas-de-litros-de-agua/" target="_blank" rel="noopener">Agência SP, com dados da Sabesp — Louça, banho e mangueira (2024)</a></li>
         <li><a href="https://www.wwf.org.br/?4080/" target="_blank" rel="noopener">WWF-Brasil, com base no Idec — Economize água na sua casa</a></li>
       </ul>
+
+      <h3 class="footer-sub">Atitudes, perdas e pegada hídrica</h3>
+      <ul class="footer-list footer-sources">
+        <li><a href="https://tratabrasil.org.br/wp-content/uploads/2024/06/Release-Perdas-de-Agua-2024.pdf" target="_blank" rel="noopener">Instituto Trata Brasil e GO Associados — Estudo de Perdas de Água 2024 (dados do SNIS, ano-base 2022)</a></li>
+        <li><a href="https://www.gov.br/ana/pt-br/centrais-de-conteudos/publicacoes/conjuntura-dos-recursos-hidricos" target="_blank" rel="noopener">ANA — Conjuntura dos Recursos Hídricos no Brasil (precipitação média, série 1961–2007)</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s10021-011-9517-8" target="_blank" rel="noopener">Mekonnen e Hoekstra (2012) — A Global Assessment of the Water Footprint of Farm Animal Products, <em>Ecosystems</em> 15:401–415</a></li>
+      </ul>
     </div>
 
     <div class="footer-seal">
@@ -2257,6 +2259,13 @@
         <li>Impactos · Pesca e alimentação — <a href="https://commons.wikimedia.org/wiki/File:Hunting_for_gold.jpg" target="_blank" rel="noopener">Hunting for gold</a>, por Fajle Rabbe Hossain (CC BY-SA 4.0)</li>
         <li>Impactos · Produção — <a href="https://commons.wikimedia.org/wiki/File:REPUBLIC_STEEL_DISCHARGES_WASTE_WATER_INTO_THE_CUYAHOGA_RIVER_-_NARA_-_550218.jpg" target="_blank" rel="noopener">REPUBLIC STEEL DISCHARGES WASTE WATER INTO THE CUYAHOGA RI</a>, por Frank John Aleksandrowicz (domínio público)</li>
         <li>Casa do desperdício — <a href="https://commons.wikimedia.org/wiki/File:CharlesandIngridKoebelHouseGrossePointeMI.jpg" target="_blank" rel="noopener">Charles and Ingrid Koebel House, Grosse Pointe MI</a>, por Andrew Jameson (CC BY-SA 3.0)</li>
+        <li>Atitudes · Lâmpada — <a href="https://www.flickr.com/photos/88786104@N08/8800589580" target="_blank" rel="noopener">Bulb light with tree inside on blue background</a>, por mattwalker69 (CC BY-SA 2.0)</li>
+        <li>Atitudes · 01 Desperdícios — <a href="https://www.flickr.com/photos/36381291@N04/3357724442" target="_blank" rel="noopener">Running tap water</a>, por Joe Pell (CC BY 2.0)</li>
+        <li>Atitudes · 02 Vazamentos — <a href="https://www.flickr.com/photos/43241869@N00/312049664" target="_blank" rel="noopener">Water macro #2 — Dripping Tap</a>, por memoreks (CC BY-SA 2.0)</li>
+        <li>Atitudes · 03 Consciência — <a href="https://commons.wikimedia.org/wiki/File:A_car_is_being_detailed_with_high-pressure_water_spray_at_a_car_wash_location._The_weather_is_rainy,_creating_a_wet_environment_that_enhances_the_washing_process.jpg" target="_blank" rel="noopener">A car is being detailed with high-pressure water spray</a>, por Shixart1985 (CC BY 2.0)</li>
+        <li>Atitudes · 04 Reutilização — <a href="https://commons.wikimedia.org/wiki/File:Barrel_Clavering_Essex_England.jpg" target="_blank" rel="noopener">Barrel, Clavering, Essex, England</a>, por Acabashi (CC BY-SA 4.0)</li>
+        <li>Atitudes · 05 Água da chuva — <a href="https://commons.wikimedia.org/wiki/File:Kirwa_Primary_School_Rainwater_Harvesting_Tank_-_R%C3%A9servoir_de_collecte_des_eaux_de_pluies_de_l%27%C3%A9cole_primaire_de_Kirwa_(4134013421).jpg" target="_blank" rel="noopener">Kirwa Primary School Rainwater Harvesting Tank</a>, por E. Dusingizumuremyi / SuSanA Secretariat (CC BY 2.0)</li>
+        <li>Atitudes · 06 Pegada hídrica — <a href="https://commons.wikimedia.org/wiki/File:601ajfDaan_Sarile_Bitas_Cabanatuan_City_Nueva_Ecijafvf_26.jpg" target="_blank" rel="noopener">Hidrômetro em Daan Sarile, Cabanatuan City</a>, por Judgefloro (CC BY-SA 4.0)</li>
       </ul>
       <p><strong>Geradas por inteligência artificial</strong> para fins educacionais, e não
         fotografias: as três imagens dos <em>tipos de água</em> (azul, verde e cinza) e a
@@ -2306,6 +2315,7 @@
 <script src="js/waste.js"></script>
 <script src="js/impacts.js"></script>
 <script src="js/reuse.js"></script>
+<script src="js/help.js"></script>
 <script src="js/water-lab.js"></script>
 <script src="js/simulator.js"></script>
 <script src="js/availability.js"></script>

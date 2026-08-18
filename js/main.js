@@ -17,6 +17,7 @@
     'AGUA_WASTE',
     'AGUA_IMPACTOS',
     'AGUA_REUSO',
+    'AGUA_AJUDA',
     'AGUA_SIM',
     'AGUA_AVAIL',
     'AGUA_MODE'
